@@ -27,40 +27,27 @@ date: 2020-06-02 15:48:00
     *   [解决方案](#解决方案)
         *   <
 <!-- more -->
-*   [缓存预热](#缓存预热)
-    *   [现象](#现象)
-    *   [问题排查](#问题排查)
-    *   [解决方案](#解决方案)
-        *   [前置准备工作](#前置准备工作)
-        *   [准备工作](#准备工作)
-        *   [实施](#实施)
-*   [缓存雪崩](#缓存雪崩)
-    *   [现象](#现象-1)
-    *   [问题排查](#问题排查-1)
-    *   [解决方案（道）](#解决方案道)
-    *   [解决方案（术）](#解决方案术)
-    *   [总结](#总结)
-*   [缓存击穿](#缓存击穿)
-    *   [现象](#现象-2)
-    *   [问题排查](#问题排查-2)
-    *   [问题分析](#问题分析)
-    *   [解决方案（术）](#解决方案术-1)
-    *   [总结](#总结-1)
-*   [缓存穿透](#缓存穿透)
-    *   [现象](#现象-3)
-    *   [问题排查](#问题排查-3)
-    *   [问题分析](#问题分析-1)
-    *   [解决方案（术）](#解决方案术-2)
-    *   [总结](#总结-2)
-*   [性能指标监控](#性能指标监控)
-    *   [性能指标：Performance](#性能指标performance)
-    *   [内存指标：Memory](#内存指标memory)
-    *   [基本活动指标：Basic activity](#基本活动指标basic-activity)
-    *   [持久性指标：Persistence](#持久性指标persistence)
-    *   [错误指标：Error](#错误指标error)
-*   [监控方式](#监控方式)
-    *   [工具](#工具)
-    *   [命令](#命令)
+- [缓存预热](#缓存预热)
+  - [现象](#现象)
+  - [问题排查](#问题排查)
+- [缓存雪崩](#缓存雪崩)
+  - [现象](#现象-1)
+- [缓存击穿](#缓存击穿)
+  - [现象](#现象-2)
+- [缓存穿透](#缓存穿透)
+  - [现象](#现象-3)
+  - [问题排查](#问题排查-1)
+  - [问题分析](#问题分析)
+  - [解决方案（术）](#解决方案术)
+  - [总结](#总结)
+- [性能指标监控](#性能指标监控)
+  - [性能指标：Performance](#性能指标performance)
+  - [内存指标：Memory](#内存指标memory)
+  - [基本活动指标：Basic activity](#基本活动指标basic-activity)
+  - [持久性指标：Persistence](#持久性指标persistence)
+  - [错误指标：Error](#错误指标error)
+- [监控方式](#监控方式)
+  - [工具](#工具)
 
 # [](#缓存预热 "缓存预热")缓存预热
 
@@ -234,7 +221,7 @@ latency
 
 Redis平均响应一个请求的时间
 
-instantaneous\_ops\_per\_sec
+instantaneous_ops_per_sec
 
 平均每秒处理请求总数（QPS）
 
@@ -248,19 +235,19 @@ Name
 
 Description
 
-used\_memory
+used_memory
 
 已使用内存
 
-mem\_fragmentation\_ratio
+mem_fragmentation_ratio
 
 内存碎片率
 
-evicted\_key
+evicted_key
 
 由于最大内存限制被移除的key的数量
 
-block\_clients
+block_clients
 
 由于BLPOP、BRPOP、BRPOPLPUSH而被阻塞的客户端
 
@@ -270,15 +257,15 @@ Name
 
 Description
 
-connected\_clients
+connected_clients
 
 客户端连接数
 
-connected\_slaves
+connected_slaves
 
 slave数量
 
-master\_last\_io\_seconds\_ago
+master_last_io_seconds_ago
 
 最近一次主从交互之后的秒数
 
@@ -292,11 +279,11 @@ Name
 
 Description
 
-rdb\_last\_save\_time
+rdb_last_save_time
 
 最后一次持久化保存到磁盘的时间戳
 
-rdb\_changes\_since\_last\_save
+rdb_changes_since_last_save
 
 自最后一次持久化以来数据库的更改数
 
@@ -306,15 +293,15 @@ Name
 
 Description
 
-rejected\_connections
+rejected_connections
 
 由于达到maxclient限制而被拒绝的连接数
 
-keyspace\_misses
+keyspace_misses
 
 key值查找失败（没有命中）次数
 
-master\_link\_down\_since\_seconds
+master_link_down_since_seconds
 
 主从断开的持续时间（以秒为单位）
 

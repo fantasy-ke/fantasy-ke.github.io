@@ -94,7 +94,7 @@ date: 2020-05-29 09:32:00
 *   `唯一ID+指纹码`机制
     
     *   唯一ID+指纹码 机制，利用数据库主键去重
-    *   SELECT COUNT(1) FROM T\_ORDER WHERE ID=(唯一ID+指纹码)
+    *   SELECT COUNT(1) FROM T _ORDER WHERE ID=(唯一ID+指纹码)
     *   好处：实现简单
     *   坏处：高并发下有数据库写入的性能瓶颈
     *   解决方案：跟进ID进行分库分表进行算法路由
@@ -154,7 +154,7 @@ namespace ComfirmSample.Producer
  // 指定消息投递模式=Confirm  
  channel.ConfirmSelect();  
   
- var exchangeName = "test\_confirm\_exchange";  
+ var exchangeName = "test _confirm _exchange";  
  var routingKey = "confirm.save";  
   
  var message = "Hello RabbitMQ For Confirm Message";  
@@ -208,8 +208,8 @@ namespace ComfirmSample.Consumer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "test\_confirm\_exchange";  
- var queueName = "test\_confirm\_queue";  
+ var exchangeName = "test _confirm _exchange";  
+ var queueName = "test _confirm _queue";  
  var routingKey = "confirm.save";  
   
  channel.ExchangeDeclare(exchangeName,ExchangeType.Direct,true,false,null);  
@@ -280,7 +280,7 @@ namespace ReturnListenerSample.Producer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "return\_listener\_exchange";  
+ var exchangeName = "return _listener _exchange";  
  var routingKey = "order.save";  
  var routingKeyError = "abc.save";  
   
@@ -334,9 +334,9 @@ namespace ReturnListenerSample.Consumer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "return\_listener\_exchange";  
+ var exchangeName = "return _listener _exchange";  
  var routingKey = "order.#";  
- var queueName = "return\_listener\_queue";  
+ var queueName = "return _listener _queue";  
   
  channel.ExchangeDeclare(exchangeName,ExchangeType.Topic,true,false,null);  
  channel.QueueDeclare(queueName, true, false, false, null);  
@@ -405,10 +405,10 @@ namespace CustomerConsumer.Producer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "customer\_consumer\_exchange";  
+ var exchangeName = "customer _consumer _exchange";  
  var routingKey = "customer.save";  
   
- var message = "Hello RabbitMQ For Customer\_Consumer";  
+ var message = "Hello RabbitMQ For Customer _Consumer";  
  var body = Encoding.UTF8.GetBytes(message);  
   
  for (int i = 0; i < 5; i++)  
@@ -433,11 +433,11 @@ namespace CustomerConsumer.Consumer
 {  
  public class MyConsumer : DefaultBasicConsumer  
  {  
- private readonly IModel \_model;  
+ private readonly IModel  _model;  
   
  public MyConsumer(IModel model):base(model)  
  {  
- \_model = model;  
+  _model = model;  
  }  
   
  public override void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered, string exchange, string routingKey,  
@@ -481,9 +481,9 @@ namespace CustomerConsumer.Consumer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "customer\_consumer\_exchange";  
+ var exchangeName = "customer _consumer _exchange";  
  var routingKey = "customer.#";  
- var queueName = "customer\_consumer\_queue";  
+ var queueName = "customer _consumer _queue";  
   
  channel.ExchangeDeclare(exchangeName,ExchangeType.Topic,true,false,null);  
  channel.QueueDeclare(queueName, true, false, false, null);  
@@ -558,7 +558,7 @@ namespace ConsumerLimit.Producer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "consumer\_limit\_exchange";  
+ var exchangeName = "consumer _limit _exchange";  
  var routingKey = "order.saved";  
   
  var random = new Random();  
@@ -589,11 +589,11 @@ namespace ConsumerLimit.Consumer
 {  
  public class MyConsumer:DefaultBasicConsumer  
  {  
- private readonly IModel \_channel;  
+ private readonly IModel  _channel;  
   
  public MyConsumer(IModel channel):base(channel)  
  {  
- \_channel = channel;  
+  _channel = channel;  
  }  
   
  public override void HandleBasicDeliver(string consumerTag, ulong deliveryTag, bool redelivered, string exchange, string routingKey,  
@@ -645,9 +645,9 @@ namespace ConsumerLimit.Consumer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "consumer\_limit\_exchange";  
+ var exchangeName = "consumer _limit _exchange";  
  var routingKey = "order.#";  
- var queueName = "consumer\_limit\_queue";  
+ var queueName = "consumer _limit _queue";  
   
  channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true, false, null);  
  channel.QueueDeclare(queueName, true, false, false, null);  
@@ -725,7 +725,7 @@ namespace AckSample.Producer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "ack\_sample\_exchange";  
+ var exchangeName = "ack _sample _exchange";  
  var routingKey = "order.saved";  
   
  var random =new Random();  
@@ -823,8 +823,8 @@ namespace AckSample.Consumer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "ack\_sample\_exchange";  
- var queueName = "ack\_sample\_queue";  
+ var exchangeName = "ack _sample _exchange";  
+ var queueName = "ack _sample _queue";  
  var routingKey = "order.saved";  
   
  channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true, false, null);  
@@ -895,19 +895,19 @@ namespace WebSiteConsumerSample.BackgroundServices
 {  
  public class ConsumeRabbitMQHostedService : BackgroundService  
  {  
- private readonly ILogger<ConsumeRabbitMQHostedService> \_logger;  
- private readonly ILogger<SolutionMessageConsumer> \_consumerLogger;  
- private IConnection \_connection;  
- private IModel \_channel;  
+ private readonly ILogger<ConsumeRabbitMQHostedService>  _logger;  
+ private readonly ILogger<SolutionMessageConsumer>  _consumerLogger;  
+ private IConnection  _connection;  
+ private IModel  _channel;  
   
- private string \_exchangeName;  
- private string \_queueName;  
- private string \_routingKey;  
+ private string  _exchangeName;  
+ private string  _queueName;  
+ private string  _routingKey;  
   
  public ConsumeRabbitMQHostedService(ILogger<ConsumeRabbitMQHostedService> logger,ILogger<SolutionMessageConsumer> consumerLogger)  
  {  
- \_logger = logger;  
- \_consumerLogger = consumerLogger;  
+  _logger = logger;  
+  _consumerLogger = consumerLogger;  
  InitRabbitMq();  
  }  
   
@@ -922,16 +922,16 @@ namespace WebSiteConsumerSample.BackgroundServices
  VirtualHost = "/"  
  };  
   
- \_connection = connectionFactory.CreateConnection();  
- \_channel = \_connection.CreateModel();  
+  _connection = connectionFactory.CreateConnection();  
+  _channel =  _connection.CreateModel();  
   
- var exchangeName = "dimsum\_solution\_exchange";  
- var queueName = "dimsum\_solution\_queue";  
+ var exchangeName = "dimsum _solution _exchange";  
+ var queueName = "dimsum _solution _queue";  
  var routingKey = "solution.#";  
   
- \_exchangeName = exchangeName;  
- \_queueName = queueName;  
- \_routingKey = routingKey;  
+  _exchangeName = exchangeName;  
+  _queueName = queueName;  
+  _routingKey = routingKey;  
   
  _channel.ExchangeDeclare(exchangeName, ExchangeType.Topic, true, false, null);  
  _channel.QueueDeclare(queueName, true, false, false, null);  
@@ -942,13 +942,13 @@ namespace WebSiteConsumerSample.BackgroundServices
  {  
  await Task.CompletedTask;  
  stoppingToken.ThrowIfCancellationRequested();  
- _channel.BasicConsume(\_queueName, false, new SolutionMessageConsumer(\_channel, \_consumerLogger));  
+ _channel.BasicConsume( _queueName, false, new SolutionMessageConsumer( _channel,  _consumerLogger));  
  }  
   
  public override void Dispose()  
  {  
  _channel.Dispose();  
- \_connection.Dispose();  
+  _connection.Dispose();  
  base.Dispose();  
  }  
  }  

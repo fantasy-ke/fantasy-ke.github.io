@@ -24,70 +24,59 @@ date: 2020-05-30 12:08:00
 *   [持久化](#持久化)
     *   [持久化过程保存什么](#持久化过程保存什么)
 <!-- more -->
-*   [.NET Core操作Redis](#net-core操作redis)
-*   [持久化](#持久化)
-    *   [持久化过程保存什么](#持久化过程保存什么)
-    *   [RDB](#rdb)
-        *   [RDB持久化的配置](#rdb持久化的配置)
-        *   [注意](#注意)
-        *   [bgsave](#bgsave)
-        *   [自动执行RDB](#自动执行rdb)
-        *   [自动执行RDB注意](#自动执行rdb注意)
-        *   [三种方案对比](#三种方案对比)
-        *   [RDB特殊启动形式](#rdb特殊启动形式)
-        *   [RDB优点](#rdb优点)
-        *   [RDB缺点](#rdb缺点)
-    *   [AOF](#aof)
-        *   [RDB存储的弊端](#rdb存储的弊端)
-        *   [解决思路](#解决思路)
-        *   [概念](#概念)
-        *   [AOF写数据三种策略(appendfsync)](#aof写数据三种策略appendfsync)
-        *   [AOF配置](#aof配置)
-        *   [AOF重写](#aof重写)
-            *   [AOF重写作用](#aof重写作用)
-            *   [AOF重写规则](#aof重写规则)
-            *   [AOF重写方式](#aof重写方式)
-            *   [AOF自动重写方式](#aof自动重写方式)
-            *   [AOF非重写流程](#aof非重写流程)
-            *   [AOF重写流程](#aof重写流程)
-    *   [RDB与AOF区别](#rdb与aof区别)
-    *   [RDB与AOF怎么选](#rdb与aof怎么选)
-*   [事务](#事务)
-    *   [简介](#简介)
-    *   [基本操作](#基本操作)
-    *   [事务的工作流程](#事务的工作流程)
-    *   [事务的注意事项](#事务的注意事项)
-    *   [锁 – 基于特定条件的事务执行](#锁----基于特定条件的事务执行)
-        *   [乐观锁](#乐观锁)
-            *   [业务分析](#业务分析)
-            *   [解决方案](#解决方案)
-        *   [分布式锁](#分布式锁)
-            *   [业务分析](#业务分析-1)
-            *   [解决方案](#解决方案-1)
-        *   [死锁](#死锁)
-            *   [业务分析](#业务分析-2)
-            *   [解决方案](#解决方案-2)
-*   [删除策略](#删除策略)
-    *   [Redis中的数据特征](#redis中的数据特征)
-    *   [定时删除](#定时删除)
-    *   [惰性删除](#惰性删除)
-    *   [定期删除](#定期删除)
-    *   [删除策略比对](#删除策略比对)
-    *   [逐出算法](#逐出算法)
-        *   [新数据进入检测](#新数据进入检测)
-        *   [影响数据逐出的相关设置](#影响数据逐出的相关设置)
-        *   [数据逐出策略配置依据](#数据逐出策略配置依据)
-*   [Redis.Conf](#redisconf)
-    *   [服务器基础配置](#服务器基础配置)
-    *   [日志配置](#日志配置)
-    *   [客户端配置](#客户端配置)
-    *   [多服务器快捷配置](#多服务器快捷配置)
-*   [高级数据类型](#高级数据类型)
-    *   [Bitmaps](#bitmaps)
-    *   [HyperLogLog](#hyperloglog)
-        *   [说明](#说明)
-    *   [GEO](#geo)
-        *   [基本操作](#基本操作-1)
+- [.NET Core操作Redis](#net-core操作redis)
+- [持久化](#持久化)
+  - [持久化过程保存什么](#持久化过程保存什么)
+  - [RDB](#rdb)
+    - [RDB持久化的配置](#rdb持久化的配置)
+    - [自动执行RDB](#自动执行rdb)
+    - [自动执行RDB注意](#自动执行rdb注意)
+    - [三种方案对比](#三种方案对比)
+    - [RDB特殊启动形式](#rdb特殊启动形式)
+    - [RDB优点](#rdb优点)
+    - [RDB缺点](#rdb缺点)
+  - [AOF](#aof)
+    - [RDB存储的弊端](#rdb存储的弊端)
+    - [概念](#概念)
+    - [AOF写数据三种策略(appendfsync)](#aof写数据三种策略appendfsync)
+    - [AOF配置](#aof配置)
+    - [AOF重写](#aof重写)
+      - [AOF重写作用](#aof重写作用)
+      - [AOF重写规则](#aof重写规则)
+      - [AOF重写方式](#aof重写方式)
+      - [AOF自动重写方式](#aof自动重写方式)
+      - [AOF重写流程](#aof重写流程)
+  - [RDB与AOF区别](#rdb与aof区别)
+  - [RDB与AOF怎么选](#rdb与aof怎么选)
+- [事务](#事务)
+  - [简介](#简介)
+  - [基本操作](#基本操作)
+  - [事务的工作流程](#事务的工作流程)
+  - [事务的注意事项](#事务的注意事项)
+  - [锁 – 基于特定条件的事务执行](#锁--基于特定条件的事务执行)
+    - [乐观锁](#乐观锁)
+      - [业务分析](#业务分析)
+    - [分布式锁](#分布式锁)
+      - [业务分析](#业务分析-1)
+    - [死锁](#死锁)
+      - [业务分析](#业务分析-2)
+- [删除策略](#删除策略)
+  - [Redis中的数据特征](#redis中的数据特征)
+  - [定时删除](#定时删除)
+  - [惰性删除](#惰性删除)
+  - [定期删除](#定期删除)
+  - [删除策略比对](#删除策略比对)
+  - [逐出算法](#逐出算法)
+    - [新数据进入检测](#新数据进入检测)
+- [Redis.Conf](#redisconf)
+  - [服务器基础配置](#服务器基础配置)
+  - [日志配置](#日志配置)
+  - [客户端配置](#客户端配置)
+- [高级数据类型](#高级数据类型)
+  - [Bitmaps](#bitmaps)
+  - [HyperLogLog](#hyperloglog)
+    - [说明](#说明)
+  - [GEO](#geo)
 
 # [](#NET-Core操作Redis ".NET Core操作Redis").NET Core操作Redis
 
@@ -95,58 +84,7 @@ date: 2020-05-30 12:08:00
 
 具体示例代码如下：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-15  
-16  
-17  
-18  
-19  
-20  
-21  
-22  
-23  
-24  
-25  
-26  
-27  
-28  
-29  
-30  
-31  
-32  
-33  
-34  
-35  
-36  
-37  
-38  
-39  
-40  
-41  
-42  
-43  
-44  
-45  
-46  
-47  
-48  
-49  
-50  
-51  
-
+```bash
 using System;  
 using System.Linq;  
 using System.Threading.Tasks;  
@@ -154,51 +92,51 @@ using CSRedis;
   
 namespace RedisSample01  
 {  
- class Program  
- {  
- static async Task Main(string\[\] args)  
- {  
-  
- var redis = new CSRedisClient("127.0.0.1:6379,defaultDatabase=0,prefix=ds\_");  
- RedisHelper.Initialization(redis);  
-  
- Console.WriteLine("↓↓↓↓↓ String Sample ↓↓↓↓↓");  
- await RedisHelper.SetAsync("name", "dimsum");  
- var name = await RedisHelper.GetAsync<string>("name");  
- Console.WriteLine($"name = {name}");  
- Console.WriteLine("↑↑↑↑↑ Sample End ↑↑↑↑↑↑");  
- Console.WriteLine();  
-  
-  
- Console.WriteLine("↓↓↓↓↓ List Sample ↓↓↓↓↓");  
- await RedisHelper.DelAsync("list1");  
- await RedisHelper.LPushAsync("list1", "a", "b", "c");  
- await RedisHelper.RPushAsync("list1", "x");  
-  
- var list1 =await RedisHelper.LRangeAsync("list1", 0, -1);  
- Console.WriteLine($"list1 = {String.Join(',',list1)}");  
- var list1Length = await redis.LLenAsync("list1");  
- Console.WriteLine($"list1.length = {list1Length}");  
- Console.WriteLine("↑↑↑↑↑ Sample End ↑↑↑↑↑↑");  
-  
-  
- Console.WriteLine("↓↓↓↓↓ Hash Sample ↓↓↓↓↓");  
-  
- await RedisHelper.HSetAsync("hash1", "name", "张三");  
- await RedisHelper.HSetAsync("hash1", "age", 19);  
- await RedisHelper.HSetAsync("hash1", "job", "C#");  
-  
- var hash1 = await RedisHelper.HGetAllAsync("hash1");  
- Console.WriteLine($"hash1 = {string.Join(',', hash1.Select(x => $"{x.Key}:{x.Value}").ToArray())}");  
- Console.WriteLine("↑↑↑↑↑ Sample End ↑↑↑↑↑↑");  
-   
- Console.WriteLine();  
- Console.WriteLine("====================");  
- Console.WriteLine("Sample done");  
- }  
- }  
+    class Program  
+    {  
+        static async Task Main(string\[\] args)  
+        {  
+        
+        var redis = new CSRedisClient("127.0.0.1:6379,defaultDatabase=0,prefix=ds_");  
+        RedisHelper.Initialization(redis);  
+        
+        Console.WriteLine("↓↓↓↓↓ String Sample ↓↓↓↓↓");  
+        await RedisHelper.SetAsync("name", "dimsum");  
+        var name = await RedisHelper.GetAsync<string>("name");  
+        Console.WriteLine($"name = {name}");  
+        Console.WriteLine("↑↑↑↑↑ Sample End ↑↑↑↑↑↑");  
+        Console.WriteLine();  
+        
+        
+        Console.WriteLine("↓↓↓↓↓ List Sample ↓↓↓↓↓");  
+        await RedisHelper.DelAsync("list1");  
+        await RedisHelper.LPushAsync("list1", "a", "b", "c");  
+        await RedisHelper.RPushAsync("list1", "x");  
+        
+        var list1 =await RedisHelper.LRangeAsync("list1", 0, -1);  
+        Console.WriteLine($"list1 = {String.Join(',',list1)}");  
+        var list1Length = await redis.LLenAsync("list1");  
+        Console.WriteLine($"list1.length = {list1Length}");  
+        Console.WriteLine("↑↑↑↑↑ Sample End ↑↑↑↑↑↑");  
+        
+        
+        Console.WriteLine("↓↓↓↓↓ Hash Sample ↓↓↓↓↓");  
+        
+        await RedisHelper.HSetAsync("hash1", "name", "张三");  
+        await RedisHelper.HSetAsync("hash1", "age", 19);  
+        await RedisHelper.HSetAsync("hash1", "job", "C#");  
+        
+        var hash1 = await RedisHelper.HGetAllAsync("hash1");  
+        Console.WriteLine($"hash1 = {string.Join(',', hash1.Select(x => $"{x.Key}:{x.Value}").ToArray())}");  
+        Console.WriteLine("↑↑↑↑↑ Sample End ↑↑↑↑↑↑");  
+        
+        Console.WriteLine();  
+        Console.WriteLine("====================");  
+        Console.WriteLine("Sample done");  
+        }  
+    }  
 }  
-
+```
 # [](#持久化 "持久化")持久化
 
 *   持久化：利用永久性存储介质将数据进行保存，在特定的时间将保存的数据进行恢复的工作机制
@@ -386,39 +324,31 @@ save配置
 *   手动重写：`bgrewriteaof`
 *   自动重写
     
-    1  
-    2  
-    
+    ```bash
     auto-aof-rewrite-min-size size  
     auto-aof-rewrite-percentage percentage  
-    
+    ```
 
 #### [](#AOF自动重写方式 "AOF自动重写方式")AOF自动重写方式
 
 *   自动重写触发条件设置
     
-    1  
-    2  
-    
+    ```bash
     auto-aof-rewrite-min-size size --自动AOF的重写尺寸(默认值比较大)  
     auto-aof-rewrite-percentage percent  --自动重写的百分比  
-    
+    ```
 *   自动重写触发对比参数（运行指令info persistence获取具体信息）
     
-    1  
-    2  
-    
-    aof\_current\_size  
-    aof\_base\_size  
-    
+    ```bash
+    aof_current_size  
+    aof_base_size  
+    ```
 *   自动重写触发条件
     
-    1  
-    2  
-    
-    aof\_current\_size > auto\_aof\_rewrite\_min\_size  
-    aof\_current\_size - aof\_base\_size / aof\_base\_size >= auto-aof-rewrite-percentage  
-    
+    ```bash
+    aof_current_size > auto_aof_rewrite_min_size  
+    aof_current_size - aof_base_size / aof_base_size >= auto-aof-rewrite-percentage  
+    ```
     #### [](#AOF非重写流程 "AOF非重写流程")AOF非重写流程
     
     ![image.png](https://i.loli.net/2020/05/31/Eb6D8x2mK5toUBn.png)
@@ -571,12 +501,10 @@ Redis事务就是一个命令执行的队列，将一系列预定义命令包装
     
 *   使用`expire`为锁`key`添加时间限定，到时不释放锁，放弃锁
     
-    1  
-    2  
-    
+    ```bash
     expire lock-key second  
     pexpire lock-key milliseconds  
-    
+    ```
 *   由于操作通常都是微妙或毫秒级，因此该锁定时间不宜设置过长，具体时间需要业务测试后确定
     *   例如：持有锁的操作最长执行时间127ms，最短执行时间7ms
     *   测试百万次最长执行时间对应命令的最大耗时，测试百万次网络延迟平均耗时
@@ -589,8 +517,8 @@ Redis事务就是一个命令执行的队列，将一系列预定义命令包装
 
 *   Redis是一种内存及数据库，所有数据均存放在内存中，内存中的数据可以通过`TTL`指令获取其状态
     *   XX：具有时效性的数据
-    *   \-1：永久有效的数据
-    *   \-2：已经过期的数据 或 被删除的数据 或 未定义的数据
+    *   -1：永久有效的数据
+    *   -2：已经过期的数据 或 被删除的数据 或 未定义的数据
 
 数据删除策略的目的：在内存占用与CPU占用之间寻找一种平衡，顾此失彼都会造成整体Redis性能的下降，甚至引发服务器宕机或内存泄露
 
@@ -623,7 +551,7 @@ Redis事务就是一个命令执行的队列，将一系列预定义命令包装
     *   如果key超时，删除key
     *   如果一轮中删除的key的数量 > W\*25%，则循环该过程
     *   如果一轮中删除的key的数量 <= W_25%，检查下一个\`expires\[_\]\`，db0-db15循环
-    *   W取值=ACTIVE\_EXPIRE\_CYCLE\_LOOKUPS\_PER\_LOOP属性值
+    *   W取值=ACTIVE_EXPIRE_CYCLE_LOOKUPS_PER_LOOP属性值
 *   参数`current_db`用来记录`activeExpireCycle()`进入那个`expires[*]`执行
     
 *   周期性轮询Redis库中的时效性数据，采用随机抽取的策略，利用过期数据占比的方式控制删除频度
@@ -681,24 +609,21 @@ Redis事务就是一个命令执行的队列，将一系列预定义命令包装
         
 *   最大可使用内存
     
-    1  
-    
+    ```bash
     maxmemory  
-    
+    ```
     占用物理内存的比例，默认值为0，表示不限制。生产环境中根据需求设定，通常设置在50%以上。
 *   每次选取待删除数据的个数
     
-    1  
-    
+    ```bash
     maxmemory-samples  
-    
+    ```
     选取数据时并不会全库扫描，导致严重的性能消耗，降低读写性能。因此采用随机获取数据的方式作为待检测删除数据
 *   删除策略
     
-    1  
-    
+    ```bash
     maxmemory-policy  
-    
+    ```
     达到最大内存后的，对被挑选出来的数据进行删除的策略
 *   检测易失数据（可能会过期的数据集`server.db[i].expires`）
     1.  `volatile-lru`：挑选最近最少使用的数据淘汰（推荐）
@@ -713,10 +638,9 @@ Redis事务就是一个命令执行的队列，将一系列预定义命令包装
     *   `no-enviction`(不驱逐)：禁止驱逐数据(redis4.0中默认策略)，会引发错误OOM(Out Of Memory)
 *   配置方式
     
-    1  
-    
+    ```bash
     maxmemory-policy volatile-lru  
-    
+    ```
     ### [](#数据逐出策略配置依据 "数据逐出策略配置依据")数据逐出策略配置依据
     
 *   使用`INFO`命令输出监控信息，查询缓存`hit`和`miss`的次数，根据业务需求调优Redis配置
@@ -741,24 +665,21 @@ Redis事务就是一个命令执行的队列，将一系列预定义命令包装
 
 *   设置同一时间最大客户端连接数，默认无限制。当客户端连接到达上限，Redis会关闭新的连接
     
-    1  
-    
+    ```bash
     maxclient 0  
-    
+    ```
 *   客户端限制等待最长时长，达到最大值后关闭连接，如需要关闭该功能，设置为0
     
-    1  
-    
+    ```bash
     timeout 300  
-    
+    ```
     ## [](#多服务器快捷配置 "多服务器快捷配置")多服务器快捷配置
     
 *   导入并加载指定配置文件信息，用于快速创建Redis公共配置较多的Redis实例配置文件，便于维护
     
-    1  
-    
+    ```bash
     include /path/server-端口号.conf  
-    
+    ```
 
 # [](#高级数据类型 "高级数据类型")高级数据类型
 
@@ -766,10 +687,9 @@ Redis事务就是一个命令执行的队列，将一系列预定义命令包装
 
 *   获取指定key对应偏移量上的bit值
     
-    1  
-    
+    ```bash
     getbit key offset  
-    
+    ```
 *   设置指定key对应偏移量上的bit值，value只能时1或0
     
     1  
@@ -778,24 +698,18 @@ Redis事务就是一个命令执行的队列，将一系列预定义命令包装
     
 *   对指定key按位进行交、并、非、异或操作，并将结果保存到destKey中
     
-    1  
-    2  
-    3  
-    4  
-    5  
-    
+    ```bash
     bitop op destKey key1 \[key2...\]  
     // and：交  
     // or：并  
     // not：非  
     // xor：异或  
-    
+    ```
 *   统计指定key中1的数量
     
-    1  
-    
+    ```bash
     bitcount key \[start end\]  
-    
+    ```
 
 ## [](#HyperLogLog "HyperLogLog")HyperLogLog
 
@@ -830,18 +744,16 @@ Redis事务就是一个命令执行的队列，将一系列预定义命令包装
 *   计算坐标点距离：`getdist key member1 member2 [unit]`(unit是单位，`m=米 km=千米`)
 *   根据坐标求范围内的数据
     
-    1  
-    
+    ```bash
     georadius key longitude latitude redius m|km|ft|mi \[withcoord\] \[withdist\] \[withhash\] \[count count\]  
-    
+    ```
 *   根据点求范围内的数据
     
-    1  
-    
+    ```bash
     georadiusbymember key member radius m|km|ft|mi \[withcoord\] \[withdist\] \[withhash\] \[count count\]  
-    
+    ```
 *   获取指定点对应的坐标hash值
     
-    1  
-    
+    ```bash
     geohash key member \[member...\]
+    ```

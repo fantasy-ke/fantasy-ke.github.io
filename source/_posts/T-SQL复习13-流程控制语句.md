@@ -24,13 +24,13 @@ date: 2020-05-23 16:17:00
 *   [IF…ELSE…](#ifelse)
 *   [WHILE](#while)
 <!-- more -->
-*   [BEGIN…END](#beginend)
-*   [IF…ELSE…](#ifelse)
-*   [WHILE](#while)
-    *   [在WHILE中使用BREAK、CONTINUE](#%e5%9c%a8while%e4%b8%ad%e4%bd%bf%e7%94%a8breakcontinue)
-*   [GOTO](#goto)
-    *   [使用GOTO语句实现循环](#%e4%bd%bf%e7%94%a8goto%e8%af%ad%e5%8f%a5%e5%ae%9e%e7%8e%b0%e5%be%aa%e7%8e%af)
-*   [WAITFOR](#waitfor)
+- [BEGIN…END](#beginend)
+- [IF…ELSE…](#ifelse)
+- [WHILE](#while)
+  - [在WHILE中使用BREAK、CONTINUE](#在while中使用breakcontinue)
+- [GOTO](#goto)
+  - [使用GOTO语句实现循环](#使用goto语句实现循环)
+- [WAITFOR](#waitfor)
 
 # [](#BEGIN…END "BEGIN…END")BEGIN…END
 
@@ -42,46 +42,27 @@ date: 2020-05-23 16:17:00
 
 具体语法：
 
-1  
-2  
-3  
-4  
-
+```sql
 IF 布尔表达式  
 TSQL  
-ELSE \--ELSE子句可选  
+ELSE --ELSE子句可选  
 TSQL  
-
+```
 **注意：`IF`或`ELSE`条件只能影响一个TSQL语句，若要在`IF`或`ELSE`条件后面执行多个TSQL，则需要用`BEGIN...END`关键字**
 
 示例：
 
-1  
-2  
-3  
-4  
-
-IF(SELECT AGE FROM dbo.STUDENT WHERE NAME\='YOYOYO')>18  
+```sql
+IF(SELECT AGE FROM dbo.STUDENT WHERE NAME='YOYOYO')>18  
 PRINT '已成年'  
 ELSE  
 PRINT '未成年'  
-
+```
 使用嵌套的`IF...ELSE...`，示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-
+```sql
 DECLARE @age INT  
-SELECT @age=AGE FROM dbo.STUDENT WHERE NAME\='YOYOYO'  
+SELECT @age=AGE FROM dbo.STUDENT WHERE NAME='YOYOYO'  
 IF @age>=18  
 PRINT '已成年'  
 ELSE  
@@ -91,25 +72,20 @@ PRINT '小朋友'
 ELSE  
 PRINT '小小朋友'  
 END  
-
+```
 # [](#WHILE "WHILE")WHILE
 
 设置重复执行SQL语句或语句块的条件，指要指定的条件为真，就重复执行语句。可以使用`BREAK`和`CONTINUE`关键字在循环内部控制`WHILE`循环中语句的执行
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-
-WHILE (SELECT AGE FROM dbo.STUDENT WHERE NAME\='Jame')<18  
+```sql
+WHILE (SELECT AGE FROM dbo.STUDENT WHERE NAME='Jame')<18  
 BEGIN  
- UPDATE dbo.STUDENT SET AGE=AGE+1 WHERE NAME\='Jame'  
+ UPDATE dbo.STUDENT SET AGE=AGE+1 WHERE NAME='Jame'  
 END  
-SELECT \* FROM dbo.STUDENT WHERE NAME\='Jame' \--查询检查结果  
-
+SELECT * FROM dbo.STUDENT WHERE NAME='Jame' --查询检查结果  
+```
 ## [](#在WHILE中使用BREAK、CONTINUE "在WHILE中使用BREAK、CONTINUE")在WHILE中使用BREAK、CONTINUE
 
 *   BREAK：退出循环，即推出当前循环，执行出现在END关键字后面的语句
@@ -117,100 +93,64 @@ SELECT \* FROM dbo.STUDENT WHERE NAME\='Jame' \--查询检查结果
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-
-WHILE (SELECT AGE FROM dbo.STUDENT WHERE NAME\='Jame')<30  
+```sql
+WHILE (SELECT AGE FROM dbo.STUDENT WHERE NAME='Jame')<30  
 BEGIN  
- UPDATE dbo.STUDENT SET AGE=AGE+1 WHERE NAME\='Jame'  
-IF(SELECT AGE FROM dbo.STUDENT WHERE NAME\='Jame')<22  
+ UPDATE dbo.STUDENT SET AGE=AGE+1 WHERE NAME='Jame'  
+IF(SELECT AGE FROM dbo.STUDENT WHERE NAME='Jame')<22  
 CONTINUE  
 ELSE  
  BREAK  
 END  
-SELECT \* FROM dbo.STUDENT WHERE NAME\='Jame'  
-
+SELECT * FROM dbo.STUDENT WHERE NAME='Jame'  
+```
 # [](#GOTO "GOTO")GOTO
 
 将执行流更改到标签处，`GOTO`语句和标签可在过程、批处理或语句块中的任意位置使用
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-
-\-- 使用GOTO语句循环出10到20之间的数字  
+```sql
+-- 使用GOTO语句循环出10到20之间的数字  
 DECLARE @N INT  
 SET @N=10  
-LABEL:  \--标签名称要以冒号结束  
+LABEL:  --标签名称要以冒号结束  
 IF @N<20  
 BEGIN  
  SET @N=@N+1  
 PRINT @N  
-GOTO LABEL  \--GOTO指定跳转的标签名称  
+GOTO LABEL  --GOTO指定跳转的标签名称  
 END  
-
+```
 ## [](#使用GOTO语句实现循环 "使用GOTO语句实现循环")使用GOTO语句实现循环
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-
+```sql
 LABEL1:  
-IF(SELECT AGE FROM dbo.STUDENT WHERE NAME\='Jame')<25  
+IF(SELECT AGE FROM dbo.STUDENT WHERE NAME='Jame')<25  
 BEGIN  
- UPDATE dbo.STUDENT SET AGE=AGE+1 WHERE NAME\='Jame'  
+ UPDATE dbo.STUDENT SET AGE=AGE+1 WHERE NAME='Jame'  
 GOTO LABEL1  
 END  
 ELSE  
-SELECT \* FROM dbo.STUDENT WHERE NAME\='Jame'  
-
+SELECT * FROM dbo.STUDENT WHERE NAME='Jame'  
+```
 # [](#WAITFOR "WAITFOR")WAITFOR
 
 控制语句执行的时间
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-
+```sql
 BEGIN  
-WAITFOR TIME '16:52' \--在几点开始执行，不能指定日期  
-SELECT \* FROM dbo.STUDENT  
+WAITFOR TIME '16:52' --在几点开始执行，不能指定日期  
+SELECT * FROM dbo.STUDENT  
 END  
   
   
 BEGIN  
-WAITFOR DELAY '00:00:10' \--多长时间后开始，最长为24小时，不能指定日期  
-SELECT \* FROM dbo.STUDENT  
+WAITFOR DELAY '00:00:10' --多长时间后开始，最长为24小时，不能指定日期  
+SELECT * FROM dbo.STUDENT  
 END
+```

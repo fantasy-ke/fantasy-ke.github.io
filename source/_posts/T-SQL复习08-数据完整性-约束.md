@@ -74,44 +74,29 @@ date: 2020-05-22 11:17:00
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-
+```sql
 USE SCHOOL  
 GO  
 ALTER TABLE dbo.STUDENT  
-ADD CONSTRAINT DEF\_SEX  \--添加的约束名称  
-DEFAULT '男'  \--约束类型及约束的值  
-FOR SEX  \--添加约束的列  
+ADD CONSTRAINT DEF_SEX  --添加的约束名称  
+DEFAULT '男'  --约束类型及约束的值  
+FOR SEX  --添加约束的列  
 GO  
-
+```
 ### [](#创建表时添加DEFAULT约束 "创建表时添加DEFAULT约束")创建表时添加DEFAULT约束
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-
+```sql
 USE SCHOOL  
 GO  
-CREATE TABLE TEMP\_DEFAULT  
+CREATE TABLE TEMP_DEFAULT  
 (  
 Id INT NOT NULL,  
 JOB NVARCHAR(100) DEFAULT '.NET CORE DEV' NOT NULL  
 )  
 GO  
-
+```
 _注：每一列只能有一个`DEFAULT`约束，不能用于`IDENTITY`属性的列，若默认值长度大于该字段允许的字符空间，则插入到该列的值会被截断_
 
 ## [](#CHECK约束 "CHECK约束")CHECK约束
@@ -124,58 +109,39 @@ _注：每一列只能有一个`DEFAULT`约束，不能用于`IDENTITY`属性的
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-
+```sql
 USE SCHOOL  
 GO  
-CREATE TABLE TEMP\_CHECK  
+CREATE TABLE TEMP_CHECK  
 (  
 ID INT NOT NULL,  
 JOB NVARCHAR(100) CHECK(JOB='JAVA' OR JOB='C#') NOT NULL  
 )  
 GO  
-
+```
 ### [](#为现有表添加CHECK约束 "为现有表添加CHECK约束")为现有表添加CHECK约束
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-
+```sql
 USE SCHOOL  
 GO  
-ALTER TABLE dbo.STUDENT \--\[WITH NOCHECK\] 添加WITH NOCHECK则指检查新数据，不检查表里原有数据  
-ADD CONSTRAINT CHECK\_AGE  \--指定约束名称  
-CHECK(AGE>=0 AND AGE<=150) \--指定约束访范围  
+ALTER TABLE dbo.STUDENT --[WITH NOCHECK] 添加WITH NOCHECK则指检查新数据，不检查表里原有数据  
+ADD CONSTRAINT CHECK_AGE  --指定约束名称  
+CHECK(AGE>=0 AND AGE<=150) --指定约束访范围  
 GO  
-
+```
 ### [](#删除约束 "删除约束")删除约束
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-
+```sql
 USE SCHOOL  
 GO  
 ALTER TABLE dbo.STUDENT  
-DROP CONSTRAINT CHECK\_AGE \--约束名称  
+DROP CONSTRAINT CHECK_AGE --约束名称  
 GO  
-
+```
 ## [](#NULL约束 "NULL约束")NULL约束
 
 指定列是否允许`NULL`，空值(或`NULL`)不同于`0`、空白或长度为0的字符串(如””)。NULL的意思是没有输入
@@ -184,40 +150,27 @@ GO
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-
+```sql
 USE SCHOOL  
 GO  
-CREATE TABLE TEMP\_NULL  
+CREATE TABLE TEMP_NULL  
 (  
 ID INT NOT NULL,  
 NAME NVARCHAR(100) NULL  
 )  
 GO  
-
+```
 ### [](#修改现有表的字段是否允许为NULL "修改现有表的字段是否允许为NULL")修改现有表的字段是否允许为NULL
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-
+```sql
 USE SCHOOL  
 GO  
 ALTER TABLE dbo.STUDENT  
-ALTER COLUMN ID INT NOT NULL \--NOT NULL修改为NULL则标识允许为NULL  
+ALTER COLUMN ID INT NOT NULL --NOT NULL修改为NULL则标识允许为NULL  
 GO  
-
+```
 # [](#实体完整性类型 "实体完整性类型")实体完整性类型
 
 ## [](#primary-key约束 "primary key约束")primary key约束
@@ -228,42 +181,28 @@ GO
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-
+```sql
 USE SCHOOL  
 GO  
-CREATE TABLE TEMP\_PK  
+CREATE TABLE TEMP_PK  
 (  
 ID BIGINT PRIMARY KEY(ID),  
 NAME NVARCHAR(100) NOT NULL  
 )  
 GO  
-
+```
 ### [](#给现有的表添加主键 "给现有的表添加主键")给现有的表添加主键
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-
+```sql
 USE SCHOOL  
 GO  
 ALTER TABLE dbo.STUDENT  
-ADD CONSTRAINT PK\_ID \--约束名称  
-PRIMARY KEY(ID) \--指定主键列  
+ADD CONSTRAINT PK_ID --约束名称  
+PRIMARY KEY(ID) --指定主键列  
 GO  
-
+```
 ## [](#UNIQUE约束 "UNIQUE约束")UNIQUE约束
 
 确保在非主键列中不输入重复的值，可以对一个表定义多个`UNIQUE`约束，但只能定义一个`PRIMARY KEY`约束，`UNIQUE`约束允许一个`NULL`值，而`PARMARY KEY`约束不允许有`NULL`值
@@ -274,42 +213,28 @@ GO
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-
+```sql
 USE SCHOOL  
 GO  
-CREATE TABLE TEMP\_UNIUQE  
+CREATE TABLE TEMP_UNIUQE  
 (  
 ID INT NOT NULL,  
-NAME NVARCHAR(20) CONSTRAINT UNIQUE\_NAME UNIQUE(NAME) NULL  
+NAME NVARCHAR(20) CONSTRAINT UNIQUE_NAME UNIQUE(NAME) NULL  
 )  
 GO  
-
+```
 ### [](#给现有的表添加UNIQUE约束 "给现有的表添加UNIQUE约束")给现有的表添加UNIQUE约束
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-
+```sql
 USE SCHOOL  
 GO  
 ALTER TABLE dbo.STUDENT  
-ADD CONSTRAINT UNIQUE\_NAME  
+ADD CONSTRAINT UNIQUE_NAME  
 UNIQUE(NAME)  
 GO  
-
+```
 # [](#引用完整性类型 "引用完整性类型")引用完整性类型
 
 ## [](#FOREIGN-KEY约束 "FOREIGN KEY约束")FOREIGN KEY约束
@@ -322,22 +247,15 @@ GO
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-
+```sql
 USE SCHOOL  
 GO  
 ALTER TABLE dbo.GRADE  
-ADD CONSTRAINT FK\_STUDENT\_ID  \--外键约束名称  
-FOREIGN KEY(STUDENTID)  \--指定当前表哪一列是外键  
-REFERENCES dbo.STUDENT(ID) \--这个外键对应的是哪个表的主键  
+ADD CONSTRAINT FK_STUDENT_ID  --外键约束名称  
+FOREIGN KEY(STUDENTID)  --指定当前表哪一列是外键  
+REFERENCES dbo.STUDENT(ID) --这个外键对应的是哪个表的主键  
 GO  
-
+```
 # [](#总结 "总结")总结
 
 *   `DEFAULT`、`CHECK`、`NULL`约束是针对表中的列进行完整性的控制，因此叫做域完整性

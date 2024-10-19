@@ -45,81 +45,58 @@ date: 2020-05-22 15:36:00
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-
+```sql
 USE SCHOOL  
 GO  
-CREATE VIEW V\_BEST\_SCORE  
+CREATE VIEW V_BEST_SCORE  
 AS  
-SELECT \* FROM dbo.GRADE WHERE SCORE>90  
+SELECT * FROM dbo.GRADE WHERE SCORE>90  
 GO  
-
+```
 # [](#修改视图 "修改视图")修改视图
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-
+```sql
 USE SCHOOL  
 GO  
-ALTER VIEW dbo.V\_BEST\_SCORE  
+ALTER VIEW dbo.V_BEST_SCORE  
 AS  
-SELECT \* FROM dbo.GRADE WHERE SCORE>95  
+SELECT * FROM dbo.GRADE WHERE SCORE>95  
 GO  
-
+```
 # [](#更新视图数据 "更新视图数据")更新视图数据
 
 示例：
 
-1  
-2  
-3  
-4  
-
+```sql
 USE SCHOOL  
 GO  
-UPDATE dbo.V\_BEST\_SCORE SET SCORE=96  
+UPDATE dbo.V_BEST_SCORE SET SCORE=96  
 GO  
-
+```
 _注：更新视图数据同时也会更新源表数据_
 
 # [](#使用系统存储过程查看创建视图脚本 "使用系统存储过程查看创建视图脚本")使用系统存储过程查看创建视图脚本
 
 示例：
 
-1  
-
-EXEC sys.sp\_helptext 'V\_BEST\_SCORE'  
-
+```sql
+EXEC sys.sp_helptext 'V_BEST_SCORE'  
+```
 # [](#加密视图 "加密视图")加密视图
 
 使用`WITH ENCRYPTION`加密视图脚本，`WITH CHECK OPTION`强制更新视图的数据并且符合创建视图时的筛选条件  
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-
+```sql
 USE SCHOOL  
 GO  
-ALTER VIEW dbo.V\_BEST\_SCORE WITH ENCRYPTION  
+ALTER VIEW dbo.V_BEST_SCORE WITH ENCRYPTION  
 AS  
-SELECT \* FROM dbo.GRADE WHERE SCORE>90  
+SELECT * FROM dbo.GRADE WHERE SCORE>90  
 WITH CHECK OPTION  
-
+```
 加密了视图之后，使用`sp_helptext`存储过程就无法查看视图脚本了
 
 使用`WITH CHECK OPTION`表示如果更新视图数据，必须保证更新完数据还在视图里，即参照上面的示例，如果将`SCORE`更新成91，则可以更新成功，如果将`SCORE`更新成89，则无法更新成功
@@ -128,6 +105,6 @@ WITH CHECK OPTION
 
 示例：
 
-1  
-
-DROP VIEW dbo.V\_BEST\_SCORE
+```sql
+DROP VIEW dbo.V_BEST_SCORE
+```

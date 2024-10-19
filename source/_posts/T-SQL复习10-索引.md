@@ -74,56 +74,39 @@ date: 2020-05-22 16:19:00
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-
-\-- 创建唯一聚集索引  
+```sql
+-- 创建唯一聚集索引  
 USE SCHOOL  
 GO  
-CREATE UNIQUE CLUSTERED INDEX INDEX\_ID  \--创建唯一聚集索引  
-ON dbo.STUDENT(ID DESC) \--指定STUDENT表的ID列  
+CREATE UNIQUE CLUSTERED INDEX INDEX_ID  --创建唯一聚集索引  
+ON dbo.STUDENT(ID DESC) --指定STUDENT表的ID列  
 GO  
   
-\-- 创建唯一非聚集索引  
+-- 创建唯一非聚集索引  
 USE SCHOOL  
 GO  
-CREATE UNIQUE NONCLUSTERED INDEX INDEX\_NAME  
+CREATE UNIQUE NONCLUSTERED INDEX INDEX_NAME  
 ON dbo.STUDENT(NAME DESC)  
 GO  
-
+```
 # [](#删除索引 "删除索引")删除索引
 
 示例：
 
-1  
-
-DROP INDEX dbo.STUDENT.\[INDEX\_NAME\]  
-
+```sql
+DROP INDEX dbo.STUDENT.[INDEX_NAME]  
+```
 # [](#查看SQL-Server的查询步骤 "查看SQL Server的查询步骤")查看SQL Server的查询步骤
 
 查看SQL Server的查询步骤，已经是否选择了哪个索引，帮助用户分析哪些索引被系统引用
 
 示例：
 
-1  
-2  
-3  
-
-SET SHOWPLAN\_ALL ON \--开启显示查询步骤  
+```sql
+SET SHOWPLAN_ALL ON --开启显示查询步骤  
 GO  
-SELECT \* FROM dbo.STUDENT WHERE ID\=2  
-
+SELECT * FROM dbo.STUDENT WHERE ID=2  
+```
 # [](#在哪些字段创建索引 "在哪些字段创建索引")在哪些字段创建索引
 
 1.  查询经常引用的列可创建聚集索引

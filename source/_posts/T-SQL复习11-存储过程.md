@@ -87,98 +87,65 @@ date: 2020-05-22 17:51:00
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-
+```sql
 USE SCHOOL  
 GO  
-IF OBJECT\_ID('P\_STUDENT') IS NOT NULL  
-DROP PROCEDURE P\_STUDENT  
+IF OBJECT_ID('P_STUDENT') IS NOT NULL  
+DROP PROCEDURE P_STUDENT  
 GO  
-CREATE PROCEDURE P\_STUDENT  
+CREATE PROCEDURE P_STUDENT  
 AS  
 BEGIN  
  SELECT NAME,AGE FROM dbo.STUDENT  
 END  
 GO  
-
+```
 ## [](#执行 "执行")执行
 
 示例：
 
-1  
-2  
-
-EXEC dbo.P\_STUDENT  \--EXEC是EXECUTE的简写  
-EXECUTE dbo.P\_STUDENT  
-
+```sql
+EXEC dbo.P_STUDENT  --EXEC是EXECUTE的简写  
+EXECUTE dbo.P_STUDENT  
+```
 ## [](#修改 "修改")修改
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-
-ALTER PROCEDURE P\_STUDENT  
+```sql
+ALTER PROCEDURE P_STUDENT  
 AS  
 BEGIN  
  SELECT NAME,AGE,SEX FROM dbo.STUDENT WHERE AGE>13  
 END  
-
+```
 ## [](#删除 "删除")删除
 
 示例：
 
-1  
-
-DROP PROCEDURE dbo.P\_STUDENT  
-
+```sql
+DROP PROCEDURE dbo.P_STUDENT  
+```
 # [](#执行多步操作的存储过程 "执行多步操作的存储过程")执行多步操作的存储过程
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-
+```sql
 USE SCHOOL  
 GO  
-IF OBJECT\_ID('P\_COURSE02') IS NOT NULL  
-DROP PROCEDURE P\_COURSE02  
+IF OBJECT_ID('P_COURSE02') IS NOT NULL  
+DROP PROCEDURE P_COURSE02  
 GO  
-CREATE PROCEDURE P\_COURSE02  
+CREATE PROCEDURE P_COURSE02  
 AS  
 BEGIN  
- INSERT INTO COURSE01 SELECT \* FROM dbo.COURSE  
-UPDATE COURSE01 SET NAME\='高数' WHERE NAME\='.NET CORE'  
-DELETE FROM dbo.COURSE01 WHERE NAME\='JAVA'  
-SELECT \* FROM dbo.COURSE01  
+ INSERT INTO COURSE01 SELECT * FROM dbo.COURSE  
+UPDATE COURSE01 SET NAME='高数' WHERE NAME='.NET CORE'  
+DELETE FROM dbo.COURSE01 WHERE NAME='JAVA'  
+SELECT * FROM dbo.COURSE01  
 END  
 GO  
-
+```
 # [](#带输入参数的存储过程 "带输入参数的存储过程")带输入参数的存储过程
 
 ## [](#概念 "概念")概念
@@ -191,167 +158,98 @@ GO
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-
+```sql
 USE SCHOOL  
 GO  
-IF OBJECT\_ID('P\_STUDENT') IS NOT NULL  
-DROP PROCEDURE P\_STUDENT  
+IF OBJECT_ID('P_STUDENT') IS NOT NULL  
+DROP PROCEDURE P_STUDENT  
 GO  
-CREATE PROCEDURE P\_STUDENT  
-@sex CHAR(2),   \--注意：定义参数位置在存储过程名称粥，参数要以@符号开始  
-@age INT = 18   \--这里是将age参数的默认值设定为18，当参数由默认值的时候，调用方如果没传该参数的值过来，则使用默认值进行执行  
+CREATE PROCEDURE P_STUDENT  
+@sex CHAR(2),   --注意：定义参数位置在存储过程名称粥，参数要以@符号开始  
+@age INT = 18   --这里是将age参数的默认值设定为18，当参数由默认值的时候，调用方如果没传该参数的值过来，则使用默认值进行执行  
 AS  
 BEGIN  
  SELECT ID,NAME,AGE,SEX FROM dbo.STUDENT WHERE SEX=@sex AND AGE>@age   
 END  
 GO  
-
+```
 ## [](#执行-1 "执行")执行
 
 示例：
 
-1  
-
-EXEC dbo.P\_STUDENT @sex='女',@age=15  
-
+```sql
+EXEC dbo.P_STUDENT @sex='女',@age=15  
+```
 # [](#带通配符的存储过程 "带通配符的存储过程")带通配符的存储过程
 
 示例：
 
 ## [](#创建-2 "创建")创建
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-
+```sql
 USE SCHOOL  
 GO  
-IF OBJECT\_ID('P\_STUDENT','P') IS NOT NULL  
-DROP PROCEDURE P\_STUDENT  
+IF OBJECT_ID('P_STUDENT','P') IS NOT NULL  
+DROP PROCEDURE P_STUDENT  
 GO  
-CREATE PROCEDURE P\_STUDENT  
-@name NVARCHAR(100)   \--参数定义方法不变  
+CREATE PROCEDURE P_STUDENT  
+@name NVARCHAR(100)   --参数定义方法不变  
 AS  
 BEGIN  
- SELECT NAME,AGE,SEX FROM dbo.STUDENT WHERE NAME LIKE @name  \--通配符查询得使用LIKE  
+ SELECT NAME,AGE,SEX FROM dbo.STUDENT WHERE NAME LIKE @name  --通配符查询得使用LIKE  
 END  
 GO  
-
+```
 ## [](#执行-2 "执行")执行
 
 示例：
 
-1  
-
-EXEC dbo.P\_STUDENT @name = N'王%'  
-
+```sql
+EXEC dbo.P_STUDENT @name = N'王%'  
+```
 # [](#带输出参数的存储过程 "带输出参数的存储过程")带输出参数的存储过程
 
 ## [](#创建-3 "创建")创建
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-
+```sql
 USE SCHOOL  
 GO  
-IF OBJECT\_ID('P\_STUDENT','P') IS NOT NULL  
-DROP PROCEDURE P\_STUDENT  
+IF OBJECT_ID('P_STUDENT','P') IS NOT NULL  
+DROP PROCEDURE P_STUDENT  
 GO  
-CREATE PROCEDURE P\_STUDENT  
+CREATE PROCEDURE P_STUDENT  
 @name NVARCHAR(100),  
-@age INT OUTPUT  \--OUTPUT或OUT都表示为输出参数  
+@age INT OUTPUT  --OUTPUT或OUT都表示为输出参数  
 AS  
 BEGIN  
- SELECT @age=AGE FROM dbo.STUDENT WHERE NAME\=@name  
+ SELECT @age=AGE FROM dbo.STUDENT WHERE NAME=@name  
 END  
 GO  
-
+```
 ## [](#执行-3 "执行")执行
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-
-\-- 执行带输出参数的存储过程时一定要先使用DECLARE声明参数  
+```sql
+-- 执行带输出参数的存储过程时一定要先使用DECLARE声明参数  
 DECLARE @age INT  
-EXECUTE dbo.P\_STUDENT @name = N'李筱思',  
+EXECUTE dbo.P_STUDENT @name = N'李筱思',  
  @age = @age OUTPUT  
 SELECT @age 返回值age  
-
+```
 # [](#带表值参数的存储过程 "带表值参数的存储过程")带表值参数的存储过程
 
 ## [](#创建-4 "创建")创建
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-15  
-16  
-17  
-18  
-19  
-20  
-21  
-22  
-23  
-24  
-
+```sql
 USE SCHOOL  
 GO  
-\-- 创建表类型  
-IF OBJECT\_ID('TYPE01','TT') IS NOT NULL  
+-- 创建表类型  
+IF OBJECT_ID('TYPE01','TT') IS NOT NULL  
 DROP TYPE TYPE01  
 GO  
 CREATE TYPE TYPE01 AS TABLE  
@@ -361,50 +259,37 @@ SEX CHAR(2) NOT NULL,
 AGE INT NOT NULL  
 )  
 GO  
-\-- 创建存储过程  
-IF OBJECT\_ID('P\_INSERT\_STUDENT','P') IS NOT NULL  
-DROP PROCEDURE P\_INSERT\_STUDENT  
+-- 创建存储过程  
+IF OBJECT_ID('P_INSERT_STUDENT','P') IS NOT NULL  
+DROP PROCEDURE P_INSERT_STUDENT  
 GO  
-CREATE PROCEDURE P\_INSERT\_STUDENT  
-@DATA TYPE01 READONLY  \--定义输入参数类型为上面定义的TYPE01类型  
+CREATE PROCEDURE P_INSERT_STUDENT  
+@DATA TYPE01 READONLY  --定义输入参数类型为上面定义的TYPE01类型  
 AS  
 BEGIN  
  INSERT INTO STUDENT(NAME,SEX,AGE) SELECT NAME,SEX,AGE FROM @DATA  
 END  
 GO  
-
+```
 ## [](#执行-4 "执行")执行
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-
-\-- 执行存储类型  
-\-- 先定义表类型的变量@MyData  
+```sql
+-- 执行存储类型  
+-- 先定义表类型的变量@MyData  
 DECLARE @MyData AS TYPE01  
-\-- 然后往变量@MyData里添加数据  
+-- 然后往变量@MyData里添加数据  
 INSERT INTO @MyData  
 SELECT 'Jame','男',12 UNION ALL  
 SELECT 'Alice','女',23  
-\-- 执行存储过程，将上面定义的变量传入存储过程  
-EXEC dbo.P\_INSERT\_STUDENT @DATA = @MyData  
+-- 执行存储过程，将上面定义的变量传入存储过程  
+EXEC dbo.P_INSERT_STUDENT @DATA = @MyData  
 GO  
-\-- 查看执行结果  
-SELECT \* FROM dbo.STUDENT  
+-- 查看执行结果  
+SELECT * FROM dbo.STUDENT  
 GO  
-
+```
 # [](#带变量的存储过程 "带变量的存储过程")带变量的存储过程
 
 ## [](#概念-1 "概念")概念
@@ -427,44 +312,29 @@ GO
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-
+```sql
 USE SCHOOL  
 GO  
-IF OBJECT\_ID('P\_STUDENT','P') IS NOT NULL  
-DROP PROCEDURE dbo.P\_STUDENT  
+IF OBJECT_ID('P_STUDENT','P') IS NOT NULL  
+DROP PROCEDURE dbo.P_STUDENT  
 GO  
-CREATE PROCEDURE P\_STUDENT  
+CREATE PROCEDURE P_STUDENT  
 @NAME NVARCHAR(100)  
 AS  
 BEGIN  
- DECLARE @AGE INT  \--注意：参数的定义位置在AS前面，变量的定义位置在AS后面  
-SELECT @AGE=AGE FROM dbo.STUDENT WHERE NAME\=@NAME  \--通过查询结果给变量复制  
-SELECT \* FROM dbo.STUDENT WHERE AGE=@AGE \--使用变量进行查询  
+ DECLARE @AGE INT  --注意：参数的定义位置在AS前面，变量的定义位置在AS后面  
+SELECT @AGE=AGE FROM dbo.STUDENT WHERE NAME=@NAME  --通过查询结果给变量复制  
+SELECT * FROM dbo.STUDENT WHERE AGE=@AGE --使用变量进行查询  
 END  
 GO  
-
+```
 ## [](#执行-5 "执行")执行
 
 示例：
 
-1  
-
-EXEC dbo.P\_STUDENT @NAME = N'李筱思'  
-
+```sql
+EXEC dbo.P_STUDENT @NAME = N'李筱思'  
+```
 # [](#可捕获异常的存储过程 "可捕获异常的存储过程")可捕获异常的存储过程
 
 ## [](#概念-2 "概念")概念
@@ -477,66 +347,40 @@ EXEC dbo.P\_STUDENT @NAME = N'李筱思'
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-15  
-16  
-17  
-18  
-19  
-20  
-21  
-22  
-23  
-
+```sql
 USE SCHOOL  
 GO  
-IF OBJECT\_ID('P\_STUDENT','P') IS NOT NULL  
-DROP PROCEDURE dbo.P\_STUDENT  
+IF OBJECT_ID('P_STUDENT','P') IS NOT NULL  
+DROP PROCEDURE dbo.P_STUDENT  
 GO  
-CREATE PROCEDURE P\_STUDENT  
+CREATE PROCEDURE P_STUDENT  
 @ID CHAR(10),  
 @NAME VARCHAR(10),  
 @SEX CHAR(2)  
 AS  
 BEGIN  
  BEGIN TRY  
-INSERT INTO STUDENT(ID,SEX,NAME)  \--这里模拟个异常  
+INSERT INTO STUDENT(ID,SEX,NAME)  --这里模拟个异常  
 SELECT @ID,@NAME,@SEX  
 END TRY  
 BEGIN CATCH  
-SELECT ERROR\_NUMBER() AS ERROR\_NUM,  
- ERROR\_PROCEDURE() AS ERROR\_PROC,  
- ERROR\_SEVERITY() AS ERROR\_SEVE,  
- ERROR\_MESSAGE() AS ERROR\_MSG  
+SELECT ERROR_NUMBER() AS ERROR_NUM,  
+ ERROR_PROCEDURE() AS ERROR_PROC,  
+ ERROR_SEVERITY() AS ERROR_SEVE,  
+ ERROR_MESSAGE() AS ERROR_MSG  
 END CATCH  
 END  
 GO  
-
+```
 ## [](#执行-6 "执行")执行
 
 示例：
 
-1  
-2  
-3  
-
-EXEC dbo.P\_STUDENT @ID = '1',  
+```sql
+EXEC dbo.P_STUDENT @ID = '1',  
  @NAME = '123131',  
  @SEX = '131'  
-
+```
 # [](#对存储过程加密及重新编译 "对存储过程加密及重新编译")对存储过程加密及重新编译
 
 ## [](#概念-3 "概念")概念
@@ -554,38 +398,23 @@ EXEC dbo.P\_STUDENT @ID = '1',
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-15  
-
+```sql
 USE SCHOOL  
 GO  
-IF OBJECT\_ID('P\_STUDENT','P') IS NOT NULL  
-DROP PROCEDURE P\_STUDENT  
+IF OBJECT_ID('P_STUDENT','P') IS NOT NULL  
+DROP PROCEDURE P_STUDENT  
 GO  
-CREATE PROCEDURE P\_STUDENT  
+CREATE PROCEDURE P_STUDENT  
 @NAME VARCHAR(10)  
 WITH ENCRYPTION,RECOMPILE  
 AS  
 BEGIN  
  DECLARE @AGE INT  
-SELECT @AGE=AGE FROM dbo.STUDENT WHERE NAME\=@NAME  
-SELECT \* FROM dbo.STUDENT WHERE AGE=@AGE  
+SELECT @AGE=AGE FROM dbo.STUDENT WHERE NAME=@NAME  
+SELECT * FROM dbo.STUDENT WHERE AGE=@AGE  
 END  
 GO  
-
+```
 # [](#存储过程的优化 "存储过程的优化")存储过程的优化
 
 1.  在存储过程中使用`SET NOCOUNT ON/OFF`关闭或启用显示受TSQL语句影响的行计数消息：**`SET NOCOUNT ON`有利于提升过程执行效率**

@@ -375,7 +375,7 @@ namespace DirectExchange.Producer
  {  
  using (var channel = connection.CreateModel())  
  {  
- var exchangeName = "test\_direct\_exchange";  
+ var exchangeName = "test_direct_exchange";  
  var routingKey = "test.direct";  
   
  var message = "Hello World RabbitMQ For Direct Exchange";  
@@ -420,8 +420,8 @@ namespace DirectExchange.Consumer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "test\_direct\_exchange";  
- var queueName = "test\_direct\_queue";  
+ var exchangeName = "test_direct_exchange";  
+ var queueName = "test_direct_queue";  
  var routingKey = "test.direct";  
   
  // 声明一个交换机  
@@ -503,7 +503,7 @@ namespace TopicExchange.Producer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "test\_topic\_exchange";  
+ var exchangeName = "test_topic_exchange";  
  var routingKey1 = "user.save";  
  var routingKey2 = "user.update";  
  var routingKey3 = "user.delete.abc";  
@@ -550,8 +550,8 @@ namespace TopicExchange.Consumer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "test\_topic\_exchange";  
- var queueName = "test\_topic\_queue";  
+ var exchangeName = "test_topic_exchange";  
+ var queueName = "test_topic_queue";  
  var routingKey = "user.\*";  
  // 声明交换机  
  channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Topic, durable: true, autoDelete: false, arguments: null);  
@@ -625,7 +625,7 @@ namespace FanoutExchange.Producer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "test\_fanout\_exchange";  
+ var exchangeName = "test_fanout_exchange";  
  var message = "Hello World RabbitMQ For Fanout Exchange";  
  var body = Encoding.UTF8.GetBytes(message);  
  channel.BasicPublish(exchange: exchangeName, routingKey: "", basicProperties: null, body: body);  
@@ -664,8 +664,8 @@ namespace FanoutExchange.Consumer
  using var connection = connectionFactory.CreateConnection();  
  using var channel = connection.CreateModel();  
   
- var exchangeName = "test\_fanout\_exchange";  
- var queueName = "test\_fanout\_queue";  
+ var exchangeName = "test_fanout_exchange";  
+ var queueName = "test_fanout_queue";  
  // 声明  
  channel.ExchangeDeclare(exchange: exchangeName, type: ExchangeType.Fanout, durable: true, autoDelete: false, arguments: null);  
  channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);  
@@ -701,9 +701,9 @@ namespace FanoutExchange.Consumer
 *   服务器和应用程序之间传送的数据
 *   本质上就是一段数据，由Properties和Payload(Body)组成
 *   常用属性：delivery mode、headers（自定义属性）
-*   content\_type、content\_encoding、priority(优先级)
-*   correlation\_id（消息唯一ID）、reply\_to（消息处理失败了返回哪个队列）、expiration（消息过期时间，多久时间没被消费就过期）、message\_id
-*   timestamp、type、user\_id、app\_id、cluster\_id
+*   content_type、content_encoding、priority(优先级)
+*   correlation_id（消息唯一ID）、reply_to（消息处理失败了返回哪个队列）、expiration（消息过期时间，多久时间没被消费就过期）、message_id
+*   timestamp、type、user_id、app_id、cluster_id
 
 # [](#Virtual-Hots–虚拟主机 "Virtual Hots–虚拟主机")Virtual Hots–虚拟主机
 

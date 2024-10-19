@@ -33,65 +33,35 @@ date: 2020-05-23 15:48:00
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-
+```sql
 SELECT NAME,AGE,  
 (CASE SEX   
 WHEN '男' THEN '是'   
 ELSE '否'   
  END) AS 是否男性  
 FROM dbo.STUDENT  
-
+```
 # [](#CASE搜索表达式 "CASE搜索表达式")CASE搜索表达式
 
 `CASE`搜索表达式按照指定顺序对每个`WHEN`子句的**布尔表达式**进行计算
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-
+```sql
 SELECT NAME,SEX,  
 (  
-CASE \--注意这里CASE后面没带字段名称  
+CASE --注意这里CASE后面没带字段名称  
 WHEN AGE > '18' THEN '成年'  
 ELSE '未成年'  
 END  
 ) AS 是否成年  
 FROM dbo.STUDENT  
-
+```
 # [](#在ORDER-BY、GROUP-BY中使用CASE表达式 "在ORDER BY、GROUP BY中使用CASE表达式")在ORDER BY、GROUP BY中使用CASE表达式
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-10  
-11  
-12  
-13  
-14  
-15  
-16  
-
+```sql
 SELECT   
 (  
  CASE   
@@ -108,21 +78,12 @@ GROUP BY
  END  
 )  
 ORDER BY 是否成年  
-
+```
 # [](#在UPDATE中使用CASE表达式 "在UPDATE中使用CASE表达式")在UPDATE中使用CASE表达式
 
 示例：
 
-1  
-2  
-3  
-4  
-5  
-6  
-7  
-8  
-9  
-
+```sql
 UPDATE dbo.STUDENT SET  
 AGE=  
 (  
@@ -132,3 +93,4 @@ WHEN 'world' THEN 11
 ELSE AGE  
 end  
 )
+```
