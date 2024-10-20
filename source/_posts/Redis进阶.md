@@ -5,15 +5,11 @@ tags:
   - Redis
   - NOSQL
 excerpt: |2-
-
-      
-        
-        
-          <ul>
+    <ul>
   <li><a href="#net-core操作redis">.NET Core操作Redis</a></li>
-  <li><a href="#持久化">持久化</a><ul>
+  <li><a href="#持久化">持久化</a></li>
   <li><a href="#持久化过程保存什么">持久化过程保存什么</a></li>
-  <li
+  </ul>
         
       
       

@@ -13,7 +13,6 @@ excerpt: |2-
   <li>内置函数：SQL Server自带</li>
   <li>用户自定义函数：用户自己创建的函数</li>
   </ul>
-  <h1 id="
         
       
       

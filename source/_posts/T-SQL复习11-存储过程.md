@@ -6,14 +6,11 @@ tags:
   - SQL Server
 excerpt: >2-
 
-      
-        
-        
-          <ul>
+    <ul>
   <li><a href="#%e8%a7%a3%e6%9e%90">解析</a></li>
 
-  <li><a
-  href="#%e5%ad%98%e5%82%a8%e8%bf%87%e7%a8%8b%e7%9a%84%e7%b1%bb%e5%9e%8b">存储过程的类型</a
+  <li><a href="#%e5%ad%98%e5%82%a8%e8%bf%87%e7%a8%8b%e7%9a%84%e7%b1%bb%e5%9e%8b">存储过程的类型</a></li>
+  </ul>
         
       
       

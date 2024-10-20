@@ -5,18 +5,12 @@ tags:
   - RabbitMQ
   - 消息队列
 excerpt: |2-
-
-      
-        
-        
-          <ul>
-  <li><a href="#主流消息中间件">主流消息中间件</a><ul>
+  <ul>
+  <li><a href="#主流消息中间件">主流消息中间件</a></li>
   <li><a href="#activemq">ActiveMQ</a></li>
   <li><a href="#kafka">Kafka</a></li>
-  <li><a href="#rock
-        
-      
-      
+  </ul>
+ 
 date: 2020-05-26 22:36:00
 ---
 

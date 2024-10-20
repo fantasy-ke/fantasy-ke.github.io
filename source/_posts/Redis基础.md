@@ -5,21 +5,12 @@ tags:
   - Redis
   - NOSQL
 excerpt: |2-
-
-      
-        
-        
-          <ul>
-  <li><a href="#概念">概念</a><ul>
-  <li><a href="#简介">简介</a></li>
-  <li><a href="#特征">特征</a></li>
-  <li><a href="#应用">应用</a></li>
-  </ul>
-  </li>
-  <li>
-        
-      
-      
+    <ul>
+    <li><a href="#概念">概念</a><li>
+    <li><a href="#简介">简介</a></li>
+    <li><a href="#特征">特征</a></li>
+    <li><a href="#应用">应用</a></li>
+    </ul>
 date: 2020-05-29 10:19:00
 ---
 

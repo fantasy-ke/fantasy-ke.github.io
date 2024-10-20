@@ -1,0 +1,39 @@
+
+# Schemes
+scheme: Gemini
+#scheme: Mist
+#scheme: Pisces
+#scheme: Gemini
+
+menu:
+  home: / || fa fa-home
+  #about: /about/ || fa fa-user
+  tags: /tags/ || fa fa-tags
+  categories: /categories/ || fa fa-th
+  archives: /archives/ || fa fa-archive
+  #schedule: /schedule/ || fa fa-calendar
+  #sitemap: /sitemap.xml || fa fa-sitemap
+  #commonweal: /404/ || fa fa-heartbeat
+  
+avatar:
+  # Replace the default image and set the url here.
+  url: /uploads/avatar.png
+  # If true, the avatar will be displayed in circle.
+  rounded: false
+  # If true, the avatar will be rotated with the cursor.
+  rotated: false
+
+social:
+  GitHub: https://github.com/fantasy-ke || fab fa-github
+  # E-Mail: mailto:yourname@gmail.com || fa fa-envelope
+  # Weibo: https://weibo.com/yourname || fab fa-weibo
+  #Twitter: https://twitter.com/yourname || fab fa-twitter
+  #FB Page: https://www.facebook.com/yourname || fab fa-facebook
+  #StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow
+  YouTube: https://www.youtube.com/@%E5%91%A8%E6%A2%A6-z9i || fab fa-youtube
+  #Instagram: https://instagram.com/yourname || fab fa-instagram
+  #Skype: skype:yourname?call|chat || fab fa-skype
+  
+links:
+  SunBlog: https://fantasy-ke.github.io
+  做梦的努力者: https://fantasy-ke.github.io

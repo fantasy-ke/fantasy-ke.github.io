@@ -5,15 +5,11 @@ tags:
   - Redis
   - NOSQL
 excerpt: |2-
-
-      
-        
-        
-          <ul>
-  <li><a href="#主从复制">主从复制</a><ul>
-  <li><a href="#简介">简介</a><ul>
+    <ul>
+  <li><a href="#主从复制">主从复制</a></li>
+  <li><a href="#简介">简介</a></li>
   <li><a href="#单机redis的风险与问题">单机Redis的风险与问题</a></li>
-  <li><a href="#解决方案">解
+  </ul>
         
       
       

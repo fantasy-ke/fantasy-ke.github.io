@@ -12,9 +12,7 @@ excerpt: >2-
           <ul>
   <li><a
   href="#case%e7%ae%80%e5%8d%95%e8%a1%a8%e8%be%be%e5%bc%8f">CASE简单表达式</a></li>
-
-  <li><a href="#case%e6%90%9c%e7%b4%a2%e8%a1%a8%e8%be
-        
+        </ul>
       
       
 date: 2020-05-23 15:48:00

@@ -5,15 +5,10 @@ tags:
   - T-SQL
   - SQL Server
 excerpt: |2-
-
-      
-        
-        
-          <ul>
-  <li><a href="#%e6%95%b0%e6%8d%ae%e5%ae%8c%e6%95%b4%e6%80%a7">数据完整性</a><ul>
+    <ul>
+  <li><a href="#%e6%95%b0%e6%8d%ae%e5%ae%8c%e6%95%b4%e6%80%a7">数据完整性</a></li>
   <li><a href="#%e6%a6%82%e5%bf%b5">概念</a></li>
-  <li><a href="#
-        
+        </ul>
       
       
 date: 2020-05-22 11:17:00

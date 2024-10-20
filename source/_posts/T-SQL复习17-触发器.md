@@ -10,7 +10,6 @@ excerpt: |2-
         
         
           <h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>触发器是数据库服务器中发生事件时自动执行的特种存储过程</p>
-  <h1 id="类型"><a href="#类型" class="heade
         
       
       

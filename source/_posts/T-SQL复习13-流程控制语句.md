@@ -12,8 +12,7 @@ excerpt: |2-
           <ul>
   <li><a href="#beginend">BEGIN…END</a></li>
   <li><a href="#ifelse">IF…ELSE…</a></li>
-  <li><a href="#while">WHILE</a><ul>
-  <li><a href="#%e5
+  <li><a href="#while">WHILE</a></li></ul>
         
       
       

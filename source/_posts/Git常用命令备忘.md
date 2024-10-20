@@ -4,15 +4,7 @@ tags:
   - 版本控制
   - Git
 excerpt: |2-
-
-      
-        
-        
-          <h1 id="本地仓库版本切换"><a href="#本地仓库版本切换" class="headerlink" title="本地仓库版本切换"></a>本地仓库版本切换</h1><ul>
-  <li>查询当前本版以前的所有提交记录：<code>git log --pretty=o
-        
-      
-      
+  <h1 id="本地仓库版本切换"><a href="#本地仓库版本切换" class="headerlink" title="本地仓库版本切换"></a>本地仓库版本切换</h1>
 date: 2020-06-03 16:02:00
 ---
 
