@@ -1,291 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>.NET Core中RabbitMQ初识</title>
-    <url>/2023/10/11/1-NETCore%E4%B8%ADRabbitMQ%E5%88%9D%E8%AF%86/</url>
-    <content><![CDATA[<h2 id="前提"><a class="markdownIt-Anchor" href="#前提"></a> 前提</h2>
-<p>前段时间上班无事，上网冲浪看到了消息队列RabbitMQ，就想着学习一下，网上看了点资料在哔哩哔哩上看的到codeman讲的一个rabbitmq的视频，就跟着仔细学习一下，敲一下代码。视频地址： <a href="%E3%80%90%E3%80%902021%E6%9C%80%E6%96%B0.NET/C#%E3%80%91RabbitMQ%E4%BB%8E%E9%9B%B6%E5%88%B0%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E3%80%91https://www.bilibili.com/video/BV1GU4y1w7Yq?p=2&amp;vd_source=a41abea4b949dd1bf9e656c08fefdd9f">rabbitmq视频</a>。</p>
-<h2 id="rabbitmq介绍"><a class="markdownIt-Anchor" href="#rabbitmq介绍"></a> RabbitMq介绍</h2>
-<h3 id="什么是消息队列"><a class="markdownIt-Anchor" href="#什么是消息队列"></a> 什么是消息队列</h3>
-<p>MQ全称为Message Queue，即消息队列。“消息队列”是在消息的传输过程中保存消息的容器。它是典型的：生产者、消费者模型。生产者不断向消息队列中生产消息，消费者不断的从队列中获取消息。因为消息的生产和消费都是异步的，而且只关心消息的发送和接收，没有业务逻辑的侵入，这样就实现了生产者和消费者的解耦。</p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_206495ee9a6f4e39a90ba7aac5056421.png" alt="image.png" /></p>
-<h3 id="应用场景"><a class="markdownIt-Anchor" href="#应用场景"></a> 应用场景</h3>
-<h4 id="削峰填谷"><a class="markdownIt-Anchor" href="#削峰填谷"></a> 削峰填谷</h4>
-<p>在一个时间段很多用户同时进行请求我们的A系统，我的MQ容器就可以用来存储请求按照每秒多少的请求进行发送，减轻服务器的压力。</p>
-<p>​	<img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_bbb56f0b2d4d416fb817d90dfb0ae2df.png" alt="image.png" /></p>
-<ul>
-<li>
-<p>使用了MQ之后，限制消息消费的速度为3000，这样一来，高峰就被“削”掉了，但是因为消息积压，在高峰期过后一段时间内，消费消息的速度还是会维持在3000，直到消费完挤压的消息，这就叫做“填谷”。</p>
-</li>
-<li>
-<p>使用MQ后，可以提供系统稳定性。</p>
-</li>
-</ul>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_89383a761a2a4a71ad3a09d339073f9e.png" alt="image.png" /></p>
-<h4 id="异步提速"><a class="markdownIt-Anchor" href="#异步提速"></a> 异步提速</h4>
-<ul>
-<li>
-<p>在不使用MQ的情况下我们正常用户通过订单系统进行下单，我们需要900多ms，这就会出现用户的体验不好。</p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_ab1c3ab526354591895de3fa93c9823d.png" alt="image.png" /></p>
-</li>
-<li>
-<p>在使用MQ的情况出现了总耗时只要25ms就给到了用户回应</p>
-<p>这样提升了用户体验感</p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_d908ec50108d4187b7ccb63fa5f57160.png" alt="image.png" /></p>
-</li>
-</ul>
-<p>所有的问题当你解决一个问题就会出现另外的问题，外部依赖多系统的稳定性就越差，MQ但凡挂了，系统就会出问题，后面就会使用mq集群来解决这一问题。</p>
-<h3 id="消息模型"><a class="markdownIt-Anchor" href="#消息模型"></a> 消息模型</h3>
-<h4 id="点对点模式"><a class="markdownIt-Anchor" href="#点对点模式"></a> 点对点模式</h4>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_17e5ab777f1948ac897ba87ba5da8398.png" alt="image.png" /></p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_f0fec8bfe9ab483c9155f72a83a12441.png" alt="image.png" /></p>
-<p>在上图的模型中，有以下概念：</p>
-<ul>
-<li>Producer：生产者，也就是要发送消息的程序</li>
-<li>Consumer：消费者：消息的接受者，会一直等待消息到来。</li>
-<li>Queue：消息队列。可以缓存消息；生产者向其中投递消息，消费者从其中取出消息。</li>
-<li>点对点模式只会有一个消费者进行消费</li>
-</ul>
-<h5 id="代码附上"><a class="markdownIt-Anchor" href="#代码附上"></a> 代码附上</h5>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_9ff177d923f144b78f7c18c564cf4a98.png" alt="image.png" /></p>
-<p>新增两个项目一个生产者 Z.RabbitMq.Producer，一个消费者Z.RabbitMQ.Consumer01</p>
-<ol>
-<li>项目 Z.RabbitMq.Producer新增<code>HelloProducer</code>类</li>
-</ol>
-<ul>
-<li>
-<pre class="highlight"><code class="c#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HelloProducer</span>
-    &#123;
-        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">HelloWorldShow</span>()</span>
-        &#123;
-            <span class="keyword">var</span> factory = <span class="keyword">new</span> ConnectionFactory();
-            factory.HostName = <span class="string">&quot;127.0.0.1&quot;</span>;
-            factory.Port = <span class="number">5672</span>;
-            factory.UserName = <span class="string">&quot;admin&quot;</span>;
-            factory.Password = <span class="string">&quot;admin&quot;</span>;
-            factory.VirtualHost = <span class="string">&quot;my_vhost&quot;</span>;
-
-            <span class="comment">// 获取TCP 长连接</span>
-            <span class="keyword">using</span> (<span class="keyword">var</span> connection = factory.CreateConnection())
-            &#123;
-                <span class="comment">// 创建通信“通道”,相当于TCP中的虚拟连接</span>
-                <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())
-                &#123;
-                    <span class="comment">/*
-                     * 创建队列，声明并创建一个队列，如果队列已存在，则使用这个队列
-                     * 第一个参数：队列名称ID
-                     * 第二个参数：是否持久化，false对应不持久化数据，MQ停掉数据就会丢失
-                     * 第三个参数：是否队列私有化，false则代表所有的消费者都可以访问，true代表只有第一次拥有它的消费者才能一直使用
-                     * 第四个：是否自动删除，false代表连接停掉后不自动删除这个队列
-                     * 其他额外参数为null
-                     */</span>
-                    channel.QueueDeclare(RabbitConstant.QUEUE_HELLO_WORLD, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    <span class="built_in">string</span> message = <span class="string">&quot;hello CodeMan 666&quot;</span>;
-                    <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(message);
-
-                    <span class="comment">/*
-                     * exchange:交换机，暂时用不到，在进行发布订阅时才会用到
-                     * 路由key
-                     * 额外的设置属性
-                     * 最后一个参数是要传递的消息字节数组
-                     */</span>
-                    channel.BasicPublish(<span class="string">&quot;&quot;</span>, RabbitConstant.QUEUE_HELLO_WORLD, <span class="literal">null</span>, body);
-                    Console.WriteLine(<span class="string">$&quot;producer消息：<span class="subst">&#123;message&#125;</span>已发送&quot;</span>);
-                &#125;
-            &#125;
-        &#125;
-    &#125;
-&lt;!--code￼<span class="number">0</span>--&gt;
-
-</code></pre>
-</li>
-</ul>
-<h4 id="work消息模型"><a class="markdownIt-Anchor" href="#work消息模型"></a> work消息模型</h4>
-<p>工作队列或者竞争消费者模式</p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_033754bd53fd4477b19a06bee4b68482.png" alt="image.png" /></p>
-<p>work queues与入门程序相比，多了一个消费端，两个消费端共同消费同一个队列中的消息，但是一个消息只能被一个消费者获取。</p>
-<p>接下来我们来模拟这个流程：</p>
-<p>P：生产者：任务的发布者</p>
-<p>C1：消费者1：领取任务并且完成任务，假设完成速度较慢（模拟耗时）</p>
-<p>C2：消费者2：领取任务并且完成任务，假设完成速度较快</p>
-<h5 id="代码附上-2"><a class="markdownIt-Anchor" href="#代码附上-2"></a> 代码附上</h5>
-<p>新增一个工具类用来获取rabbitmq的连接信息</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RabbitUtils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ConnectionFactory <span class="title">GetConnection</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> factory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        factory.HostName = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">        factory.Port = <span class="number">5672</span>;<span class="comment">//5672是RabbitMQ默认的端口号</span></span><br><span class="line">        factory.UserName = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">        factory.Password = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">        factory.VirtualHost = <span class="string">&quot;my_vhost&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> factory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>
-<p>消费者1(C1)在刚刚的 Z.RabbitMQ.Consumer01新增<code>SmsReceive</code>类</p>
-<p>在<code>Program.cs</code>中的main函数中进行调用 <code>SmsReceive.Sender();</code></p>
-<p>消费者1 延迟30ms接受到信息</p>
-  <figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SmsReceive</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Sender</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//使用工具类创建连接</span></span><br><span class="line">        <span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> channel = connection.CreateModel();</span><br><span class="line"></span><br><span class="line">        channel.QueueDeclare(RabbitConstant.QUEUE_SMS, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">        <span class="comment">// 如果不写basicQos(1)，则自动MQ会将所有请求平均发送给所有消费者</span></span><br><span class="line">        <span class="comment">// basicQos，MQ不再对消费者一次发送多个请求，而是消费者处理完一个消息后(确认后)，在从队列中获取一个新的</span></span><br><span class="line">        channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">        consumer.Received += (model, ea) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> body = ea.Body.ToArray();</span><br><span class="line">            <span class="keyword">var</span> message = Encoding.UTF8.GetString(body);</span><br><span class="line">            Thread.Sleep(<span class="number">30</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;SmsSender-发送短信成功：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">            channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        channel.BasicConsume(RabbitConstant.QUEUE_SMS, <span class="literal">false</span>, consumer);</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">        Console.Read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>消费者2(C2)在刚刚的 Z.RabbitMQ.Consumer02新增<code>SmsReceive</code>类</p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_3375c82cfcbd477f81eb8eb9c13486c0.png" alt="image.png" /></p>
-<p>消费者1 延迟60ms接受到信息</p>
-  <figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SmsReceive</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Sender</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection();</span><br><span class="line">        <span class="keyword">var</span> channel = connection.CreateModel();</span><br><span class="line"></span><br><span class="line">        channel.QueueDeclare(RabbitConstant.QUEUE_SMS, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">        <span class="comment">// 如果不写basicQos(1)，则自动MQ会将所有请求平均发送给所有消费者</span></span><br><span class="line">        <span class="comment">// basicQos，MQ不再对消费者一次发送多个请求，而是消费者处理完一个消息后(确认后)，在从队列中获取一个新的</span></span><br><span class="line">        channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);<span class="comment">//处理完一个取一个</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">        consumer.Received += (model, ea) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> body = ea.Body.ToArray();</span><br><span class="line">            <span class="keyword">var</span> message = Encoding.UTF8.GetString(body);</span><br><span class="line">            Thread.Sleep(<span class="number">60</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;SmsSender-发送短信成功：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">            channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        channel.BasicConsume(RabbitConstant.QUEUE_SMS, <span class="literal">false</span>, consumer);</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">        Console.Read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>生产者Z.RabbitMq.Producer中创建SmsSender类在main函数进行调用</p>
-<ul>
-<li>发送100条车票订阅的消息</li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SmsSender</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Sender</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_SMS, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    Sms sms = <span class="keyword">new</span> Sms(<span class="string">&quot;乘客&quot;</span> + i, <span class="string">&quot;139000000&quot;</span> + i, <span class="string">&quot;您的车票已预定成功&quot;</span>);</span><br><span class="line">                    <span class="built_in">string</span> jsonSms = JsonConvert.SerializeObject(sms);</span><br><span class="line">                    <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(jsonSms);</span><br><span class="line">                    channel.BasicPublish(<span class="string">&quot;&quot;</span>, RabbitConstant.QUEUE_SMS, <span class="literal">null</span>, body);</span><br><span class="line">                    Console.WriteLine(<span class="string">$&quot;正在发送内容：<span class="subst">&#123;jsonSms&#125;</span>&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;发送数据成功&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>运行结构如下</p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_a76a701052b44c6bb51378184a0e98f4.png" alt="image.png" /></p>
-<h5 id="能者多劳"><a class="markdownIt-Anchor" href="#能者多劳"></a> 能者多劳</h5>
-<ul>
-<li>消费者1比消费者2的效率要快，一次任务的耗时较短</li>
-<li>消费者2大量时间处于空闲状态，消费者1一直忙碌</li>
-</ul>
-<p>通过<code>channel.BasicAck(ea.DeliveryTag, false);</code>来完成能者多劳的效果，在完成上一次请求之后再去取下一条消息，这就会出现服务器快的消费的更多，慢的消费的更少。</p>
-<h4 id="发布订阅模式"><a class="markdownIt-Anchor" href="#发布订阅模式"></a> 发布订阅模式</h4>
-<p>Publish/subscribe（交换机类型：Fanout，也称为广播 ）</p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_8f0bce2dc186468dbf74d9e66d00203e.png" alt="image.png" /></p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_9e0373164d79481aaeb7ea861ce6909b.png" alt="image.png" /></p>
-<p>和前面两种模式不同：</p>
-<ul>
-<li>声明Exchange，不再声明Queue</li>
-<li>发送消息到Exchange，不再发送到Queue,通过exchange发送到queue上</li>
-</ul>
-<h5 id="消费者1收到的天气"><a class="markdownIt-Anchor" href="#消费者1收到的天气"></a> 消费者1收到的天气</h5>
-<p>项目<code>.RabbitMq.Consumer01</code> 创建<code>WeatherFanout</code>使用exchange(交换机)</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherFanout</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER, ExchangeType.Fanout);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_BAIDU, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                         * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                         * 参数1：队列名</span></span><br><span class="line"><span class="comment">                         * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                         * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                         */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER, <span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;百度收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_BAIDU, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="消费者2收到的天气"><a class="markdownIt-Anchor" href="#消费者2收到的天气"></a> 消费者2收到的天气</h5>
-<p>项目<code>.RabbitMq.Consumer02</code> 创建<code>WeatherFanout</code>使用exchange(交换机)</p>
-<p>代码与消费者01一样</p>
-<h5 id="生产者发送天气"><a class="markdownIt-Anchor" href="#生产者发送天气"></a> 生产者发送天气</h5>
-<p>生产者把消息推送到交换机上</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherFanout</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">string</span> message = <span class="string">&quot;20度&quot;</span>;</span><br><span class="line">                <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(message);</span><br><span class="line">                channel.BasicPublish(RabbitConstant.EXCHANGE_WEATHER, <span class="string">&quot;&quot;</span>, <span class="literal">null</span>, body);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;天气信息发送成功！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>最后得到效果</p>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_064613c531ac4e768ed3889041ce8a57.png" alt="image.png" /></p>
-<h4 id="routing-路由模型"><a class="markdownIt-Anchor" href="#routing-路由模型"></a> Routing 路由模型</h4>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_c1da58a49c35423c8ef2219e68b689d9.png" alt="image.png" /></p>
-<p>P：生产者，向Exchange发送消息，发送消息时，会指定一个routing key。</p>
-<p>X：Exchange（交换机），接收生产者的消息，然后把消息递交给 与routing key完全匹配的队列</p>
-<p>C1：消费者，其所在队列指定了需要routing key 为 error 的消息</p>
-<p>C2：消费者，其所在队列指定了需要routing key 为 info、error、warning 的消息</p>
-<ul>
-<li>
-<p>队列与交换机的绑定，不能是任意绑定，而是要指定一个RoutingKey</p>
-</li>
-<li>
-<p>消息的发送方在向Exchange发送消息时，也必须指定消息的RoutingKey</p>
-</li>
-<li>
-<p>Exchange不再把消息交给每一个绑定的队列，而是根据消息的RoutingKey进行判断，只有队列的RoutingKey与消息的RoutingKey完全一致，才会接收消息</p>
-</li>
-</ul>
-<h5 id="生产者"><a class="markdownIt-Anchor" href="#生产者"></a> 生产者</h5>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherDirect</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; area = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;();</span><br><span class="line">        area.Add(<span class="string">&quot;china.hunan.changsha.20210525&quot;</span>, <span class="string">&quot;中国湖南长沙20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>, <span class="string">&quot;中国湖北武汉20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.xiangyang.20210525&quot;</span>, <span class="string">&quot;中国湖北襄阳20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;us.cal.lsj.20210525&quot;</span>, <span class="string">&quot;美国加州洛杉矶20210525天气数据&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> area)</span><br><span class="line">                &#123;</span><br><span class="line">                    channel.BasicPublish(RabbitConstant.EXCHANGE_WEATHER_ROUTING, item.Key,</span><br><span class="line">                                         <span class="literal">null</span>, Encoding.UTF8.GetBytes(item.Value));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Console.WriteLine(<span class="string">&quot;气象信息发送成功！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="消费者1"><a class="markdownIt-Anchor" href="#消费者1"></a> 消费者1</h5>
-<p>接受百度路由的路由消息</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherDirect</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_ROUTING, ExchangeType.Direct);</span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_BAIDU, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                    * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                    * 参数1：队列名</span></span><br><span class="line"><span class="comment">                    * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                    * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                    */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hunan.changsha.20210525&quot;</span>);</span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;百度收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_BAIDU, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="消费者2"><a class="markdownIt-Anchor" href="#消费者2"></a> 消费者2</h5>
-<p>接受新浪的路由信息</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherDirect</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_ROUTING, ExchangeType.Direct);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_SINA, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                     * 参数1：队列名</span></span><br><span class="line"><span class="comment">                     * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                     * 参数3：路由Key</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hubei.xiangyang.20210525&quot;</span>);</span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;us.cal.lsj.20210525&quot;</span>);</span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;新浪收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_SINA, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="最后得到的效果"><a class="markdownIt-Anchor" href="#最后得到的效果"></a> 最后得到的效果</h5>
-<ul>
-<li>新浪接收对应新浪的routingkey的信息</li>
-<li>百度接收对应百度的routingkey的信息</li>
-</ul>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_cfc1b673de3c48f381deac3ad71e6330.png" alt="image.png" /></p>
-<h4 id="topics-通配符模式"><a class="markdownIt-Anchor" href="#topics-通配符模式"></a> Topics 通配符模式</h4>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_d14066a71c7749e98c31f43f04449134.png" alt="image.png" /></p>
-<h5 id="routingkey支持通配符匹配格式"><a class="markdownIt-Anchor" href="#routingkey支持通配符匹配格式"></a> routingkey支持通配符匹配格式</h5>
-<ul>
-<li>通配符格式
-<ul>
-<li>Topic类型与Direct相比，都是可以根据RoutingKey把消息路由到不同的队列。只不过</li>
-<li>Topic类型Exchange可以让队列在绑定RoutingKey的时候使用通配符</li>
-<li>RoutingKey一般都是由一个或多个单词组成，多个单词之间以“.”分隔，例如:item.insert</li>
-<li>通配符规则:#匹配一个或多个词，*恰好匹配一个词，例如item.#能够匹配item.insert.user或者item.insert，item.只能匹配item.insert或者item.user</li>
-</ul>
-</li>
-</ul>
-<h5 id="生产者-2"><a class="markdownIt-Anchor" href="#生产者-2"></a> 生产者</h5>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherTopic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; area = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;();</span><br><span class="line">        area.Add(<span class="string">&quot;china.hunan.changsha.20210525&quot;</span>, <span class="string">&quot;中国湖南长沙20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>, <span class="string">&quot;中国湖北武汉20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.xiangyang.20210525&quot;</span>, <span class="string">&quot;中国湖北襄阳20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;us.cal.lsj.20210525&quot;</span>, <span class="string">&quot;美国加州洛杉矶20210525天气数据&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> area)</span><br><span class="line">                &#123;</span><br><span class="line">                    channel.BasicPublish(RabbitConstant.EXCHANGE_WEATHER_TOPIC, item.Key,</span><br><span class="line">                                         <span class="literal">null</span>, Encoding.UTF8.GetBytes(item.Value));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Console.WriteLine(<span class="string">&quot;气象信息发送成功！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="消费者1-2"><a class="markdownIt-Anchor" href="#消费者1-2"></a> 消费者1</h5>
-<p>获取交换机中通配符为<code>china.#</code>的信息</p>
-<ul>
-<li>(“china.hunan.changsha.20210525”, “中国湖南长沙20210525天气数据”);</li>
-<li>(“china.hubei.wuhan.20210525”, “中国湖北武汉20210525天气数据”);</li>
-<li>(“china.hubei.xiangyang.20210525”, “中国湖北襄阳20210525天气数据”);</li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherTopic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_TOPIC, ExchangeType.Topic);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_BAIDU, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                     * 参数1：队列名</span></span><br><span class="line"><span class="comment">                     * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                     * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_TOPIC, <span class="string">&quot;china.#&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;百度收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_BAIDU, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="消费者2-2"><a class="markdownIt-Anchor" href="#消费者2-2"></a> 消费者2</h5>
-<p>获取交换机中通配符为<code>china.hubei.*.20210525</code>的信息</p>
-<ul>
-<li>(“china.hubei.wuhan.20210525”, “中国湖北武汉20210525天气数据”)</li>
-<li>(“china.hubei.xiangyang.20210525”, “中国湖北襄阳20210525天气数据”)</li>
-</ul>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherTopic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * 生产者发送消息</span></span><br><span class="line"><span class="comment">                     * 队列名称</span></span><br><span class="line"><span class="comment">                     * 交换机名称</span></span><br><span class="line"><span class="comment">                     * 路由key</span></span><br><span class="line"><span class="comment">                     *</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_TOPIC, ExchangeType.Topic);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_SINA, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                     * 参数1：队列名</span></span><br><span class="line"><span class="comment">                     * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                     * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_TOPIC, <span class="string">&quot;china.hubei.*.20210525&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;新浪收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_SINA, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="最后得到的效果-2"><a class="markdownIt-Anchor" href="#最后得到的效果-2"></a> 最后得到的效果</h5>
-<ul>
-<li>百度获取<code>china.#</code>的信息</li>
-<li>新浪获取<code>china.hubei.*.20210525</code>的信息</li>
-</ul>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_88c286b84b4647169bfcd3ad4146c435.png" alt="image.png" /></p>
-<h4 id="rpc"><a class="markdownIt-Anchor" href="#rpc"></a> RPC</h4>
-<p><img src="https://osssun.zblog.love/z.host/2023/12-08/z_minio_6658b196a11a4a4b9c926fba30fddcd5.png" alt="image.png" /></p>
-<h5 id="基本概念"><a class="markdownIt-Anchor" href="#基本概念"></a> 基本概念：</h5>
-<ul>
-<li>
-<p>Callback queue 回调队列，客户端向服务器发送请求，服务器端处理请求后，将其处理结果保存在一个存储体中。而客户端为了获得处理结果，那么客户在向服务器发送请求时，同时发送一个回调队列地址reply_to。</p>
-</li>
-<li>
-<p>Correlation id 关联标识，客户端可能会发送多个请求给服务器，当服务器处理完后，客户端无法辨别在回调队列中的响应具体和那个请求时对应的。为了处理这种情况，客户端在发送每个请求时，同时会附带一个独有correlation_id属性，这样客户端在回调队列中根据correlation_id字段的值就可以分辨此响应属于哪个请求。</p>
-</li>
-</ul>
-<h5 id="流程说明"><a class="markdownIt-Anchor" href="#流程说明"></a> 流程说明：</h5>
-<ul>
-<li>当客户端启动的时候，它创建一个匿名独享的回调队列。</li>
-<li>在 RPC 请求中，客户端发送带有两个属性的消息：一个是设置回调队列的 reply_to 属性，另一个是设置唯一值的 correlation_id 属性。</li>
-<li>将请求发送到一个 rpc_queue 队列中。</li>
-<li>服务器等待请求发送到这个队列中来。当请求出现的时候，它执行他的工作并且将带有执行结果的消息发送给 reply_to 字段指定的队列。</li>
-<li>客户端等待回调队列里的数据。当有消息出现的时候，它会检查 correlation_id 属性。如果此属性的值与请求匹配，将它返回给应用</li>
-</ul>
-<h3 id="分享几题面试题"><a class="markdownIt-Anchor" href="#分享几题面试题"></a> 分享几题面试题</h3>
-<h4 id="rabbitmq中消息可能有的几种状态"><a class="markdownIt-Anchor" href="#rabbitmq中消息可能有的几种状态"></a> RabbitMQ中消息可能有的几种状态?</h4>
-<ol>
-<li>
-<p>alpha: 消息内容(包括消息体、属性和 headers) 和消息索引都存储在内存中 。</p>
-<ol>
-<li>beta: 消息内容保存在磁盘中，消息索引保存在内存中。</li>
-<li>gamma: 消息内容保存在磁盘中，消息索引在磁盘和内存中都有 。</li>
-<li>delta: 消息内容和索引都在磁盘中 。</li>
-</ol>
-</li>
-<li>
-<p>死信队列？</p>
-<p>DLX，全称为 Dead-Letter-Exchange，死信交换器，死信邮箱。当消息在一个队列中变成死信 (dead  message) 之后，它能被重新被发送到另一个交换器中，这个交换器就是 DLX，绑定 DLX 的队列就称之 为死信队列。</p>
-</li>
-<li>
-<p>导致的死信的几种原因？</p>
-<ol>
-<li>消息被拒（Basic.Reject /Basic.Nack) 且 requeue = false。</li>
-<li>消息TTL过期。</li>
-<li>队列满了</li>
-</ol>
-</li>
-</ol>
-<blockquote>
-<p>到这里就结束，大家如果需要看视频学习就是点最上面的链接就行了</p>
-<p>源码：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ZhbnRhc3ktS2UvWi5SYWJiaXRNUS1EZW1v">github<i class="fa fa-external-link-alt"></i></span></p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>RabbitMQ</category>
-      </categories>
-      <tags>
-        <tag>消息队列</tag>
-        <tag>RabbitMQ</tag>
-        <tag>.NET Core</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Redis基础</title>
     <url>/2023/05/29/12-Redis%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<!-- more -->
@@ -3329,8 +3044,7 @@ SubController.cs中新增Group参数
 <p>附上CAP的Github地址:<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2RvdG5ldGNvcmUvQ0FQ">https://github.com/dotnetcore/CAP<i class="fa fa-external-link-alt"></i></span></p>
 </blockquote>
 <p><em>还有一些配合EF的操作还没来得及写，有空再说吧</em></p>
-<p><a href="https://github.com/xiejiamiao"><img src="https://xiejiamiao.github.io/images/avatar.jpg" alt="" /></a></p>
-]]></content>
+<!-- [![](https://xiejiamiao.github.io/images/avatar.jpg)](https://github.com/xiejiamiao) -->]]></content>
       <categories>
         <category>.NET Core</category>
       </categories>
@@ -5036,6 +4750,291 @@ SubController.cs中新增Group参数
       <tags>
         <tag>SQL Server</tag>
         <tag>T-SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>.NET Core中RabbitMQ初识</title>
+    <url>/2023/10/11/1-NET%20Core%E4%B8%ADRabbitMQ%E5%88%9D%E8%AF%86/</url>
+    <content><![CDATA[<h2 id="前提"><a class="markdownIt-Anchor" href="#前提"></a> 前提</h2>
+<p>前段时间上班无事，上网冲浪看到了消息队列RabbitMQ，就想着学习一下，网上看了点资料在哔哩哔哩上看的到codeman讲的一个rabbitmq的视频，就跟着仔细学习一下，敲一下代码。视频地址： <a href="%E3%80%90%E3%80%902021%E6%9C%80%E6%96%B0.NET/C#%E3%80%91RabbitMQ%E4%BB%8E%E9%9B%B6%E5%88%B0%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E3%80%91https://www.bilibili.com/video/BV1GU4y1w7Yq?p=2&amp;vd_source=a41abea4b949dd1bf9e656c08fefdd9f">rabbitmq视频</a>。</p>
+<h2 id="rabbitmq介绍"><a class="markdownIt-Anchor" href="#rabbitmq介绍"></a> RabbitMq介绍</h2>
+<h3 id="什么是消息队列"><a class="markdownIt-Anchor" href="#什么是消息队列"></a> 什么是消息队列</h3>
+<p>MQ全称为Message Queue，即消息队列。“消息队列”是在消息的传输过程中保存消息的容器。它是典型的：生产者、消费者模型。生产者不断向消息队列中生产消息，消费者不断的从队列中获取消息。因为消息的生产和消费都是异步的，而且只关心消息的发送和接收，没有业务逻辑的侵入，这样就实现了生产者和消费者的解耦。</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.491aql1sz8.webp" alt="image.png" /></p>
+<h3 id="应用场景"><a class="markdownIt-Anchor" href="#应用场景"></a> 应用场景</h3>
+<h4 id="削峰填谷"><a class="markdownIt-Anchor" href="#削峰填谷"></a> 削峰填谷</h4>
+<p>在一个时间段很多用户同时进行请求我们的A系统，我的MQ容器就可以用来存储请求按照每秒多少的请求进行发送，减轻服务器的压力。</p>
+<p>​	<img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.32hzhzd8o3.webp" alt="image.png" /></p>
+<ul>
+<li>
+<p>使用了MQ之后，限制消息消费的速度为3000，这样一来，高峰就被“削”掉了，但是因为消息积压，在高峰期过后一段时间内，消费消息的速度还是会维持在3000，直到消费完挤压的消息，这就叫做“填谷”。</p>
+</li>
+<li>
+<p>使用MQ后，可以提供系统稳定性。</p>
+</li>
+</ul>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.5c101gy74i.webp" alt="image.png" /></p>
+<h4 id="异步提速"><a class="markdownIt-Anchor" href="#异步提速"></a> 异步提速</h4>
+<ul>
+<li>
+<p>在不使用MQ的情况下我们正常用户通过订单系统进行下单，我们需要900多ms，这就会出现用户的体验不好。</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8hgi0estjq.webp" alt="image.png" /></p>
+</li>
+<li>
+<p>在使用MQ的情况出现了总耗时只要25ms就给到了用户回应</p>
+<p>这样提升了用户体验感</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.3uuuzpukf3.webp" alt="image.png" /></p>
+</li>
+</ul>
+<p>所有的问题当你解决一个问题就会出现另外的问题，外部依赖多系统的稳定性就越差，MQ但凡挂了，系统就会出问题，后面就会使用mq集群来解决这一问题。</p>
+<h3 id="消息模型"><a class="markdownIt-Anchor" href="#消息模型"></a> 消息模型</h3>
+<h4 id="点对点模式"><a class="markdownIt-Anchor" href="#点对点模式"></a> 点对点模式</h4>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.2rv5otz41x.webp" alt="image.png" /></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.3uuuzpv44v.webp" alt="image.png" /></p>
+<p>在上图的模型中，有以下概念：</p>
+<ul>
+<li>Producer：生产者，也就是要发送消息的程序</li>
+<li>Consumer：消费者：消息的接受者，会一直等待消息到来。</li>
+<li>Queue：消息队列。可以缓存消息；生产者向其中投递消息，消费者从其中取出消息。</li>
+<li>点对点模式只会有一个消费者进行消费</li>
+</ul>
+<h5 id="代码附上"><a class="markdownIt-Anchor" href="#代码附上"></a> 代码附上</h5>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.pfd0s1k4d.webp" alt="image.png" /></p>
+<p>新增两个项目一个生产者 Z.RabbitMq.Producer，一个消费者Z.RabbitMQ.Consumer01</p>
+<ol>
+<li>项目 Z.RabbitMq.Producer新增<code>HelloProducer</code>类</li>
+</ol>
+<ul>
+<li>
+<pre class="highlight"><code class="c#"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HelloProducer</span>
+    &#123;
+        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">HelloWorldShow</span>()</span>
+        &#123;
+            <span class="keyword">var</span> factory = <span class="keyword">new</span> ConnectionFactory();
+            factory.HostName = <span class="string">&quot;127.0.0.1&quot;</span>;
+            factory.Port = <span class="number">5672</span>;
+            factory.UserName = <span class="string">&quot;admin&quot;</span>;
+            factory.Password = <span class="string">&quot;admin&quot;</span>;
+            factory.VirtualHost = <span class="string">&quot;my_vhost&quot;</span>;
+
+            <span class="comment">// 获取TCP 长连接</span>
+            <span class="keyword">using</span> (<span class="keyword">var</span> connection = factory.CreateConnection())
+            &#123;
+                <span class="comment">// 创建通信“通道”,相当于TCP中的虚拟连接</span>
+                <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())
+                &#123;
+                    <span class="comment">/*
+                     * 创建队列，声明并创建一个队列，如果队列已存在，则使用这个队列
+                     * 第一个参数：队列名称ID
+                     * 第二个参数：是否持久化，false对应不持久化数据，MQ停掉数据就会丢失
+                     * 第三个参数：是否队列私有化，false则代表所有的消费者都可以访问，true代表只有第一次拥有它的消费者才能一直使用
+                     * 第四个：是否自动删除，false代表连接停掉后不自动删除这个队列
+                     * 其他额外参数为null
+                     */</span>
+                    channel.QueueDeclare(RabbitConstant.QUEUE_HELLO_WORLD, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    <span class="built_in">string</span> message = <span class="string">&quot;hello CodeMan 666&quot;</span>;
+                    <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(message);
+
+                    <span class="comment">/*
+                     * exchange:交换机，暂时用不到，在进行发布订阅时才会用到
+                     * 路由key
+                     * 额外的设置属性
+                     * 最后一个参数是要传递的消息字节数组
+                     */</span>
+                    channel.BasicPublish(<span class="string">&quot;&quot;</span>, RabbitConstant.QUEUE_HELLO_WORLD, <span class="literal">null</span>, body);
+                    Console.WriteLine(<span class="string">$&quot;producer消息：<span class="subst">&#123;message&#125;</span>已发送&quot;</span>);
+                &#125;
+            &#125;
+        &#125;
+    &#125;
+&lt;!--code￼<span class="number">0</span>--&gt;
+
+</code></pre>
+</li>
+</ul>
+<h4 id="work消息模型"><a class="markdownIt-Anchor" href="#work消息模型"></a> work消息模型</h4>
+<p>工作队列或者竞争消费者模式</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8ada4z9ddr.png" alt="image.png" /></p>
+<p>work queues与入门程序相比，多了一个消费端，两个消费端共同消费同一个队列中的消息，但是一个消息只能被一个消费者获取。</p>
+<p>接下来我们来模拟这个流程：</p>
+<p>P：生产者：任务的发布者</p>
+<p>C1：消费者1：领取任务并且完成任务，假设完成速度较慢（模拟耗时）</p>
+<p>C2：消费者2：领取任务并且完成任务，假设完成速度较快</p>
+<h5 id="代码附上-2"><a class="markdownIt-Anchor" href="#代码附上-2"></a> 代码附上</h5>
+<p>新增一个工具类用来获取rabbitmq的连接信息</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RabbitUtils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ConnectionFactory <span class="title">GetConnection</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> factory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        factory.HostName = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">        factory.Port = <span class="number">5672</span>;<span class="comment">//5672是RabbitMQ默认的端口号</span></span><br><span class="line">        factory.UserName = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">        factory.Password = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">        factory.VirtualHost = <span class="string">&quot;my_vhost&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> factory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>消费者1(C1)在刚刚的 Z.RabbitMQ.Consumer01新增<code>SmsReceive</code>类</p>
+<p>在<code>Program.cs</code>中的main函数中进行调用 <code>SmsReceive.Sender();</code></p>
+<p>消费者1 延迟30ms接受到信息</p>
+  <figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SmsReceive</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Sender</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//使用工具类创建连接</span></span><br><span class="line">        <span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> channel = connection.CreateModel();</span><br><span class="line"></span><br><span class="line">        channel.QueueDeclare(RabbitConstant.QUEUE_SMS, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">        <span class="comment">// 如果不写basicQos(1)，则自动MQ会将所有请求平均发送给所有消费者</span></span><br><span class="line">        <span class="comment">// basicQos，MQ不再对消费者一次发送多个请求，而是消费者处理完一个消息后(确认后)，在从队列中获取一个新的</span></span><br><span class="line">        channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">        consumer.Received += (model, ea) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> body = ea.Body.ToArray();</span><br><span class="line">            <span class="keyword">var</span> message = Encoding.UTF8.GetString(body);</span><br><span class="line">            Thread.Sleep(<span class="number">30</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;SmsSender-发送短信成功：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">            channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        channel.BasicConsume(RabbitConstant.QUEUE_SMS, <span class="literal">false</span>, consumer);</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">        Console.Read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>消费者2(C2)在刚刚的 Z.RabbitMQ.Consumer02新增<code>SmsReceive</code>类</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.83a29jni96.png" alt="image.png" /></p>
+<p>消费者1 延迟60ms接受到信息</p>
+  <figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SmsReceive</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Sender</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection();</span><br><span class="line">        <span class="keyword">var</span> channel = connection.CreateModel();</span><br><span class="line"></span><br><span class="line">        channel.QueueDeclare(RabbitConstant.QUEUE_SMS, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">        <span class="comment">// 如果不写basicQos(1)，则自动MQ会将所有请求平均发送给所有消费者</span></span><br><span class="line">        <span class="comment">// basicQos，MQ不再对消费者一次发送多个请求，而是消费者处理完一个消息后(确认后)，在从队列中获取一个新的</span></span><br><span class="line">        channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);<span class="comment">//处理完一个取一个</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">        consumer.Received += (model, ea) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> body = ea.Body.ToArray();</span><br><span class="line">            <span class="keyword">var</span> message = Encoding.UTF8.GetString(body);</span><br><span class="line">            Thread.Sleep(<span class="number">60</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;SmsSender-发送短信成功：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">            channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        channel.BasicConsume(RabbitConstant.QUEUE_SMS, <span class="literal">false</span>, consumer);</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">        Console.Read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>生产者Z.RabbitMq.Producer中创建SmsSender类在main函数进行调用</p>
+<ul>
+<li>发送100条车票订阅的消息</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SmsSender</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Sender</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_SMS, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    Sms sms = <span class="keyword">new</span> Sms(<span class="string">&quot;乘客&quot;</span> + i, <span class="string">&quot;139000000&quot;</span> + i, <span class="string">&quot;您的车票已预定成功&quot;</span>);</span><br><span class="line">                    <span class="built_in">string</span> jsonSms = JsonConvert.SerializeObject(sms);</span><br><span class="line">                    <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(jsonSms);</span><br><span class="line">                    channel.BasicPublish(<span class="string">&quot;&quot;</span>, RabbitConstant.QUEUE_SMS, <span class="literal">null</span>, body);</span><br><span class="line">                    Console.WriteLine(<span class="string">$&quot;正在发送内容：<span class="subst">&#123;jsonSms&#125;</span>&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;发送数据成功&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>运行结构如下</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8z6jozxf4q.png" alt="image.png" /></p>
+<h5 id="能者多劳"><a class="markdownIt-Anchor" href="#能者多劳"></a> 能者多劳</h5>
+<ul>
+<li>消费者1比消费者2的效率要快，一次任务的耗时较短</li>
+<li>消费者2大量时间处于空闲状态，消费者1一直忙碌</li>
+</ul>
+<p>通过<code>channel.BasicAck(ea.DeliveryTag, false);</code>来完成能者多劳的效果，在完成上一次请求之后再去取下一条消息，这就会出现服务器快的消费的更多，慢的消费的更少。</p>
+<h4 id="发布订阅模式"><a class="markdownIt-Anchor" href="#发布订阅模式"></a> 发布订阅模式</h4>
+<p>Publish/subscribe（交换机类型：Fanout，也称为广播 ）</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.7zqgbtuw5z.png" alt="image.png" /></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.2vermjv571.png" alt="image.png" /></p>
+<p>和前面两种模式不同：</p>
+<ul>
+<li>声明Exchange，不再声明Queue</li>
+<li>发送消息到Exchange，不再发送到Queue,通过exchange发送到queue上</li>
+</ul>
+<h5 id="消费者1收到的天气"><a class="markdownIt-Anchor" href="#消费者1收到的天气"></a> 消费者1收到的天气</h5>
+<p>项目<code>.RabbitMq.Consumer01</code> 创建<code>WeatherFanout</code>使用exchange(交换机)</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherFanout</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER, ExchangeType.Fanout);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_BAIDU, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                         * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                         * 参数1：队列名</span></span><br><span class="line"><span class="comment">                         * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                         * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                         */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER, <span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;百度收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_BAIDU, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者2收到的天气"><a class="markdownIt-Anchor" href="#消费者2收到的天气"></a> 消费者2收到的天气</h5>
+<p>项目<code>.RabbitMq.Consumer02</code> 创建<code>WeatherFanout</code>使用exchange(交换机)</p>
+<p>代码与消费者01一样</p>
+<h5 id="生产者发送天气"><a class="markdownIt-Anchor" href="#生产者发送天气"></a> 生产者发送天气</h5>
+<p>生产者把消息推送到交换机上</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherFanout</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">string</span> message = <span class="string">&quot;20度&quot;</span>;</span><br><span class="line">                <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(message);</span><br><span class="line">                channel.BasicPublish(RabbitConstant.EXCHANGE_WEATHER, <span class="string">&quot;&quot;</span>, <span class="literal">null</span>, body);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;天气信息发送成功！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后得到效果</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.2krxteg6at.png" alt="image.png" /></p>
+<h4 id="routing-路由模型"><a class="markdownIt-Anchor" href="#routing-路由模型"></a> Routing 路由模型</h4>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.1sf2bo02ow.png" alt="image.png" /></p>
+<p>P：生产者，向Exchange发送消息，发送消息时，会指定一个routing key。</p>
+<p>X：Exchange（交换机），接收生产者的消息，然后把消息递交给 与routing key完全匹配的队列</p>
+<p>C1：消费者，其所在队列指定了需要routing key 为 error 的消息</p>
+<p>C2：消费者，其所在队列指定了需要routing key 为 info、error、warning 的消息</p>
+<ul>
+<li>
+<p>队列与交换机的绑定，不能是任意绑定，而是要指定一个RoutingKey</p>
+</li>
+<li>
+<p>消息的发送方在向Exchange发送消息时，也必须指定消息的RoutingKey</p>
+</li>
+<li>
+<p>Exchange不再把消息交给每一个绑定的队列，而是根据消息的RoutingKey进行判断，只有队列的RoutingKey与消息的RoutingKey完全一致，才会接收消息</p>
+</li>
+</ul>
+<h5 id="生产者"><a class="markdownIt-Anchor" href="#生产者"></a> 生产者</h5>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherDirect</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; area = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;();</span><br><span class="line">        area.Add(<span class="string">&quot;china.hunan.changsha.20210525&quot;</span>, <span class="string">&quot;中国湖南长沙20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>, <span class="string">&quot;中国湖北武汉20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.xiangyang.20210525&quot;</span>, <span class="string">&quot;中国湖北襄阳20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;us.cal.lsj.20210525&quot;</span>, <span class="string">&quot;美国加州洛杉矶20210525天气数据&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> area)</span><br><span class="line">                &#123;</span><br><span class="line">                    channel.BasicPublish(RabbitConstant.EXCHANGE_WEATHER_ROUTING, item.Key,</span><br><span class="line">                                         <span class="literal">null</span>, Encoding.UTF8.GetBytes(item.Value));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Console.WriteLine(<span class="string">&quot;气象信息发送成功！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者1"><a class="markdownIt-Anchor" href="#消费者1"></a> 消费者1</h5>
+<p>接受百度路由的路由消息</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherDirect</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_ROUTING, ExchangeType.Direct);</span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_BAIDU, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                    * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                    * 参数1：队列名</span></span><br><span class="line"><span class="comment">                    * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                    * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                    */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hunan.changsha.20210525&quot;</span>);</span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;百度收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_BAIDU, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者2"><a class="markdownIt-Anchor" href="#消费者2"></a> 消费者2</h5>
+<p>接受新浪的路由信息</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherDirect</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_ROUTING, ExchangeType.Direct);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_SINA, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                     * 参数1：队列名</span></span><br><span class="line"><span class="comment">                     * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                     * 参数3：路由Key</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hubei.xiangyang.20210525&quot;</span>);</span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;us.cal.lsj.20210525&quot;</span>);</span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;新浪收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_SINA, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="最后得到的效果"><a class="markdownIt-Anchor" href="#最后得到的效果"></a> 最后得到的效果</h5>
+<ul>
+<li>新浪接收对应新浪的routingkey的信息</li>
+<li>百度接收对应百度的routingkey的信息</li>
+</ul>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.26li2j8o2i.png" alt="image.png" /></p>
+<h4 id="topics-通配符模式"><a class="markdownIt-Anchor" href="#topics-通配符模式"></a> Topics 通配符模式</h4>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8s3btkcx59.png" alt="image.png" /></p>
+<h5 id="routingkey支持通配符匹配格式"><a class="markdownIt-Anchor" href="#routingkey支持通配符匹配格式"></a> routingkey支持通配符匹配格式</h5>
+<ul>
+<li>通配符格式
+<ul>
+<li>Topic类型与Direct相比，都是可以根据RoutingKey把消息路由到不同的队列。只不过</li>
+<li>Topic类型Exchange可以让队列在绑定RoutingKey的时候使用通配符</li>
+<li>RoutingKey一般都是由一个或多个单词组成，多个单词之间以“.”分隔，例如:item.insert</li>
+<li>通配符规则:#匹配一个或多个词，*恰好匹配一个词，例如item.#能够匹配item.insert.user或者item.insert，item.只能匹配item.insert或者item.user</li>
+</ul>
+</li>
+</ul>
+<h5 id="生产者-2"><a class="markdownIt-Anchor" href="#生产者-2"></a> 生产者</h5>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherTopic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; area = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;();</span><br><span class="line">        area.Add(<span class="string">&quot;china.hunan.changsha.20210525&quot;</span>, <span class="string">&quot;中国湖南长沙20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>, <span class="string">&quot;中国湖北武汉20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.xiangyang.20210525&quot;</span>, <span class="string">&quot;中国湖北襄阳20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;us.cal.lsj.20210525&quot;</span>, <span class="string">&quot;美国加州洛杉矶20210525天气数据&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> area)</span><br><span class="line">                &#123;</span><br><span class="line">                    channel.BasicPublish(RabbitConstant.EXCHANGE_WEATHER_TOPIC, item.Key,</span><br><span class="line">                                         <span class="literal">null</span>, Encoding.UTF8.GetBytes(item.Value));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Console.WriteLine(<span class="string">&quot;气象信息发送成功！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者1-2"><a class="markdownIt-Anchor" href="#消费者1-2"></a> 消费者1</h5>
+<p>获取交换机中通配符为<code>china.#</code>的信息</p>
+<ul>
+<li>(“china.hunan.changsha.20210525”, “中国湖南长沙20210525天气数据”);</li>
+<li>(“china.hubei.wuhan.20210525”, “中国湖北武汉20210525天气数据”);</li>
+<li>(“china.hubei.xiangyang.20210525”, “中国湖北襄阳20210525天气数据”);</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherTopic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_TOPIC, ExchangeType.Topic);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_BAIDU, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                     * 参数1：队列名</span></span><br><span class="line"><span class="comment">                     * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                     * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_TOPIC, <span class="string">&quot;china.#&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;百度收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_BAIDU, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者2-2"><a class="markdownIt-Anchor" href="#消费者2-2"></a> 消费者2</h5>
+<p>获取交换机中通配符为<code>china.hubei.*.20210525</code>的信息</p>
+<ul>
+<li>(“china.hubei.wuhan.20210525”, “中国湖北武汉20210525天气数据”)</li>
+<li>(“china.hubei.xiangyang.20210525”, “中国湖北襄阳20210525天气数据”)</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherTopic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * 生产者发送消息</span></span><br><span class="line"><span class="comment">                     * 队列名称</span></span><br><span class="line"><span class="comment">                     * 交换机名称</span></span><br><span class="line"><span class="comment">                     * 路由key</span></span><br><span class="line"><span class="comment">                     *</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_TOPIC, ExchangeType.Topic);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_SINA, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                     * 参数1：队列名</span></span><br><span class="line"><span class="comment">                     * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                     * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_TOPIC, <span class="string">&quot;china.hubei.*.20210525&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;新浪收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_SINA, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="最后得到的效果-2"><a class="markdownIt-Anchor" href="#最后得到的效果-2"></a> 最后得到的效果</h5>
+<ul>
+<li>百度获取<code>china.#</code>的信息</li>
+<li>新浪获取<code>china.hubei.*.20210525</code>的信息</li>
+</ul>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.4n7qhgg4iw.png" alt="image.png" /></p>
+<h4 id="rpc"><a class="markdownIt-Anchor" href="#rpc"></a> RPC</h4>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.6ikba2srll.png" alt="image.png" /></p>
+<h5 id="基本概念"><a class="markdownIt-Anchor" href="#基本概念"></a> 基本概念：</h5>
+<ul>
+<li>
+<p>Callback queue 回调队列，客户端向服务器发送请求，服务器端处理请求后，将其处理结果保存在一个存储体中。而客户端为了获得处理结果，那么客户在向服务器发送请求时，同时发送一个回调队列地址reply_to。</p>
+</li>
+<li>
+<p>Correlation id 关联标识，客户端可能会发送多个请求给服务器，当服务器处理完后，客户端无法辨别在回调队列中的响应具体和那个请求时对应的。为了处理这种情况，客户端在发送每个请求时，同时会附带一个独有correlation_id属性，这样客户端在回调队列中根据correlation_id字段的值就可以分辨此响应属于哪个请求。</p>
+</li>
+</ul>
+<h5 id="流程说明"><a class="markdownIt-Anchor" href="#流程说明"></a> 流程说明：</h5>
+<ul>
+<li>当客户端启动的时候，它创建一个匿名独享的回调队列。</li>
+<li>在 RPC 请求中，客户端发送带有两个属性的消息：一个是设置回调队列的 reply_to 属性，另一个是设置唯一值的 correlation_id 属性。</li>
+<li>将请求发送到一个 rpc_queue 队列中。</li>
+<li>服务器等待请求发送到这个队列中来。当请求出现的时候，它执行他的工作并且将带有执行结果的消息发送给 reply_to 字段指定的队列。</li>
+<li>客户端等待回调队列里的数据。当有消息出现的时候，它会检查 correlation_id 属性。如果此属性的值与请求匹配，将它返回给应用</li>
+</ul>
+<h3 id="分享几题面试题"><a class="markdownIt-Anchor" href="#分享几题面试题"></a> 分享几题面试题</h3>
+<h4 id="rabbitmq中消息可能有的几种状态"><a class="markdownIt-Anchor" href="#rabbitmq中消息可能有的几种状态"></a> RabbitMQ中消息可能有的几种状态?</h4>
+<ol>
+<li>
+<p>alpha: 消息内容(包括消息体、属性和 headers) 和消息索引都存储在内存中 。</p>
+<ol>
+<li>beta: 消息内容保存在磁盘中，消息索引保存在内存中。</li>
+<li>gamma: 消息内容保存在磁盘中，消息索引在磁盘和内存中都有 。</li>
+<li>delta: 消息内容和索引都在磁盘中 。</li>
+</ol>
+</li>
+<li>
+<p>死信队列？</p>
+<p>DLX，全称为 Dead-Letter-Exchange，死信交换器，死信邮箱。当消息在一个队列中变成死信 (dead  message) 之后，它能被重新被发送到另一个交换器中，这个交换器就是 DLX，绑定 DLX 的队列就称之 为死信队列。</p>
+</li>
+<li>
+<p>导致的死信的几种原因？</p>
+<ol>
+<li>消息被拒（Basic.Reject /Basic.Nack) 且 requeue = false。</li>
+<li>消息TTL过期。</li>
+<li>队列满了</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>到这里就结束，大家如果需要看视频学习就是点最上面的链接就行了</p>
+<p>源码：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ZhbnRhc3ktS2UvWi5SYWJiaXRNUS1EZW1v">github<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>RabbitMQ</category>
+      </categories>
+      <tags>
+        <tag>消息队列</tag>
+        <tag>RabbitMQ</tag>
+        <tag>.NET Core</tag>
       </tags>
   </entry>
 </search>
