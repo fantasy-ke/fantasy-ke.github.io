@@ -21,29 +21,29 @@
 
 <script class="next-config" data-name="main" type="application/json">{"hostname":"zblog.love","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.21.0","exturl":true,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":-1}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 
-    <meta name="description" content="类型 内置函数：SQL Server自带 用户自定义函数：用户自己创建的函数">
+    <meta name="description" content="概念触发器是数据库服务器中发生事件时自动执行的特种存储过程">
 <meta property="og:type" content="article">
-<meta property="og:title" content="T-SQL复习16--函数">
-<meta property="og:url" content="https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A016-%E5%87%BD%E6%95%B0/index.html">
+<meta property="og:title" content="T-SQL复习17--触发器">
+<meta property="og:url" content="https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A017-%E8%A7%A6%E5%8F%91%E5%99%A8/index.html">
 <meta property="og:site_name" content="Fantasy&#39;Ke Blog">
-<meta property="og:description" content="类型 内置函数：SQL Server自带 用户自定义函数：用户自己创建的函数">
+<meta property="og:description" content="概念触发器是数据库服务器中发生事件时自动执行的特种存储过程">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2023-05-24T03:42:00.000Z">
-<meta property="article:modified_time" content="2024-11-16T06:02:03.718Z">
+<meta property="article:published_time" content="2023-05-24T05:24:00.000Z">
+<meta property="article:modified_time" content="2024-11-16T07:25:00.521Z">
 <meta property="article:author" content="Fantasy-ke">
 <meta property="article:tag" content="SQL Server">
 <meta property="article:tag" content="T-SQL">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A016-%E5%87%BD%E6%95%B0/">
+<link rel="canonical" href="https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A017-%E8%A7%A6%E5%8F%91%E5%99%A8/">
 
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A016-%E5%87%BD%E6%95%B0/","path":"2023/05/24/T-SQL复习16-函数/","title":"T-SQL复习16--函数"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A017-%E8%A7%A6%E5%8F%91%E5%99%A8/","path":"2023/05/24/T-SQL复习17-触发器/","title":"T-SQL复习17--触发器"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>T-SQL复习16--函数 | Fantasy'Ke Blog</title>
+<title>T-SQL复习17--触发器 | Fantasy'Ke Blog</title>
   
 
 
@@ -143,7 +143,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text"> 类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-2"><span class="nav-number">2.</span> <span class="nav-text"> 类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-3"><span class="nav-number">3.</span> <span class="nav-text"> 常用的内置函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#-4"><span class="nav-number">3.1.</span> <span class="nav-text"> 日期时间函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-5"><span class="nav-number">3.2.</span> <span class="nav-text"> 字符串函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-6"><span class="nav-number">3.3.</span> <span class="nav-text"> 其他函数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-7"><span class="nav-number">4.</span> <span class="nav-text"> 用户自定义函数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#-8"><span class="nav-number">4.1.</span> <span class="nav-text"> 标量函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#-9"><span class="nav-number">4.1.1.</span> <span class="nav-text"> 创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-10"><span class="nav-number">4.1.2.</span> <span class="nav-text"> 调用</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#-11"><span class="nav-number">4.2.</span> <span class="nav-text"> 表值函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#-12"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 创建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#-13"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 调用</span></a></li></ol></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link"><span class="nav-number">1.</span> <span class="nav-text"> 概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-2"><span class="nav-number">2.</span> <span class="nav-text"> 概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-3"><span class="nav-number">3.</span> <span class="nav-text"> 类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-4"><span class="nav-number">4.</span> <span class="nav-text"> DML触发器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-5"><span class="nav-number">5.</span> <span class="nav-text"> 触发器工作原理</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-6"><span class="nav-number">6.</span> <span class="nav-text"> 禁用触发器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-7"><span class="nav-number">7.</span> <span class="nav-text"> 启用触发器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#-8"><span class="nav-number">8.</span> <span class="nav-text"> 删除触发器</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -232,10 +232,10 @@
   </div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2023/05/22/T-SQL%E5%A4%8D%E4%B9%A011-%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B/" rel="bookmark">
-        <time class="popular-posts-time">2023-05-22</time>
+      <a class="popular-posts-link" href="/2023/05/23/T-SQL%E5%A4%8D%E4%B9%A014-%E6%B8%B8%E6%A0%87/" rel="bookmark">
+        <time class="popular-posts-time">2023-05-23</time>
         <br>
-      T-SQL复习11--存储过程
+      T-SQL复习14--游标
       </a>
     </li>
   </ul>
@@ -259,7 +259,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
-    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A016-%E5%87%BD%E6%95%B0/">
+    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A017-%E8%A7%A6%E5%8F%91%E5%99%A8/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/uploads/avatar.png">
@@ -272,12 +272,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="T-SQL复习16--函数 | Fantasy'Ke Blog">
+      <meta itemprop="name" content="T-SQL复习17--触发器 | Fantasy'Ke Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          T-SQL复习16--函数
+          T-SQL复习17--触发器
         </h1>
 
         <div class="post-meta-container">
@@ -288,14 +288,14 @@
       </span>
       <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2023-05-24 11:42:00" itemprop="dateCreated datePublished" datetime="2023-05-24T11:42:00+08:00">2023-05-24</time>
+      <time title="Created: 2023-05-24 13:24:00" itemprop="dateCreated datePublished" datetime="2023-05-24T13:24:00+08:00">2023-05-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-16 14:02:03" itemprop="dateModified" datetime="2024-11-16T14:02:03+08:00">2024-11-16</time>
+      <time title="Modified: 2024-11-16 15:25:00" itemprop="dateModified" datetime="2024-11-16T15:25:00+08:00">2024-11-16</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -321,14 +321,14 @@
         <i class="far fa-file-word"></i>
       </span>
       <span class="post-meta-item-text">Word count in article: </span>
-      <span>816</span>
+      <span>599</span>
     </span>
     <span class="post-meta-item" title="Reading time">
       <span class="post-meta-item-icon">
         <i class="far fa-clock"></i>
       </span>
       <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
+      <span>2 mins.</span>
     </span>
 </div>
 
@@ -338,87 +338,42 @@
     
     
     
-    <div class="post-body" itemprop="articleBody"><h1 id=""><a class="markdownIt-Anchor" href="#"></a> <a href="#%E7%B1%BB%E5%9E%8B" title="类型"></a>类型</h1>
-<ul>
-<li>内置函数：SQL Server自带</li>
-<li>用户自定义函数：用户自己创建的函数</li>
-</ul>
+    <div class="post-body" itemprop="articleBody"><h1 id=""><a class="markdownIt-Anchor" href="#"></a> <a href="#%E6%A6%82%E5%BF%B5" title="概念"></a>概念</h1>
+<p>触发器是数据库服务器中发生事件时自动执行的特种存储过程</p>
 <!-- more -->
-<h1 id="-2"><a class="markdownIt-Anchor" href="#-2"></a> <a href="#%E7%B1%BB%E5%9E%8B" title="类型"></a>类型</h1>
+<h1 id="-2"><a class="markdownIt-Anchor" href="#-2"></a> <a href="#%E6%A6%82%E5%BF%B5" title="概念"></a>概念</h1>
+<p>触发器是数据库服务器中发生事件时自动执行的特种存储过程</p>
+<h1 id="-3"><a class="markdownIt-Anchor" href="#-3"></a> <a href="#%E7%B1%BB%E5%9E%8B" title="类型"></a>类型</h1>
 <ul>
-<li>内置函数：SQL Server自带</li>
-<li>用户自定义函数：用户自己创建的函数</li>
+<li>DML触发器：当发生数据操作语言，如<code>INSERT</code>、<code>UPDATE</code>或<code>DELETE</code>时，执行的触发器</li>
+<li>DDL触发器：当发生数据定义语言，如<code>CREATE</code>、<code>ALTER</code>或<code>DROP</code>时，执行的触发器</li>
+<li>登陆触发器：与SQL Server示例建立用户会话时执行的触发器</li>
 </ul>
-<h1 id="-3"><a class="markdownIt-Anchor" href="#-3"></a> <a href="#%E5%B8%B8%E7%94%A8%E7%9A%84%E5%86%85%E7%BD%AE%E5%87%BD%E6%95%B0" title="常用的内置函数"></a>常用的内置函数</h1>
-<h2 id="-4"><a class="markdownIt-Anchor" href="#-4"></a> <a href="#%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4%E5%87%BD%E6%95%B0" title="日期时间函数"></a>日期时间函数</h2>
-<ul>
-<li>GETDATE() –返回当前日期时间</li>
-<li>CURRENT_TIMESTAMP –返回当前日期时间</li>
-<li>YEAR() –返回日期中的年</li>
-<li>MONTH() –返回日期中的月</li>
-<li>DAY() –返回日期中的日</li>
-<li>SELECT DATEPART() –返回日期中指定部分的日期，如SELECT DATEPART(QUARTER,GETDATE())</li>
-<li>DATEADD –返回给日期添加指定部分的数量后的日期，如SELECT DATEADD(YEAR,2,GETDATE())</li>
-<li>DATEDIFF –返回指定两个日期指定部分的差，如SELECT DATEDIFF(YEAR,GETDATE(),’1991-08-22 00:00:00’)</li>
-</ul>
-<h2 id="-5"><a class="markdownIt-Anchor" href="#-5"></a> <a href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%87%BD%E6%95%B0" title="字符串函数"></a>字符串函数</h2>
-<ul>
-<li>LEFT() –从字符串左边开始返回指定个数的字符串，如:SELECT LEFT(‘张三’,1)</li>
-<li>RIGHT() –从字符串右边开始返回指定个数的字符串，如:SELECT RIGHT(‘李四’,1)</li>
-<li>LEN() –返回字符串的个数，如:SELECT LEN(‘王五’)</li>
-<li>DATALENGTH() –返回字符串的字节数，如:SELECT DATALENGTH(‘赵六’)</li>
-<li>LTRIM() –返回删除左边的空格的字符串，如:SELECT LTRIM(‘ 深田咏美’)</li>
-<li>RTRIM() –返回删除右边的空格的字符串，如:SELECT RTRIM(‘波多野结衣 ‘)</li>
-<li>LOWER() –将大写字符转成小写字符</li>
-<li>UPPER() –将小写字符转为大写字符</li>
-<li>SUBSTRING() –返回字符串中的一部分字符，如:SELECT SUBSTRING(‘张三李四王五赵六’,2,2)</li>
-</ul>
-<h2 id="-6"><a class="markdownIt-Anchor" href="#-6"></a> <a href="#%E5%85%B6%E4%BB%96%E5%87%BD%E6%95%B0" title="其他函数"></a>其他函数</h2>
-<ul>
-<li>
-<p>CAST() –将一种数据类型转换为另一种数据类型，如:SELECT CAST(‘2016-12-1’ AS datetime2)</p>
-</li>
-<li>
-<p>CONVERT() –将一种数据类型转换为另一种数据类型，如:SELECT CONVERT(datetime2,’2023-05-06’)<br />
-示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="built_in">SUM</span>(<span class="built_in">CAST</span>(AGE <span class="keyword">AS</span> <span class="type">BIGINT</span>)) <span class="keyword">FROM</span> STUDENT  </span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>ISNULL –使用指定的替换值替换NULL<br />
-示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> ISNULL(ADDRESS,<span class="string">&#x27;中国&#x27;</span>) <span class="keyword">FROM</span> STUDENT  </span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p>NEWID() –创建uniqueidentifier类型的唯一值，如：SELECT NEWID()</p>
-</li>
-<li>
-<p>ROUND() –返回一个数值，舍入到指定的长度，如:SELECT ROUND(123.1243,2),ROUND(123.566,0,1),ROUND(123.456,-2,1)</p>
-</li>
-</ul>
-<h1 id="-7"><a class="markdownIt-Anchor" href="#-7"></a> <a href="#%E7%94%A8%E6%88%B7%E8%87%AA%E5%AE%9A%E4%B9%89%E5%87%BD%E6%95%B0" title="用户自定义函数"></a>用户自定义函数</h1>
-<p>SQL Server用户定义函数时接受参数、执行操作(例如复杂计算)并将操作解雇以值得形式返回得例程。返回值可以是单个标量值或结果集。用户定义函数不能用于执行修改数据库状态操作</p>
-<p>使用用户定义函数的优点：</p>
-<ul>
-<li>可重复使用</li>
-<li>执行速度更快</li>
-<li>减少网络流量</li>
-</ul>
-<p>函数类型：<br />
-标量函数：返回单个值<br />
-表值函数：用户定义表值函数返回<code>TABLE</code>数据类型</p>
-<h2 id="-8"><a class="markdownIt-Anchor" href="#-8"></a> <a href="#%E6%A0%87%E9%87%8F%E5%87%BD%E6%95%B0" title="标量函数"></a>标量函数</h2>
-<h3 id="-9"><a class="markdownIt-Anchor" href="#-9"></a> <a href="#%E5%88%9B%E5%BB%BA" title="创建"></a>创建</h3>
+<h1 id="-4"><a class="markdownIt-Anchor" href="#-4"></a> <a href="#DML%E8%A7%A6%E5%8F%91%E5%99%A8" title="DML触发器"></a>DML触发器</h1>
+<p>DML触发器有点：DML触发器类似于约束，可以强制实体完整性或域完整性；当约束支持的功能无法满足应用程序的功能要求时，DML触发器非常有用</p>
 <p>示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">USE SCHOOL  </span><br><span class="line">GO  </span><br><span class="line">IF OBJECT_ID(<span class="string">&#x27;FN_AGE&#x27;</span>) <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>  </span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">FUNCTION</span> FN_AGE  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> FN_AGE  </span><br><span class="line">(<span class="variable">@NAME</span> <span class="type">VARCHAR</span>(<span class="number">10</span>))  <span class="comment">--定义输入参数及数据类型  </span></span><br><span class="line"><span class="keyword">RETURNS</span> <span class="type">INT</span>  <span class="comment">--定义返回值数据类型  </span></span><br><span class="line"><span class="keyword">AS</span>  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"> <span class="keyword">DECLARE</span> <span class="variable">@AGE</span> <span class="type">INT</span>  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="variable">@AGE</span><span class="operator">=</span>Age <span class="keyword">FROM</span> dbo.STUDENT <span class="keyword">WHERE</span> NAME<span class="operator">=</span><span class="variable">@NAME</span>  </span><br><span class="line">  </span><br><span class="line">IF <span class="variable">@AGE</span> <span class="keyword">IS</span> <span class="keyword">NULL</span>  </span><br><span class="line"><span class="keyword">SET</span> <span class="variable">@AGE</span><span class="operator">=</span><span class="number">0</span>  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">RETURN</span> <span class="variable">@AGE</span> <span class="comment">--指定返回值变量  </span></span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line">GO  </span><br></pre></td></tr></table></figure>
-<h3 id="-10"><a class="markdownIt-Anchor" href="#-10"></a> <a href="#%E8%B0%83%E7%94%A8" title="调用"></a>调用</h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">USE SCHOOL  </span><br><span class="line">GO  </span><br><span class="line">IF OBJECT_ID(<span class="string">&#x27;TR_INSERT&#x27;</span>) <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>  </span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TRIGGER</span> TR_INSERT  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> TR_INSERT  </span><br><span class="line"><span class="keyword">ON</span> dbo.STUDENT  </span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">INSERT</span>  </span><br><span class="line"><span class="keyword">AS</span>  </span><br><span class="line">PRINT <span class="string">&#x27;插入学生表成功&#x27;</span>  </span><br><span class="line">GO  </span><br><span class="line"></span><br><span class="line"><span class="comment">--测试触发INSERT触发器  </span></span><br><span class="line"><span class="keyword">INSERT</span> dbo.STUDENT(NAME,SEX,Age) <span class="keyword">VALUES</span>(<span class="string">&#x27;Alice&#x27;</span>,<span class="string">&#x27;女&#x27;</span>,<span class="number">24</span>)  </span><br></pre></td></tr></table></figure>
+<h1 id="-5"><a class="markdownIt-Anchor" href="#-5"></a> <a href="#%E8%A7%A6%E5%8F%91%E5%99%A8%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86" title="触发器工作原理"></a>触发器工作原理</h1>
+<p>SQL Server创建了两个专用表：<code>inserted</code>和<code>deleted</code>表，这是两个逻辑表，由系统维护，不允许用户直接对两个表进行修改。他们存放在内存中，不存放在数据库中。这两个表的结构总是与被触发器作用的表的结构相同</p>
+<ul>
+<li>
+<p>inserted表：存放由于<code>INSERT</code>或<code>UPDATE</code>语句的执行而要加到该触发表中去的所有新行。即用于插入或更新表的新行值，在插入或更新表的同时，也将其副本存储<code>inserted</code>表中。因为在<code>inserted</code>表中的行总是与触发表中的新行相同</p>
+</li>
+<li>
+<p>deleted表：存放由于<code>DELETE</code>或<code>UPDATE</code>语句的执行而要从该触发表中删除的所有行。也就是说，把触发表中要删除或要更新的旧行移到<code>deleted</code>表中。因此<code>deleted</code>表和触发表的行不相同</p>
+</li>
+</ul>
 <p>示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span> dbo.FN_AGE(<span class="string">&#x27;JAME&#x27;</span>) <span class="comment">--必须加上所属架构dbo，否则会提示：不是可以识别的函数名称  </span></span><br></pre></td></tr></table></figure>
-<h2 id="-11"><a class="markdownIt-Anchor" href="#-11"></a> <a href="#%E8%A1%A8%E5%80%BC%E5%87%BD%E6%95%B0" title="表值函数"></a>表值函数</h2>
-<h3 id="-12"><a class="markdownIt-Anchor" href="#-12"></a> <a href="#%E5%88%9B%E5%BB%BA-1" title="创建"></a>创建</h3>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">USE SCHOOL  </span><br><span class="line">GO  </span><br><span class="line">IF OBJECT_ID(<span class="string">&#x27;FN_TABLE&#x27;</span>) <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>  </span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">FUNCTION</span> FN_TABLE  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">FUNCTION</span> FN_TABLE  </span><br><span class="line">(<span class="variable">@ID</span> <span class="type">INT</span>)  <span class="comment">--定义输入参数及数据类型  </span></span><br><span class="line"><span class="keyword">RETURNS</span> <span class="keyword">TABLE</span> <span class="comment">--返回类型为TABLE  </span></span><br><span class="line"><span class="keyword">AS</span>  </span><br><span class="line"><span class="keyword">RETURN</span>  <span class="comment">--直接用RETURN，不能使用BEGIN...END块  </span></span><br><span class="line">(  <span class="comment">--必须使用括号  </span></span><br><span class="line"><span class="keyword">SELECT</span> NAME,Age <span class="keyword">FROM</span> dbo.STUDENT <span class="keyword">WHERE</span> ID<span class="operator">=</span><span class="variable">@ID</span>  </span><br><span class="line">)  </span><br><span class="line">GO  </span><br></pre></td></tr></table></figure>
-<h3 id="-13"><a class="markdownIt-Anchor" href="#-13"></a> <a href="#%E8%B0%83%E7%94%A8-1" title="调用"></a>调用</h3>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">-- 当向成绩表插入学生多个课程的成绩时，学生的总分发生相应变化  </span></span><br><span class="line">USE SCHOOL  </span><br><span class="line">GO  </span><br><span class="line">IF OBJECT_ID(<span class="string">&#x27;TR_SCORE&#x27;</span>) <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>  </span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">TRIGGER</span> TR_SCORE  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> TR_SCORE  </span><br><span class="line"><span class="keyword">ON</span> dbo.SCORE  </span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">INSERT</span>  </span><br><span class="line"><span class="keyword">AS</span>  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"> <span class="keyword">DECLARE</span> <span class="variable">@SCORE</span> <span class="type">INT</span>  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="variable">@SCORE</span><span class="operator">=</span>SCORE <span class="keyword">FROM</span> inserted  </span><br><span class="line"><span class="keyword">UPDATE</span> dbo.TOTALSCORE <span class="keyword">SET</span> TOTALSCORE<span class="operator">=</span>TOTALSCORE<span class="operator">+</span><span class="variable">@SCORE</span>  </span><br><span class="line">PRINT <span class="string">&#x27;学生总成绩修改成功&#x27;</span>  </span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line">GO  </span><br></pre></td></tr></table></figure>
+<h1 id="-6"><a class="markdownIt-Anchor" href="#-6"></a> <a href="#%E7%A6%81%E7%94%A8%E8%A7%A6%E5%8F%91%E5%99%A8" title="禁用触发器"></a>禁用触发器</h1>
 <p>示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> dbo.FN_TABLE(<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> dbo.STUDENT  </span><br><span class="line">DISABLE <span class="keyword">TRIGGER</span> TR_INSERT  </span><br></pre></td></tr></table></figure>
+<h1 id="-7"><a class="markdownIt-Anchor" href="#-7"></a> <a href="#%E5%90%AF%E7%94%A8%E8%A7%A6%E5%8F%91%E5%99%A8" title="启用触发器"></a>启用触发器</h1>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> dbo.SCORE  </span><br><span class="line">ENABLE <span class="keyword">TRIGGER</span> TR_SCORE  </span><br></pre></td></tr></table></figure>
+<h1 id="-8"><a class="markdownIt-Anchor" href="#-8"></a> <a href="#%E5%88%A0%E9%99%A4%E8%A7%A6%E5%8F%91%E5%99%A8" title="删除触发器"></a>删除触发器</h1>
+<p>示例：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">TRIGGER</span> dbo.TR_SCORE</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -473,13 +428,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A015-%E4%BA%8B%E5%8A%A1/" rel="prev" title="T-SQL复习15--事务">
-                  <i class="fa fa-angle-left"></i> T-SQL复习15--事务
+                <a href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A016-%E5%87%BD%E6%95%B0/" rel="prev" title="T-SQL复习16--函数">
+                  <i class="fa fa-angle-left"></i> T-SQL复习16--函数
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A017-%E8%A7%A6%E5%8F%91%E5%99%A8/" rel="next" title="T-SQL复习17--触发器">
-                  T-SQL复习17--触发器 <i class="fa fa-angle-right"></i>
+                <a href="/2023/05/25/dotnet/7-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" rel="next" title="多线程">
+                  多线程 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -615,7 +570,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
 
-<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"fantasy-ke","repo":"fantasy-ke.github.io","client_id":"Ov23li8eCFrhnzfiGx5T","client_secret":"ce23581c2059392ebd00afd08d5ba43f767fd1b1","admin_user":"fantasy-ke","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"8edf28b3c87f1fc58ae6ebe20bc1c5d8"}</script>
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"fantasy-ke","repo":"fantasy-ke.github.io","client_id":"Ov23li8eCFrhnzfiGx5T","client_secret":"ce23581c2059392ebd00afd08d5ba43f767fd1b1","admin_user":"fantasy-ke","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"001773629f76ee7c017b0cac8fbd7564"}</script>
 <script src="/js/third-party/comments/gitalk.js"></script>
 
 <script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":170,"height":330},"mobile":{"show":true},"react":{"opacity":0.7},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
