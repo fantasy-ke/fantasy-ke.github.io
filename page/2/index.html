@@ -151,18 +151,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-count">28</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -225,6 +225,1059 @@
     </div>
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/06/03/%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%E5%A4%84%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Fantasy-ke">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/03/%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%E5%A4%84%E7%90%86/" class="post-title-link" itemprop="url">MySql、Sqlserver外键约束处理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-06-03 16:06:00" itemprop="dateCreated datePublished" datetime="2023-06-03T16:06:00+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-11-16 21:52:36" itemprop="dateModified" datetime="2024-11-16T21:52:36+08:00">2024-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DB/" itemprop="url" rel="index"><span itemprop="name">DB</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>318</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="外键约束处理"><a class="markdownIt-Anchor" href="#外键约束处理"></a> 外键约束处理</h1>
+<h2 id="mysql"><a class="markdownIt-Anchor" href="#mysql"></a> Mysql</h2>
+<h3 id="禁用mysql数据库中的外键约束"><a class="markdownIt-Anchor" href="#禁用mysql数据库中的外键约束"></a> 禁用MySQL数据库中的外键约束</h3>
+<ol>
+<li>
+<p>使用ALTER TABLE命令: 可以使用ALTER TABLE命令来禁用或启用外键约束。例如，要禁用名为<code>fk_name</code>的外键约束，可以使用以下命令：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name DISABLE KEYS;</span><br></pre></td></tr></table></figure>
+<p>要启用外键约束，可以使用以下命令：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> table_name ENABLE KEYS;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>table_name</code>是要禁用或启用外键约束的表的名称。</p>
+</li>
+<li>
+<p>使用SET命令 可以使用SET命令来禁用或启用外键约束。例如，要禁用外键约束，可以使用以下命令：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> foreign_key_checks <span class="operator">=</span> <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
+<p>要启用外键约束，可以使用以下命令：</p>
+ <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SET</span> foreign_key_checks <span class="operator">=</span> <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>其中，<code>foreign_key_checks</code>是MySQL系统变量，用于控制外键约束的检查。</p>
+</li>
+</ol>
+<h2 id="sqlserver"><a class="markdownIt-Anchor" href="#sqlserver"></a> Sqlserver</h2>
+<h3 id="禁用sqlserver数据库中的外键约束"><a class="markdownIt-Anchor" href="#禁用sqlserver数据库中的外键约束"></a> 禁用Sqlserver数据库中的外键约束`</h3>
+<ol>
+<li>
+<p>使用T-SQL命令: 可以使用T-SQL命令来禁用或启用所有表的外键约束。例如，要禁用所有表的外键约束，可以使用以下命令：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXEC sp_msforeachtable &quot;ALTER TABLE ? NOCHECK CONSTRAINT all&quot;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>要启用所有表的外键约束，可以使用以下命令：</p>
+ <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXEC sp_msforeachtable &quot;ALTER TABLE ? WITH CHECK CHECK CONSTRAINT all&quot;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这将对数据库中的所有表执行禁用或启用外键约束的操作。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/06/03/miscellaneous/Oracle%E6%94%AF%E6%8C%81%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E6%96%B9%E6%A1%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Fantasy-ke">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/03/miscellaneous/Oracle%E6%94%AF%E6%8C%81%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E6%96%B9%E6%A1%88/" class="post-title-link" itemprop="url">Oracle支持批量操作方案</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-06-03 16:06:00" itemprop="dateCreated datePublished" datetime="2023-06-03T16:06:00+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-11-16 21:49:15" itemprop="dateModified" datetime="2024-11-16T21:49:15+08:00">2024-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/" itemprop="url" rel="index"><span itemprop="name">开发方案</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>808</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>3 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="oracle支持批量操作方案"><a class="markdownIt-Anchor" href="#oracle支持批量操作方案"></a> Oracle支持批量操作方案</h1>
+<h3 id="方案管理"><a class="markdownIt-Anchor" href="#方案管理"></a> 方案管理</h3>
+<h3 id="变更记录"><a class="markdownIt-Anchor" href="#变更记录"></a> 变更记录</h3>
+<table>
+<thead>
+<tr>
+<th>日期(Date)</th>
+<th>作者(Author)</th>
+<th>旧版本(Old Version)</th>
+<th>新版本(New Version)</th>
+<th>备注(Remarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="审阅记录"><a class="markdownIt-Anchor" href="#审阅记录"></a> 审阅记录</h3>
+<table>
+<thead>
+<tr>
+<th>日期(Date)</th>
+<th>姓名(Name)</th>
+<th>职务(Position)</th>
+<th>版本(Version)</th>
+<th>签字(Signature)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="一-方案简介"><a class="markdownIt-Anchor" href="#一-方案简介"></a> 一、方案简介</h3>
+<ul>
+<li><strong>方案背景</strong>
+<ul>
+<li>目前项目版本为.NET5 ，没有适配的对应Oracle环境的批量插入的扩展，为了实现在项目中对oracle环境的批量操作的功能</li>
+</ul>
+</li>
+</ul>
+<h3 id="二-方案目标"><a class="markdownIt-Anchor" href="#二-方案目标"></a> 二、方案目标</h3>
+<ul>
+<li><strong>具体目标</strong>
+<ul>
+<li>实现在.NET5项目环境下对Oracle数据库进行批量插入修改删除操作</li>
+</ul>
+</li>
+<li><strong>意义</strong>
+<ul>
+<li>提高项目在大数据进行功能操作时的性能</li>
+</ul>
+</li>
+</ul>
+<h3 id="三-准备工作"><a class="markdownIt-Anchor" href="#三-准备工作"></a> 三、准备工作</h3>
+<ul>
+<li>**时间：**2月7日 09:00</li>
+<li><strong>参与人：</strong>
+<ul>
+<li>审核者与方案制定
+<ul>
+<li>@** @**</li>
+</ul>
+</li>
+<li>方案实施者
+<ul>
+<li>@**</li>
+</ul>
+</li>
+<li>方案验收者
+<ul>
+<li>@** @**</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>资料支持</strong>
+<ul>
+<li><strong>EFCore.BulkExtensions包</strong>支持.NET6版本源码
+<ul>
+<li><a target="_blank" rel="noopener" href="https://github.com/borisdj/EFCore.BulkExtensions"><strong>EFCore.BulkExtensions源码</strong></a></li>
+</ul>
+</li>
+<li><strong>FreeSql中oracle批量插入的实现</strong>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2RvdG5ldGNvcmUvRnJlZVNxbA==">源码地址<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vRnJlZVNxbC9wLzExNTMxMzAwLmh0bWw=">文档地址<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</li>
+<li><strong>oracle的OracleBulkCopy使用</strong>
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuYmJzbWF4LmNvbS9BL1JuSldLNDFFSnEv">https://www.bbsmax.com/A/RnJWK41EJq/<i class="fa fa-external-link-alt"></i></span></li>
+<li><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2JhaWR1XzI3NDc0OTQxL2FydGljbGUvZGV0YWlscy83MTcxMjI5NQ==">https://blog.csdn.net/baidu_27474941/article/details/71712295<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</li>
+<li><strong>ORACLE的SQL语句</strong>
+<ul>
+<li>oracleSql中<code>merge</code>语法借助资料
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3pvcnJvX2ppbi9hcnRpY2xlL2RldGFpbHMvODEwNTM2OTM=">资料链接<i class="fa fa-external-link-alt"></i></span></li>
+</ul>
+</li>
+<li>oracleSql中临时表创建借助资料
+<ul>
+<li><span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vamlqbTEyMy9wLzE1NDk5NjcwLmh0bWw=">资料链接<i class="fa fa-external-link-alt"></i></span></li>
+<li>创建临时表
+<ul>
+<li><code>-复制现有表创建临时表CREATE GLOBAL TEMPORARY TABLE newTableName ON COMMIT PRESERVE ROWS AS SELECT* FROM existingTableName WHERE 1 = 2;</code></li>
+</ul>
+</li>
+<li>有异常处理删除临时表
+<ul>
+<li><code>BEGIN  EXECUTE IMMEDIATE 'TRUNCATE TABLE tableName';  EXECUTE IMMEDIATE 'DROP TABLE tableName PURGE';  EXCEPTION WHEN OTHERS THEN NULL;END;</code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="四-计划安排"><a class="markdownIt-Anchor" href="#四-计划安排"></a> 四、计划安排</h3>
+<ul>
+<li>人天安排
+<ul>
+<li>Oracle批量操作方案</li>
+<li>**<code>EFCore.BulkExtensions</code>**开源库.Net6版本适配Oracle的操作</li>
+<li>.NET6完成批量实现迁移到.NET5版本**<code>EFCore.BulkExtensions</code>**开源库及.NET5环境的适配
+<ul>
+<li>Oracle、Mysql、PostgreSql</li>
+</ul>
+</li>
+<li>发布批量操作的私有包</li>
+<li>.NET5版本批量操作发出Nuget包，项目中使用发布的私有包进行测试
+<ul>
+<li>Oracle、Mysql、PostgreSql</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="五-方案实施"><a class="markdownIt-Anchor" href="#五-方案实施"></a> 五、方案实施</h3>
+<ul>
+<li><strong>具体细节</strong>
+<ul>
+<li>分析**<code>EFCore.BulkExtensions</code>**开源库.Net6版本的<code>SqlServer</code>批量实现方式</li>
+<li>通过.NET6版本SqlServer的实现完成对<code>Oracle</code>的批量实现方式</li>
+<li>对在.NET6完成<code>ORACLE</code> 进行批量增删改实现</li>
+<li>.NET6批量实现迁移到.NET5版本**<code>EFCore.BulkExtensions</code>**开源库的分支，做.NET5环境的适配
+<ul>
+<li>Oracle、Mysql、PostgreSql 数据库的支持</li>
+</ul>
+</li>
+<li>对迁移到.NET5版本的Oracle批量操作私有Nuget包。名称**<code>GCT.EFCore.BulkExtensions</code>**</li>
+<li>在项目中使用发布的包进行测试</li>
+</ul>
+</li>
+</ul>
+<h3 id="六-风险评估"><a class="markdownIt-Anchor" href="#六-风险评估"></a> 六、风险评估</h3>
+<ul>
+<li><strong>可能会出现的难点</strong>
+<ul>
+<li>oracle的OracleBulkCopy使用方法</li>
+<li>ORACLE的SQL语句不熟悉</li>
+<li>.NET6环境迁移到.NET5环境会存在方法等多种不适配的问题
+<ul>
+<li>Oracle</li>
+<li>Postgresql</li>
+<li>Mysql</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>风险评估</strong></li>
+</ul>
+<h3 id="七-注意事项"><a class="markdownIt-Anchor" href="#七-注意事项"></a> 七、注意事项</h3>
+<ul>
+<li>.Net6**<code>EFCore.BulkExtensions</code>**开源库拥有PostgreSql和MySql的适配，需要迁移做.NET5的适配</li>
+</ul>
+<h3 id="八-验收标准"><a class="markdownIt-Anchor" href="#八-验收标准"></a> 八、验收标准</h3>
+<ul>
+<li>验收对象
+<ul>
+<li>medpro产品组</li>
+</ul>
+</li>
+<li>验收前提条件
+<ul>
+<li>已发布私有包完成</li>
+</ul>
+</li>
+<li>验收方法
+<ul>
+<li>检验medpro产品使用到批量操作的事务操作</li>
+</ul>
+</li>
+<li>验收标准
+<ul>
+<li>事务操作成功</li>
+</ul>
+</li>
+</ul>
+<h3 id="九-补充方案备用方案"><a class="markdownIt-Anchor" href="#九-补充方案备用方案"></a> 九、补充方案（备用方案）</h3>
+<ul>
+<li>项目后续如果需要适配其他国内的数据库，基于**<code>EFCore.BulkExtensions</code>** 包耦合性深，进行扩展其他数据库会出现一些其他异常，是否考虑搭建公司内部私有数据库批量操作库？</li>
+<li>通过现有开发完成的.NET5的oracle提交PR给官方开源库，后续使用开源包</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/06/03/miscellaneous/gitlabrunner/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Fantasy-ke">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/03/miscellaneous/gitlabrunner/" class="post-title-link" itemprop="url">docker部署 gitlab Runner 运行</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-06-03 16:06:00" itemprop="dateCreated datePublished" datetime="2023-06-03T16:06:00+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-11-16 21:56:18" itemprop="dateModified" datetime="2024-11-16T21:56:18+08:00">2024-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>273</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="gitlabrunner"><a class="markdownIt-Anchor" href="#gitlabrunner"></a> gitlabrunner</h1>
+<h2 id="gitlab-runner性能优化"><a class="markdownIt-Anchor" href="#gitlab-runner性能优化"></a> <strong>gitlab runner性能优化</strong></h2>
+<h3 id="runner注册"><a class="markdownIt-Anchor" href="#runner注册"></a> <strong>runner注册</strong></h3>
+<h3 id="创建变量"><a class="markdownIt-Anchor" href="#创建变量"></a> <strong>创建变量</strong></h3>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">GitLabServer=<span class="string">&#x27;https://git\.gct\-china\.com/&#x27;</span> <span class="comment"># gitlab服务器地址</span></span><br><span class="line">GitLabToken=<span class="string">&#x27;xxxx&#x27;</span> <span class="comment"># gitlab 仓库地址token</span></span><br><span class="line">GitLabRunnerNamePrefix=<span class="string">&#x27;g&#x27;</span> <span class="comment"># gitlab runner 前缀</span></span><br><span class="line">GitLabRunnerTags=<span class="string">&#x27;gct-mooc-develop&#x27;</span> <span class="comment"># gitlab runner tags</span></span><br><span class="line">GitLabRunnerDesc=<span class="string">&#x27;gct-mooc-develop&#x27;</span> <span class="comment"># gitlab runner desc</span></span><br><span class="line">GitLabRunnerImg=<span class="string">&#x27;gitlab/gitlab-runner:v14.10.1&#x27;</span> <span class="comment"># gitlab runner img</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建数据卷"><a class="markdownIt-Anchor" href="#创建数据卷"></a> <strong>创建数据卷</strong></h3>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker volume create <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建runner"><a class="markdownIt-Anchor" href="#创建runner"></a> <strong>创建runner</strong></h3>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run <span class="literal">--network</span> host <span class="literal">-d</span> <span class="literal">--restart</span> always \</span><br><span class="line"><span class="literal">-e</span> TZ=Asia/Beijing \</span><br><span class="line"><span class="literal">-v</span> /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line"><span class="literal">-v</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span>:/etc/gitlab<span class="literal">-runner</span> \</span><br><span class="line"><span class="literal">--name</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner&quot;</span> <span class="variable">$GitLabRunnerImg</span></span><br></pre></td></tr></table></figure>
+<h3 id="注册runner"><a class="markdownIt-Anchor" href="#注册runner"></a> <strong>注册runner</strong></h3>
+<blockquote>
+<p><span class="exturl" data-url="aHR0cHM6Ly9kb2NzLmdpdGxhYi5jb20vcnVubmVyL2V4YW1wbGVzL2dpdGxhYi5odG1s">https://docs.gitlab.com/runner/examples/gitlab.html<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">docker run <span class="literal">--rm</span> \</span><br><span class="line"><span class="literal">-v</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span>:/etc/gitlab<span class="literal">-runner</span> \</span><br><span class="line"><span class="literal">-v</span> /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line"><span class="literal">--name</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-register&quot;</span> <span class="variable">$GitLabRunnerImg</span> register \</span><br><span class="line"><span class="literal">--url</span> <span class="string">&quot;<span class="variable">$GitLabServer</span>&quot;</span> \</span><br><span class="line"><span class="literal">--registration-token</span> <span class="string">&quot;<span class="variable">$GitLabToken</span>&quot;</span> \</span><br><span class="line"><span class="literal">--description</span> <span class="string">&quot;<span class="variable">$GitLabRunnerDesc</span>&quot;</span> \</span><br><span class="line"><span class="literal">--tag-list</span> <span class="string">&quot;<span class="variable">$GitLabRunnerTags</span>&quot;</span> \</span><br><span class="line"><span class="literal">--non-interactive</span> \</span><br><span class="line"><span class="literal">--executor</span> <span class="string">&quot;docker&quot;</span> \</span><br><span class="line"><span class="literal">--docker-image</span> docker:<span class="number">19.03</span>.<span class="number">12</span> \</span><br><span class="line"><span class="literal">--docker-privileged</span>=<span class="string">&quot;true&quot;</span> \</span><br><span class="line"><span class="literal">--docker-volumes</span> <span class="string">&quot;/certs/client&quot;</span> \</span><br><span class="line"><span class="literal">--run-untagged</span>=<span class="string">&quot;true&quot;</span> \</span><br><span class="line"><span class="literal">--locked</span>=<span class="string">&quot;false&quot;</span> \</span><br><span class="line"><span class="literal">--access-level</span>=<span class="string">&quot;not_protected&quot;</span> \</span><br><span class="line"><span class="literal">--docker-volumes</span> /var/run/docker.sock:/var/run/docker.sock</span><br></pre></td></tr></table></figure>
+<h3 id="删除runner"><a class="markdownIt-Anchor" href="#删除runner"></a> <strong>删除runner</strong></h3>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker stop <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner&quot;</span></span><br><span class="line">docker <span class="built_in">rm</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner&quot;</span></span><br><span class="line">docker volume <span class="built_in">rm</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="runner清理"><a class="markdownIt-Anchor" href="#runner清理"></a> <strong>runner清理</strong></h2>
+<h3 id="删除玄虚镜像"><a class="markdownIt-Anchor" href="#删除玄虚镜像"></a> <strong>删除玄虚镜像</strong></h3>
+<p>玄虚镜像是未标记且未被任何容器使用的镜像。 <code>-a</code> 未使用的镜像</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker image prune -a</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行此命令时要小心。如果你构建的图像没有标签，它将被删除。</p>
+</blockquote>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/06/03/miscellaneous/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Fantasy-ke">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/03/miscellaneous/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98/" class="post-title-link" itemprop="url">Git常用命令备忘</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-06-03 16:02:00" itemprop="dateCreated datePublished" datetime="2023-06-03T16:02:00+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-11-16 14:00:13" itemprop="dateModified" datetime="2024-11-16T14:00:13+08:00">2024-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/" itemprop="url" rel="index"><span itemprop="name">杂七杂八的砖</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>194</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="本地仓库版本切换"><a href="#本地仓库版本切换" class="headerlink" title="本地仓库版本切换"></a>本地仓库版本切换</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/06/03/miscellaneous/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/06/03/miscellaneous/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88%E6%A8%A1%E7%89%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Fantasy-ke">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/03/miscellaneous/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88%E6%A8%A1%E7%89%88/" class="post-title-link" itemprop="url">开发方案模版</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-06-03 16:02:00" itemprop="dateCreated datePublished" datetime="2023-06-03T16:02:00+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-11-16 21:49:12" itemprop="dateModified" datetime="2024-11-16T21:49:12+08:00">2024-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/" itemprop="url" rel="index"><span itemprop="name">开发方案</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>230</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>1 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="开发方案模版"><a class="markdownIt-Anchor" href="#开发方案模版"></a> 开发方案模版</h1>
+<h3 id="方案管理"><a class="markdownIt-Anchor" href="#方案管理"></a> 方案管理</h3>
+<h3 id="变更记录"><a class="markdownIt-Anchor" href="#变更记录"></a> 变更记录</h3>
+<table>
+<thead>
+<tr>
+<th>日期(Date)</th>
+<th>作者(Author)</th>
+<th>旧版本(Old Version)</th>
+<th>新版本(New Version)</th>
+<th>备注(Remarks)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="审阅记录"><a class="markdownIt-Anchor" href="#审阅记录"></a> 审阅记录</h3>
+<table>
+<thead>
+<tr>
+<th>日期(Date)</th>
+<th>姓名(Name)</th>
+<th>职务(Position)</th>
+<th>版本(Version)</th>
+<th>签字(Signature)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="一-方案简介"><a class="markdownIt-Anchor" href="#一-方案简介"></a> 一、方案简介</h3>
+<ul>
+<li>方案背景</li>
+<li>现状分析</li>
+</ul>
+<h3 id="二-方案目标"><a class="markdownIt-Anchor" href="#二-方案目标"></a> 二、方案目标</h3>
+<ul>
+<li>具体目标</li>
+<li>要达到什么效果</li>
+<li>意义</li>
+</ul>
+<h3 id="三-准备工作"><a class="markdownIt-Anchor" href="#三-准备工作"></a> 三、准备工作</h3>
+<ul>
+<li>时间：方案实施时间</li>
+<li>参与人：
+<ul>
+<li>方案制定与审核者</li>
+<li>方案实施者</li>
+<li>方案验收者</li>
+</ul>
+</li>
+<li>前期具备条件
+<ul>
+<li>现有技术条件</li>
+<li>参考方案</li>
+<li></li>
+</ul>
+</li>
+</ul>
+<h3 id="四-计划安排"><a class="markdownIt-Anchor" href="#四-计划安排"></a> 四、计划安排</h3>
+<ul>
+<li>人天安排</li>
+</ul>
+<h3 id="五-方案实施"><a class="markdownIt-Anchor" href="#五-方案实施"></a> 五、方案实施</h3>
+<ul>
+<li>具体细节
+<ul>
+<li>方案如何实现的具体说明</li>
+</ul>
+</li>
+<li>分工
+<ul>
+<li>前端</li>
+<li>后端</li>
+</ul>
+</li>
+</ul>
+<h3 id="六-风险评估"><a class="markdownIt-Anchor" href="#六-风险评估"></a> 六、风险评估</h3>
+<ul>
+<li>可能会出现的难点</li>
+<li>风险评估</li>
+</ul>
+<h3 id="七-注意事项"><a class="markdownIt-Anchor" href="#七-注意事项"></a> 七、注意事项</h3>
+<ul>
+<li>可与风险评估合并</li>
+</ul>
+<h3 id="八-验收标准"><a class="markdownIt-Anchor" href="#八-验收标准"></a> 八、验收标准</h3>
+<ul>
+<li>验收对象</li>
+<li>验收前提条件</li>
+<li>验收方法</li>
+<li>验收标准</li>
+</ul>
+<h3 id="九-补充方案备用方案"><a class="markdownIt-Anchor" href="#九-补充方案备用方案"></a> 九、补充方案（备用方案）</h3>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/06/03/%E4%BA%8B%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Fantasy-ke">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/03/%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">事务</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-06-03 09:55:00" itemprop="dateCreated datePublished" datetime="2023-06-03T09:55:00+08:00">2023-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-11-16 14:01:37" itemprop="dateModified" datetime="2024-11-16T14:01:37+08:00">2024-11-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DB/" itemprop="url" rel="index"><span itemprop="name">DB</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>1.6k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>6 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li><a href="#概念">概念</a></li>
+<li><a href="#定义">定义</a></li>
+<li><a href="#组成">组成</a></li>
+<li><a href="#目的">目的</a></li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/06/03/%E4%BA%8B%E5%8A%A1/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -678,680 +1731,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/05/29/rabbitMQ/11-RabbitMQ%E8%BF%9B%E9%98%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.png">
-      <meta itemprop="name" content="Fantasy-ke">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/05/29/rabbitMQ/11-RabbitMQ%E8%BF%9B%E9%98%B6/" class="post-title-link" itemprop="url">RabbitMQ进阶</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-05-29 09:32:00" itemprop="dateCreated datePublished" datetime="2023-05-29T09:32:00+08:00">2023-05-29</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-16 14:00:18" itemprop="dateModified" datetime="2024-11-16T14:00:18+08:00">2024-11-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/" itemprop="url" rel="index"><span itemprop="name">杂七杂八的砖</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>3.5k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>13 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li><a href="#消息是如何保障100的投递成功">消息是如何保障100%的投递成功</a></li>
-<li><a href="#生产端的可靠性投递">生产端的可靠性投递</a></li>
-<li><a href="#具体解决方案">具体解决方案</a></li>
-</ul>   
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/05/29/rabbitMQ/11-RabbitMQ%E8%BF%9B%E9%98%B6/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/05/26/rabbitMQ/10-RabbitMQ%E5%9F%BA%E7%A1%80/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.png">
-      <meta itemprop="name" content="Fantasy-ke">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/05/26/rabbitMQ/10-RabbitMQ%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">RabbitMQ基础</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-05-26 22:36:00" itemprop="dateCreated datePublished" datetime="2023-05-26T22:36:00+08:00">2023-05-26</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-16 14:00:15" itemprop="dateModified" datetime="2024-11-16T14:00:15+08:00">2024-11-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/" itemprop="url" rel="index"><span itemprop="name">杂七杂八的砖</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>3.3k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>12 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li><a href="#主流消息中间件">主流消息中间件</a></li>
-<li><a href="#activemq">ActiveMQ</a></li>
-<li><a href="#kafka">Kafka</a></li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/05/26/rabbitMQ/10-RabbitMQ%E5%9F%BA%E7%A1%80/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/05/25/dotnet/7-%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.png">
-      <meta itemprop="name" content="Fantasy-ke">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/05/25/dotnet/7-%E5%A4%9A%E7%BA%BF%E7%A8%8B/" class="post-title-link" itemprop="url">多线程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-05-25 10:11:00" itemprop="dateCreated datePublished" datetime="2023-05-25T10:11:00+08:00">2023-05-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-16 14:00:10" itemprop="dateModified" datetime="2024-11-16T14:00:10+08:00">2024-11-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/" itemprop="url" rel="index"><span itemprop="name">杂七杂八的砖</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>1.5k</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>5 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="计算机概念"><a href="#计算机概念" class="headerlink" title="计算机概念"></a>计算机概念</h1><h2 id="进程"><a href="#进程" class="headerlink" title="进程"></a></h2>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/05/25/dotnet/7-%E5%A4%9A%E7%BA%BF%E7%A8%8B/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A017-%E8%A7%A6%E5%8F%91%E5%99%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.png">
-      <meta itemprop="name" content="Fantasy-ke">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A017-%E8%A7%A6%E5%8F%91%E5%99%A8/" class="post-title-link" itemprop="url">T-SQL复习17--触发器</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-05-24 13:24:00" itemprop="dateCreated datePublished" datetime="2023-05-24T13:24:00+08:00">2023-05-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-16 15:25:00" itemprop="dateModified" datetime="2024-11-16T15:25:00+08:00">2024-11-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/DB/" itemprop="url" rel="index"><span itemprop="name">DB</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>599</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
-  <h2 id="概念">概念</h2><p>触发器是数据库服务器中发生事件时自动执行的特种存储过程</p>
-    
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A017-%E8%A7%A6%E5%8F%91%E5%99%A8/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A016-%E5%87%BD%E6%95%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.png">
-      <meta itemprop="name" content="Fantasy-ke">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A016-%E5%87%BD%E6%95%B0/" class="post-title-link" itemprop="url">T-SQL复习16--函数</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-05-24 11:42:00" itemprop="dateCreated datePublished" datetime="2023-05-24T11:42:00+08:00">2023-05-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-16 14:02:03" itemprop="dateModified" datetime="2024-11-16T14:02:03+08:00">2024-11-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/DB/" itemprop="url" rel="index"><span itemprop="name">DB</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>816</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>3 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
-    
-      
-      
-        <h1 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h1><ul>
-<li>内置函数：SQL Server自带</li>
-<li>用户自定义函数：用户自己创建的函数</li>
-</ul>
-      
-    
-    
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A016-%E5%87%BD%E6%95%B0/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://zblog.love/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A015-%E4%BA%8B%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.png">
-      <meta itemprop="name" content="Fantasy-ke">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | Fantasy'Ke Blog">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A015-%E4%BA%8B%E5%8A%A1/" class="post-title-link" itemprop="url">T-SQL复习15--事务</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2023-05-24 10:19:00" itemprop="dateCreated datePublished" datetime="2023-05-24T10:19:00+08:00">2023-05-24</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-16 14:02:01" itemprop="dateModified" datetime="2024-11-16T14:02:01+08:00">2024-11-16</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">In</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/DB/" itemprop="url" rel="index"><span itemprop="name">DB</span></a>
-        </span>
-    </span>
-
-  
-    <span class="post-meta-break"></span>
-    <span class="post-meta-item" title="Word count in article">
-      <span class="post-meta-item-icon">
-        <i class="far fa-file-word"></i>
-      </span>
-      <span class="post-meta-item-text">Word count in article: </span>
-      <span>643</span>
-    </span>
-    <span class="post-meta-item" title="Reading time">
-      <span class="post-meta-item-icon">
-        <i class="far fa-clock"></i>
-      </span>
-      <span class="post-meta-item-text">Reading time &asymp;</span>
-      <span>2 mins.</span>
-    </span>
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          
-    
-      
-      
-        <ul>
-<li><a href="#%e6%a6%82%e5%bf%b5">概念</a></li>
-<li><a href="#sql-server%e4%ba%8b%e5%8a%a1">SQL Server事务</a></li>
-</ul>
-      
-    
-    
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A015-%E4%BA%8B%E5%8A%A1/#more" rel="contents">
-                Read more &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="Previous page" aria-label="Previous page" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" title="Next page" aria-label="Next page" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
@@ -1374,14 +1755,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Word count total: </span>
-    <span title="Word count total">70k</span>
+    <span title="Word count total">75k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">4:15</span>
+    <span title="Reading time total">4:34</span>
   </span>
 </div>
 <div class="busuanzi-count">
