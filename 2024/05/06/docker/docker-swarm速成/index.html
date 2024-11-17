@@ -28,14 +28,14 @@
 <meta property="og:site_name" content="Fantasy&#39;Ke Blog">
 <meta property="og:description" content="💡在生产环境使用swarm集群的注意事项">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/1.2rv5sbkjzm.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/docker/image.2krxyctvov.webp">
 <meta property="article:published_time" content="2024-05-06T01:46:02.000Z">
-<meta property="article:modified_time" content="2024-11-16T14:12:44.500Z">
+<meta property="article:modified_time" content="2024-11-17T14:52:26.624Z">
 <meta property="article:author" content="Fantasy-ke">
 <meta property="article:tag" content="Docker">
 <meta property="article:tag" content="Docker-Swarm">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://fantasy-ke.github.io/picx-images-hosting/1.2rv5sbkjzm.webp">
+<meta name="twitter:image" content="https://fantasy-ke.github.io/picx-images-hosting/docker/image.2krxyctvov.webp">
 
 
 <link rel="canonical" href="https://zblog.love/2024/05/06/docker/docker-swarm%E9%80%9F%E6%88%90/">
@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">42</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -171,7 +171,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">28</span>
+        <span class="site-state-item-count">29</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -325,7 +325,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2024-11-16 22:12:44" itemprop="dateModified" datetime="2024-11-16T22:12:44+08:00">2024-11-16</time>
+      <time title="Modified: 2024-11-17 22:52:26" itemprop="dateModified" datetime="2024-11-17T22:52:26+08:00">2024-11-17</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -572,7 +572,7 @@
 </ul>
 <p>其次需要将节点服务实例的端口公开，使服务可以被外部访问（例如使用nginx做负载均衡）</p>
 <h3 id="服务原理"><a class="markdownIt-Anchor" href="#服务原理"></a> <strong>服务原理</strong></h3>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/1.2rv5sbkjzm.webp" alt="1.2rv5sbkjzm.png" /></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.2krxyctvov.webp" alt="1.2rv5sbkjzm.png" /></p>
 <h3 id="创建服务时公开端口"><a class="markdownIt-Anchor" href="#创建服务时公开端口"></a> <strong>创建服务时公开端口</strong></h3>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker service create \</span><br><span class="line">  --name &lt;SERVICE-NAME&gt; \</span><br><span class="line">  --publish published=&lt;PUBLISHED-PORT&gt;,target=&lt;CONTAINER-PORT&gt; \</span><br><span class="line">  &lt;IMAGE&gt;</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -721,14 +721,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Word count total: </span>
-    <span title="Word count total">75k</span>
+    <span title="Word count total">76k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">4:34</span>
+    <span title="Reading time total">4:37</span>
   </span>
 </div>
 <div class="busuanzi-count">
