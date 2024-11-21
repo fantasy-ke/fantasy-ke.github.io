@@ -1316,7 +1316,7 @@ pre code {
   }
 }
 .sidebar {
-  left: -320px;
+  left: -350px;
 }
 .sidebar-active .sidebar {
   left: 0;
@@ -1331,7 +1331,7 @@ pre code {
   top: 0;
   transition: 0.2s ease-out;
   transition-property: left, right;
-  width: 320px;
+  width: 350px;
   z-index: 20;
 }
 .sidebar a {
@@ -1353,7 +1353,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #9acb7f;
+  background: #3e69cc;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2979,10 +2979,10 @@ header.header {
     display: none;
   }
   .sidebar-active {
-    padding-left: 320px;
+    padding-left: 350px;
   }
   .sidebar-active .footer-fixed {
-    left: 320px;
+    left: 350px;
   }
 }
 .sub-menu {
