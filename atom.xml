@@ -3,11 +3,11 @@
   <title>Fantasy&#39;Ke Blog</title>
   
   
-  <link href="https://zblog.love/atom.xml" rel="self"/>
+  <link href="https://blog.fantasyke.cn/atom.xml" rel="self"/>
   
-  <link href="https://zblog.love/"/>
+  <link href="https://blog.fantasyke.cn/"/>
   <updated>2024-11-29T10:00:21.582Z</updated>
-  <id>https://zblog.love/</id>
+  <id>https://blog.fantasyke.cn/</id>
   
   <author>
     <name>Fantasy-ke</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hexo nexT主题添加相册</title>
-    <link href="https://zblog.love/2024/11/29/hexo_nexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C/"/>
-    <id>https://zblog.love/2024/11/29/hexo_nexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C/</id>
+    <link href="https://blog.fantasyke.cn/2024/11/29/hexo_nexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C/"/>
+    <id>https://blog.fantasyke.cn/2024/11/29/hexo_nexT%E4%B8%BB%E9%A2%98%E6%B7%BB%E5%8A%A0%E7%9B%B8%E5%86%8C/</id>
     <published>2024-11-29T08:17:18.076Z</published>
     <updated>2024-11-29T10:00:21.582Z</updated>
     
@@ -31,17 +31,17 @@
     
     
     
-    <category term="hexo" scheme="https://zblog.love/categories/hexo/"/>
+    <category term="hexo" scheme="https://blog.fantasyke.cn/categories/hexo/"/>
     
     
-    <category term="hexo" scheme="https://zblog.love/tags/hexo/"/>
+    <category term="hexo" scheme="https://blog.fantasyke.cn/tags/hexo/"/>
     
   </entry>
   
   <entry>
     <title>杭州行</title>
-    <link href="https://zblog.love/2024/09/11/life/%E6%9D%AD%E5%B7%9E%E8%A1%8C/"/>
-    <id>https://zblog.love/2024/09/11/life/%E6%9D%AD%E5%B7%9E%E8%A1%8C/</id>
+    <link href="https://blog.fantasyke.cn/2024/09/11/life/%E6%9D%AD%E5%B7%9E%E8%A1%8C/"/>
+    <id>https://blog.fantasyke.cn/2024/09/11/life/%E6%9D%AD%E5%B7%9E%E8%A1%8C/</id>
     <published>2024-09-11T01:40:02.000Z</published>
     <updated>2024-11-26T15:06:39.488Z</updated>
     
@@ -52,17 +52,17 @@
     
     
     
-    <category term="生活" scheme="https://zblog.love/categories/%E7%94%9F%E6%B4%BB/"/>
+    <category term="生活" scheme="https://blog.fantasyke.cn/categories/%E7%94%9F%E6%B4%BB/"/>
     
     
-    <category term="life" scheme="https://zblog.love/tags/life/"/>
+    <category term="life" scheme="https://blog.fantasyke.cn/tags/life/"/>
     
   </entry>
   
   <entry>
     <title>Nginx for Ubuntu</title>
-    <link href="https://zblog.love/2024/06/03/miscellaneous/Nginx%20for%20Ubuntu/"/>
-    <id>https://zblog.love/2024/06/03/miscellaneous/Nginx%20for%20Ubuntu/</id>
+    <link href="https://blog.fantasyke.cn/2024/06/03/miscellaneous/Nginx%20for%20Ubuntu/"/>
+    <id>https://blog.fantasyke.cn/2024/06/03/miscellaneous/Nginx%20for%20Ubuntu/</id>
     <published>2024-06-03T08:06:00.000Z</published>
     <updated>2024-11-26T15:06:39.488Z</updated>
     
@@ -74,23 +74,23 @@
     
     
     
-    <category term="DevOps" scheme="https://zblog.love/categories/DevOps/"/>
+    <category term="DevOps" scheme="https://blog.fantasyke.cn/categories/DevOps/"/>
     
     
-    <category term="nginx" scheme="https://zblog.love/tags/nginx/"/>
+    <category term="nginx" scheme="https://blog.fantasyke.cn/tags/nginx/"/>
     
-    <category term="Ubuntu" scheme="https://zblog.love/tags/Ubuntu/"/>
+    <category term="Ubuntu" scheme="https://blog.fantasyke.cn/tags/Ubuntu/"/>
     
   </entry>
   
   <entry>
     <title>Docker部署Mysql</title>
-    <link href="https://zblog.love/2024/05/08/docker/Docker%E9%83%A8%E7%BD%B2Mysql/"/>
-    <id>https://zblog.love/2024/05/08/docker/Docker%E9%83%A8%E7%BD%B2Mysql/</id>
+    <link href="https://blog.fantasyke.cn/2024/05/08/docker/Docker%E9%83%A8%E7%BD%B2Mysql/"/>
+    <id>https://blog.fantasyke.cn/2024/05/08/docker/Docker%E9%83%A8%E7%BD%B2Mysql/</id>
     <published>2024-05-08T01:46:02.000Z</published>
-    <updated>2024-11-17T15:10:02.597Z</updated>
+    <updated>2024-12-03T14:46:31.072Z</updated>
     
-    <content type="html"><![CDATA[<h1 id="docker部署mysql"><a class="markdownIt-Anchor" href="#docker部署mysql"></a> Docker部署Mysql</h1><h2 id="一-概要"><a class="markdownIt-Anchor" href="#一-概要"></a> 一、概要</h2><p>此文档用于帮助开发人员快速了解 Docker 部署 MySQL 数据库的过程，并为他们提供一个指导性的指南，目前Mysql数据库使用版本为8.0。</p><h2 id="二-安装docker"><a class="markdownIt-Anchor" href="#二-安装docker"></a> 二、安装Docker</h2><ul><li><p>若未安装docker请参考此链接</p><p><a href="/2023/04/11/docker/1-docker-introduce/#Docker的安装">Docker的安装</a></p></li></ul><!-- [Docker介绍](https://zblog.love/2023/04/11/docker/1-docker-introduce/) --><h2 id="三-部署mysql数据库"><a class="markdownIt-Anchor" href="#三-部署mysql数据库"></a> 三、部署Mysql数据库</h2><h3 id="方法一使用脚本部署"><a class="markdownIt-Anchor" href="#方法一使用脚本部署"></a> 方法一：使用脚本部署</h3><h3 id="1-新建docker-composeyml文件"><a class="markdownIt-Anchor" href="#1-新建docker-composeyml文件"></a> 1、新建docker-compose.yml文件</h3><p>在文件中粘贴以下代码：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">mysql_server_db:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mysql_server:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:8.0</span>  <span class="string">//mysql数据库版本</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span> <span class="string">//Docker守护程序将在容器退出时自动重新启动它，无论容器是由于发生错误还是由于手动停止。</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">3306</span><span class="string">:3306</span>   <span class="string">//数据库映射端口</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="number">123456</span>   <span class="string">//数据库密码</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql_server_db:/var/lib/mysql</span>  <span class="string">//mysql数据库目录映射到数据卷</span></span><br><span class="line">    <span class="attr">command:</span> </span><br><span class="line">      <span class="string">--local-infile=1</span>  <span class="string">//修改数据库配置</span></span><br></pre></td></tr></table></figure><h3 id="2使用文件传输工具将docker-composeyml文件上传到服务器"><a class="markdownIt-Anchor" href="#2使用文件传输工具将docker-composeyml文件上传到服务器"></a> 2.使用文件传输工具将docker-compose.yml文件上传到服务器</h3><h3 id="3执行docker-composeyml文件"><a class="markdownIt-Anchor" href="#3执行docker-composeyml文件"></a> 3.执行docker-compose.yml文件</h3><p>到docker-compose.yml文件下执行命令</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//启动容器</span><br><span class="line">docker-compose up</span><br></pre></td></tr></table></figure><h3 id="4连接数据库"><a class="markdownIt-Anchor" href="#4连接数据库"></a> 4.连接数据库</h3><p>使用MySql客户端连接，若连接成功则表示部署完成。</p><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/Untitled-1.ic5ab26hd.webp" alt="ic5ab26hd.webp" /></p><h3 id="方法二手动部署"><a class="markdownIt-Anchor" href="#方法二手动部署"></a> 方法二：手动部署</h3><h3 id="1打开终端使用以下命令拉取-mysql-80-镜像"><a class="markdownIt-Anchor" href="#1打开终端使用以下命令拉取-mysql-80-镜像"></a> 1.打开终端，使用以下命令拉取 MySQL 8.0 镜像：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:8.0</span><br></pre></td></tr></table></figure><h3 id="2使用以下命令在-docker-中启动一个-mysql-容器并将其命名为-my-mysql"><a class="markdownIt-Anchor" href="#2使用以下命令在-docker-中启动一个-mysql-容器并将其命名为-my-mysql"></a> 2.使用以下命令在 Docker 中启动一个 MySQL 容器，并将其命名为 “my-mysql”：</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run <span class="literal">--name</span> my<span class="literal">-mysql</span> <span class="literal">-v</span> /<span class="keyword">data</span>/mysql:/var/lib/mysql <span class="literal">-e</span> MYSQL_ROOT_PASSWORD=your_password <span class="literal">-p</span> <span class="number">3306</span>:<span class="number">3306</span> <span class="literal">-d</span> mysql:<span class="number">8.0</span></span><br></pre></td></tr></table></figure><ul><li><code>-name</code>指定了你要取的名字。</li><li><code>p</code>对应，需要映射出来的端口。比如:3306:3306,意识表示为my-mysql的容器里面的3306端口对应我外面这个虚拟机的3306端口。</li><li><code>e</code>是mysql的命令，设置root的密码为123456</li><li><code>d</code>是运行的镜像，这里是<code>mysql</code> 容器镜像</li><li><code>v</code> : 指定数据卷，意思就是将mysql容器中的/var/lib/mysql（这个是数据库所有数据信息文件）映射到宿主机/data/mysql里面。（参考文档——<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC81NzQyMDI0MGU4Nzc=">使用Docker快速搭建Mysql，并进行数据卷分离<i class="fa fa-external-link-alt"></i></span>）</li></ul><h3 id="3检查容器是否正在运行"><a class="markdownIt-Anchor" href="#3检查容器是否正在运行"></a> 3.检查容器是否正在运行：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure><p>如果你看到了一个名为 “my-mysql” 的容器正在运行，说明 MySQL 已经成功部署。</p><h3 id="4进入mysql"><a class="markdownIt-Anchor" href="#4进入mysql"></a> 4.进入Mysql</h3><p>现在你可以通过 MySQL 客户端连接到这个容器，执行 SQL 命令，管理数据库了。例如，使用以下命令连接到容器：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntudoc:~# docker <span class="built_in">exec</span> -it my-mysql bash</span><br><span class="line"><span class="comment">### 下述代表容器里面的情况了</span></span><br><span class="line">root@3958ab15ea05:/# <span class="built_in">df</span> -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">overlay          53G  3.7G   47G   8% /</span><br><span class="line">tmpfs            64M     0   64M   0% /dev</span><br><span class="line">tmpfs          1000M     0 1000M   0% /sys/fs/cgroup</span><br><span class="line">/dev/dm-0        53G  3.7G   47G   8% /etc/hosts</span><br><span class="line">shm              64M     0   64M   0% /dev/shm</span><br><span class="line">tmpfs          1000M     0 1000M   0% /proc/acpi</span><br><span class="line">tmpfs          1000M     0 1000M   0% /proc/scsi</span><br><span class="line">tmpfs          1000M     0 1000M   0% /sys/firmware</span><br><span class="line"></span><br><span class="line">root@3958ab15ea05:/# mysql -uroot -p123456</span><br><span class="line">mysql: [Warning] Using a password on the <span class="built_in">command</span> line interface can be insecure.</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection <span class="built_in">id</span> is 8</span><br><span class="line">Server version: 8.0.19 MySQL Community Server -</span><br><span class="line"></span><br><span class="line"> GPL</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type <span class="string">&#x27;help;&#x27;</span> or <span class="string">&#x27;\h&#x27;</span> <span class="keyword">for</span> <span class="built_in">help</span>. Type <span class="string">&#x27;\c&#x27;</span> to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure><p>使用MySql客户端连接，若连接成功则表示部署完成。</p><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/Untitled.1lbul6y3kg.webp" alt="1lbul6y3kg" /></p><h2 id="四-注意"><a class="markdownIt-Anchor" href="#四-注意"></a> 四、注意</h2><h3 id="1-修改数据库配置"><a class="markdownIt-Anchor" href="#1-修改数据库配置"></a> 1、修改数据库配置</h3><p>在数据库执行以下命令：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>查看配置,若为OFF则执行下一步</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">global</span> variables <span class="keyword">like</span> <span class="string">&#x27;local_infile&#x27;</span></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>可将OFF改为ONset <span class="keyword">global</span> local_infile<span class="operator">=</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure><p>修改成功显示：</p><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/Untitled-2.175eubpra1.webp" alt="175eubpra1" /></p><p>必须修改，否则会在批量操作的时候（例如排产派工）时会抛出错误【loading local data is disabled； this must be enabled on both the client and server sides】，且在连接字符串中要加上AllowLoadLocalInfile=true。</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;Default&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Server=192.168.2.41;Port=3307;Database=MySqlDb;Uid=root;Pwd=123456;charset=utf8;TreatTinyAsBoolean=false;AllowLoadLocalInfile=true&quot;</span><span class="punctuation">,</span> </span><br><span class="line"><span class="attr">&quot;DatabaseType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mysql&quot;</span></span><br></pre></td></tr></table></figure>]]></content>
+    <content type="html"><![CDATA[<h1 id="docker部署mysql"><a class="markdownIt-Anchor" href="#docker部署mysql"></a> Docker部署Mysql</h1><h2 id="一-概要"><a class="markdownIt-Anchor" href="#一-概要"></a> 一、概要</h2><p>此文档用于帮助开发人员快速了解 Docker 部署 MySQL 数据库的过程，并为他们提供一个指导性的指南，目前Mysql数据库使用版本为8.0。</p><h2 id="二-安装docker"><a class="markdownIt-Anchor" href="#二-安装docker"></a> 二、安装Docker</h2><ul><li><p>若未安装docker请参考此链接</p><p><a href="/2023/04/11/docker/1-docker-introduce/#Docker的安装">Docker的安装</a></p></li></ul><!-- [Docker介绍](https://blog.fantasyke.cn/2023/04/11/docker/1-docker-introduce/) --><h2 id="三-部署mysql数据库"><a class="markdownIt-Anchor" href="#三-部署mysql数据库"></a> 三、部署Mysql数据库</h2><h3 id="方法一使用脚本部署"><a class="markdownIt-Anchor" href="#方法一使用脚本部署"></a> 方法一：使用脚本部署</h3><h3 id="1-新建docker-composeyml文件"><a class="markdownIt-Anchor" href="#1-新建docker-composeyml文件"></a> 1、新建docker-compose.yml文件</h3><p>在文件中粘贴以下代码：</p><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">mysql_server_db:</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">mysql_server:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:8.0</span>  <span class="string">//mysql数据库版本</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span> <span class="string">//Docker守护程序将在容器退出时自动重新启动它，无论容器是由于发生错误还是由于手动停止。</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">3306</span><span class="string">:3306</span>   <span class="string">//数据库映射端口</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_ROOT_PASSWORD:</span> <span class="number">123456</span>   <span class="string">//数据库密码</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">mysql_server_db:/var/lib/mysql</span>  <span class="string">//mysql数据库目录映射到数据卷</span></span><br><span class="line">    <span class="attr">command:</span> </span><br><span class="line">      <span class="string">--local-infile=1</span>  <span class="string">//修改数据库配置</span></span><br></pre></td></tr></table></figure><h3 id="2使用文件传输工具将docker-composeyml文件上传到服务器"><a class="markdownIt-Anchor" href="#2使用文件传输工具将docker-composeyml文件上传到服务器"></a> 2.使用文件传输工具将docker-compose.yml文件上传到服务器</h3><h3 id="3执行docker-composeyml文件"><a class="markdownIt-Anchor" href="#3执行docker-composeyml文件"></a> 3.执行docker-compose.yml文件</h3><p>到docker-compose.yml文件下执行命令</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//启动容器</span><br><span class="line">docker-compose up</span><br></pre></td></tr></table></figure><h3 id="4连接数据库"><a class="markdownIt-Anchor" href="#4连接数据库"></a> 4.连接数据库</h3><p>使用MySql客户端连接，若连接成功则表示部署完成。</p><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/Untitled-1.ic5ab26hd.webp" alt="ic5ab26hd.webp" /></p><h3 id="方法二手动部署"><a class="markdownIt-Anchor" href="#方法二手动部署"></a> 方法二：手动部署</h3><h3 id="1打开终端使用以下命令拉取-mysql-80-镜像"><a class="markdownIt-Anchor" href="#1打开终端使用以下命令拉取-mysql-80-镜像"></a> 1.打开终端，使用以下命令拉取 MySQL 8.0 镜像：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull mysql:8.0</span><br></pre></td></tr></table></figure><h3 id="2使用以下命令在-docker-中启动一个-mysql-容器并将其命名为-my-mysql"><a class="markdownIt-Anchor" href="#2使用以下命令在-docker-中启动一个-mysql-容器并将其命名为-my-mysql"></a> 2.使用以下命令在 Docker 中启动一个 MySQL 容器，并将其命名为 “my-mysql”：</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run <span class="literal">--name</span> my<span class="literal">-mysql</span> <span class="literal">-v</span> /<span class="keyword">data</span>/mysql:/var/lib/mysql <span class="literal">-e</span> MYSQL_ROOT_PASSWORD=your_password <span class="literal">-p</span> <span class="number">3306</span>:<span class="number">3306</span> <span class="literal">-d</span> mysql:<span class="number">8.0</span></span><br></pre></td></tr></table></figure><ul><li><code>-name</code>指定了你要取的名字。</li><li><code>p</code>对应，需要映射出来的端口。比如:3306:3306,意识表示为my-mysql的容器里面的3306端口对应我外面这个虚拟机的3306端口。</li><li><code>e</code>是mysql的命令，设置root的密码为123456</li><li><code>d</code>是运行的镜像，这里是<code>mysql</code> 容器镜像</li><li><code>v</code> : 指定数据卷，意思就是将mysql容器中的/var/lib/mysql（这个是数据库所有数据信息文件）映射到宿主机/data/mysql里面。（参考文档——<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC81NzQyMDI0MGU4Nzc=">使用Docker快速搭建Mysql，并进行数据卷分离<i class="fa fa-external-link-alt"></i></span>）</li></ul><h3 id="3检查容器是否正在运行"><a class="markdownIt-Anchor" href="#3检查容器是否正在运行"></a> 3.检查容器是否正在运行：</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure><p>如果你看到了一个名为 “my-mysql” 的容器正在运行，说明 MySQL 已经成功部署。</p><h3 id="4进入mysql"><a class="markdownIt-Anchor" href="#4进入mysql"></a> 4.进入Mysql</h3><p>现在你可以通过 MySQL 客户端连接到这个容器，执行 SQL 命令，管理数据库了。例如，使用以下命令连接到容器：</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">root@ubuntudoc:~# docker <span class="built_in">exec</span> -it my-mysql bash</span><br><span class="line"><span class="comment">### 下述代表容器里面的情况了</span></span><br><span class="line">root@3958ab15ea05:/# <span class="built_in">df</span> -h</span><br><span class="line">Filesystem      Size  Used Avail Use% Mounted on</span><br><span class="line">overlay          53G  3.7G   47G   8% /</span><br><span class="line">tmpfs            64M     0   64M   0% /dev</span><br><span class="line">tmpfs          1000M     0 1000M   0% /sys/fs/cgroup</span><br><span class="line">/dev/dm-0        53G  3.7G   47G   8% /etc/hosts</span><br><span class="line">shm              64M     0   64M   0% /dev/shm</span><br><span class="line">tmpfs          1000M     0 1000M   0% /proc/acpi</span><br><span class="line">tmpfs          1000M     0 1000M   0% /proc/scsi</span><br><span class="line">tmpfs          1000M     0 1000M   0% /sys/firmware</span><br><span class="line"></span><br><span class="line">root@3958ab15ea05:/# mysql -uroot -p123456</span><br><span class="line">mysql: [Warning] Using a password on the <span class="built_in">command</span> line interface can be insecure.</span><br><span class="line">Welcome to the MySQL monitor.  Commands end with ; or \g.</span><br><span class="line">Your MySQL connection <span class="built_in">id</span> is 8</span><br><span class="line">Server version: 8.0.19 MySQL Community Server -</span><br><span class="line"></span><br><span class="line"> GPL</span><br><span class="line"></span><br><span class="line">Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line"></span><br><span class="line">Oracle is a registered trademark of Oracle Corporation and/or its</span><br><span class="line">affiliates. Other names may be trademarks of their respective</span><br><span class="line">owners.</span><br><span class="line"></span><br><span class="line">Type <span class="string">&#x27;help;&#x27;</span> or <span class="string">&#x27;\h&#x27;</span> <span class="keyword">for</span> <span class="built_in">help</span>. Type <span class="string">&#x27;\c&#x27;</span> to clear the current input statement.</span><br><span class="line"></span><br><span class="line">mysql&gt;</span><br></pre></td></tr></table></figure><p>使用MySql客户端连接，若连接成功则表示部署完成。</p><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/Untitled.1lbul6y3kg.webp" alt="1lbul6y3kg" /></p><h2 id="四-注意"><a class="markdownIt-Anchor" href="#四-注意"></a> 四、注意</h2><h3 id="1-修改数据库配置"><a class="markdownIt-Anchor" href="#1-修改数据库配置"></a> 1、修改数据库配置</h3><p>在数据库执行以下命令：</p><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="operator">/</span><span class="operator">/</span>查看配置,若为OFF则执行下一步</span><br><span class="line"><span class="keyword">show</span> <span class="keyword">global</span> variables <span class="keyword">like</span> <span class="string">&#x27;local_infile&#x27;</span></span><br><span class="line"><span class="operator">/</span><span class="operator">/</span>可将OFF改为ONset <span class="keyword">global</span> local_infile<span class="operator">=</span><span class="number">1</span>;</span><br></pre></td></tr></table></figure><p>修改成功显示：</p><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/Untitled-2.175eubpra1.webp" alt="175eubpra1" /></p><p>必须修改，否则会在批量操作的时候（例如排产派工）时会抛出错误【loading local data is disabled； this must be enabled on both the client and server sides】，且在连接字符串中要加上AllowLoadLocalInfile=true。</p><figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;Default&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Server=192.168.2.41;Port=3307;Database=MySqlDb;Uid=root;Pwd=123456;charset=utf8;TreatTinyAsBoolean=false;AllowLoadLocalInfile=true&quot;</span><span class="punctuation">,</span> </span><br><span class="line"><span class="attr">&quot;DatabaseType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;mysql&quot;</span></span><br></pre></td></tr></table></figure>]]></content>
     
     
     <summary type="html">
@@ -98,43 +98,19 @@
     
     
     
-    <category term="DevOps" scheme="https://zblog.love/categories/DevOps/"/>
+    <category term="DevOps" scheme="https://blog.fantasyke.cn/categories/DevOps/"/>
     
     
-    <category term="Docker" scheme="https://zblog.love/tags/Docker/"/>
+    <category term="Docker" scheme="https://blog.fantasyke.cn/tags/Docker/"/>
     
-    <category term="Mysql" scheme="https://zblog.love/tags/Mysql/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Swarm-环境搭建</title>
-    <link href="https://zblog.love/2024/05/06/docker/Swarm-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
-    <id>https://zblog.love/2024/05/06/docker/Swarm-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
-    <published>2024-05-06T01:46:02.000Z</published>
-    <updated>2024-11-16T14:06:44.593Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="swarm-环境搭建"><a class="markdownIt-Anchor" href="#swarm-环境搭建"></a> Swarm-环境搭建</h1><h2 id="系统规划"><a class="markdownIt-Anchor" href="#系统规划"></a> <strong>系统规划</strong></h2><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726154555016.39l7gwav0x.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726154555016.39l7gwav0x.webp" /></p><h2 id="环境准备"><a class="markdownIt-Anchor" href="#环境准备"></a> <strong>环境准备</strong></h2><h3 id="创建服务器"><a class="markdownIt-Anchor" href="#创建服务器"></a> <strong>创建服务器</strong></h3><p>新建三台虚拟机</p><table><thead><tr><th><strong>节点</strong></th><th><strong>IP</strong></th><th><strong>系统</strong></th><th><strong>配置</strong></th><th><strong>存储</strong></th><th><strong>服务</strong></th></tr></thead><tbody><tr><td>manager</td><td>192.168.2.xx</td><td>CentOS7.6</td><td>8U16G</td><td>100G</td><td>redis,frp,mssql</td></tr><tr><td>worker1</td><td>192.168.2.xx</td><td>CentOS7.6</td><td>4U8G</td><td>80G</td><td>app</td></tr><tr><td>worker2</td><td>192.168.2.xx</td><td>CentOS7.6</td><td>4U8G</td><td>80G</td><td>app</td></tr></tbody></table><h3 id="时间同步"><a class="markdownIt-Anchor" href="#时间同步"></a> <strong>时间同步</strong></h3><p>时间同步任务</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yum install -y ntp</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt;<span class="string">EOF&gt;&gt;/var/spool/cron/root</span></span><br><span class="line"><span class="string"># 12点同步</span></span><br><span class="line"><span class="string">00 12 * * * /usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span></span><br><span class="line"><span class="string"># 23：59分执行删除</span></span><br><span class="line"><span class="string">59 23 * * *  docker image prune -af</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##查看计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment">##手动执行</span></span><br><span class="line">/usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span><br></pre></td></tr></table></figure><h3 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> <strong>Docker</strong></h3><p>启动docker</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure><h3 id="防火墙"><a class="markdownIt-Anchor" href="#防火墙"></a> <strong>防火墙</strong></h3><blockquote><p>Error response from daemon: rpc error: code = Unavailable desc = connection error: desc = “transport: Error while dialing dial tcp 192.168.2.61:2377: connect: no route to host”</p></blockquote><p><strong>打开防火墙</strong></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># manager</span></span><br><span class="line">firewall-cmd --zone=public --add-port=2377/tcp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --zone=public --add-port=7946/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=7946/udp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/udp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure><p>要在 swarm 集群中使用使用路由网格，首先需要开启加入swarm集群的节点的以下端口：</p><ul><li><code>2377</code> ：主节点监听端口</li><li><code>7946</code> ：容器网络发现</li><li><code>4789</code> ：容器网络入口</li></ul><h2 id="swarm"><a class="markdownIt-Anchor" href="#swarm"></a> <strong>Swarm</strong></h2><h3 id="创建swarm"><a class="markdownIt-Anchor" href="#创建swarm"></a> <strong>创建Swarm</strong></h3><p>创建<strong>Swarm</strong></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker swarm init --advertise-addr your_manager_ip</span><br></pre></td></tr></table></figure><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145701895.6m3xb9smof.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145701895.6m3xb9smof.webp" /></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@manager ~]# docker swarm init --advertise-addr 192.168.2.61</span><br><span class="line">Swarm initialized: current node (rzds6oyb0bgvudzegpscmgiz3) is now a manager.</span><br><span class="line"></span><br><span class="line">To add a worker to this swarm, run the following <span class="built_in">command</span>:</span><br><span class="line"></span><br><span class="line">    docker swarm <span class="built_in">join</span> --token SWMTKN-1-51b7t8whxn8j6mdjt5perjmec9u8qguxq8tern9nill737pra2-ejc5nw5f90oz6xldcbmrl2ztu 192.168.2.61:2377</span><br><span class="line"></span><br><span class="line">To add a manager to this swarm, run <span class="string">&#x27;docker swarm join-token manager&#x27;</span> and follow the instructions.</span><br></pre></td></tr></table></figure><h3 id="加入swarm"><a class="markdownIt-Anchor" href="#加入swarm"></a> <strong>加入Swarm</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker swarm <span class="built_in">join</span> --token SWMTKN-1-51b7t8whxn8j6mdjt5perjmec9u8qguxq8tern9nill737pra2-ejc5nw5f90oz6xldcbmrl2ztu 192.168.2.61:2377</span><br></pre></td></tr></table></figure><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145636086.3uuv37756b.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145636086.3uuv37756b.webp" /></p><h3 id="查看节点"><a class="markdownIt-Anchor" href="#查看节点"></a> <strong>查看节点</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@manager ~]# docker node <span class="built_in">ls</span></span><br><span class="line">ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION</span><br><span class="line">rzds6oyb0bgvudzegpscmgiz3 *   manager    Ready     Active         Leader           20.10.17</span><br><span class="line">rjj3fr5uazywwsfj6ok3f3fw3     worker1    Ready     Active                          20.10.17</span><br><span class="line">6vkvdm3gcxip8htc6cfk8bm3n     worker2    Ready     Active                          20.10.17</span><br></pre></td></tr></table></figure><h3 id="服务约束"><a class="markdownIt-Anchor" href="#服务约束"></a> <strong>服务约束</strong></h3><p>添加<strong>label</strong></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker node update --label-add role=<span class="built_in">env</span> manager</span><br><span class="line"><span class="built_in">sudo</span> docker node update --label-add gct_medpro=gct_medpro zhuji</span><br></pre></td></tr></table></figure><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726162645325.99tdlmmgzk.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726162645325.99tdlmmgzk.webp" /></p><p>给节点也加上</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@manager ~]# <span class="built_in">sudo</span> docker node update --label-add role=app worker1</span><br><span class="line">worker1</span><br><span class="line">[root@manager ~]# <span class="built_in">sudo</span> docker node update --label-add role=app worker2</span><br><span class="line">worker2</span><br></pre></td></tr></table></figure>]]></content>
-    
-    
-    <summary type="html">
-  &lt;p&gt;💡Docker-Swarm。&lt;/p&gt;</summary>
-    
-    
-    
-    <category term="DevOps" scheme="https://zblog.love/categories/DevOps/"/>
-    
-    
-    <category term="Docker" scheme="https://zblog.love/tags/Docker/"/>
-    
-    <category term="Docker-Swarm" scheme="https://zblog.love/tags/Docker-Swarm/"/>
+    <category term="Mysql" scheme="https://blog.fantasyke.cn/tags/Mysql/"/>
     
   </entry>
   
   <entry>
     <title>Docker-Swarm速成</title>
-    <link href="https://zblog.love/2024/05/06/docker/docker-swarm%E9%80%9F%E6%88%90/"/>
-    <id>https://zblog.love/2024/05/06/docker/docker-swarm%E9%80%9F%E6%88%90/</id>
+    <link href="https://blog.fantasyke.cn/2024/05/06/docker/docker-swarm%E9%80%9F%E6%88%90/"/>
+    <id>https://blog.fantasyke.cn/2024/05/06/docker/docker-swarm%E9%80%9F%E6%88%90/</id>
     <published>2024-05-06T01:46:02.000Z</published>
     <updated>2024-11-17T14:52:26.624Z</updated>
     
@@ -146,19 +122,43 @@
     
     
     
-    <category term="DevOps" scheme="https://zblog.love/categories/DevOps/"/>
+    <category term="DevOps" scheme="https://blog.fantasyke.cn/categories/DevOps/"/>
     
     
-    <category term="Docker" scheme="https://zblog.love/tags/Docker/"/>
+    <category term="Docker" scheme="https://blog.fantasyke.cn/tags/Docker/"/>
     
-    <category term="Docker-Swarm" scheme="https://zblog.love/tags/Docker-Swarm/"/>
+    <category term="Docker-Swarm" scheme="https://blog.fantasyke.cn/tags/Docker-Swarm/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Swarm-环境搭建</title>
+    <link href="https://blog.fantasyke.cn/2024/05/06/docker/Swarm-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/"/>
+    <id>https://blog.fantasyke.cn/2024/05/06/docker/Swarm-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</id>
+    <published>2024-05-06T01:46:02.000Z</published>
+    <updated>2024-11-16T14:06:44.593Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="swarm-环境搭建"><a class="markdownIt-Anchor" href="#swarm-环境搭建"></a> Swarm-环境搭建</h1><h2 id="系统规划"><a class="markdownIt-Anchor" href="#系统规划"></a> <strong>系统规划</strong></h2><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726154555016.39l7gwav0x.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726154555016.39l7gwav0x.webp" /></p><h2 id="环境准备"><a class="markdownIt-Anchor" href="#环境准备"></a> <strong>环境准备</strong></h2><h3 id="创建服务器"><a class="markdownIt-Anchor" href="#创建服务器"></a> <strong>创建服务器</strong></h3><p>新建三台虚拟机</p><table><thead><tr><th><strong>节点</strong></th><th><strong>IP</strong></th><th><strong>系统</strong></th><th><strong>配置</strong></th><th><strong>存储</strong></th><th><strong>服务</strong></th></tr></thead><tbody><tr><td>manager</td><td>192.168.2.xx</td><td>CentOS7.6</td><td>8U16G</td><td>100G</td><td>redis,frp,mssql</td></tr><tr><td>worker1</td><td>192.168.2.xx</td><td>CentOS7.6</td><td>4U8G</td><td>80G</td><td>app</td></tr><tr><td>worker2</td><td>192.168.2.xx</td><td>CentOS7.6</td><td>4U8G</td><td>80G</td><td>app</td></tr></tbody></table><h3 id="时间同步"><a class="markdownIt-Anchor" href="#时间同步"></a> <strong>时间同步</strong></h3><p>时间同步任务</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">yum install -y ntp</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt;<span class="string">EOF&gt;&gt;/var/spool/cron/root</span></span><br><span class="line"><span class="string"># 12点同步</span></span><br><span class="line"><span class="string">00 12 * * * /usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span></span><br><span class="line"><span class="string"># 23：59分执行删除</span></span><br><span class="line"><span class="string">59 23 * * *  docker image prune -af</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##查看计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment">##手动执行</span></span><br><span class="line">/usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span><br></pre></td></tr></table></figure><h3 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> <strong>Docker</strong></h3><p>启动docker</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure><h3 id="防火墙"><a class="markdownIt-Anchor" href="#防火墙"></a> <strong>防火墙</strong></h3><blockquote><p>Error response from daemon: rpc error: code = Unavailable desc = connection error: desc = “transport: Error while dialing dial tcp 192.168.2.61:2377: connect: no route to host”</p></blockquote><p><strong>打开防火墙</strong></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># manager</span></span><br><span class="line">firewall-cmd --zone=public --add-port=2377/tcp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --zone=public --add-port=7946/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=7946/udp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/udp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure><p>要在 swarm 集群中使用使用路由网格，首先需要开启加入swarm集群的节点的以下端口：</p><ul><li><code>2377</code> ：主节点监听端口</li><li><code>7946</code> ：容器网络发现</li><li><code>4789</code> ：容器网络入口</li></ul><h2 id="swarm"><a class="markdownIt-Anchor" href="#swarm"></a> <strong>Swarm</strong></h2><h3 id="创建swarm"><a class="markdownIt-Anchor" href="#创建swarm"></a> <strong>创建Swarm</strong></h3><p>创建<strong>Swarm</strong></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker swarm init --advertise-addr your_manager_ip</span><br></pre></td></tr></table></figure><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145701895.6m3xb9smof.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145701895.6m3xb9smof.webp" /></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[root@manager ~]# docker swarm init --advertise-addr 192.168.2.61</span><br><span class="line">Swarm initialized: current node (rzds6oyb0bgvudzegpscmgiz3) is now a manager.</span><br><span class="line"></span><br><span class="line">To add a worker to this swarm, run the following <span class="built_in">command</span>:</span><br><span class="line"></span><br><span class="line">    docker swarm <span class="built_in">join</span> --token SWMTKN-1-51b7t8whxn8j6mdjt5perjmec9u8qguxq8tern9nill737pra2-ejc5nw5f90oz6xldcbmrl2ztu 192.168.2.61:2377</span><br><span class="line"></span><br><span class="line">To add a manager to this swarm, run <span class="string">&#x27;docker swarm join-token manager&#x27;</span> and follow the instructions.</span><br></pre></td></tr></table></figure><h3 id="加入swarm"><a class="markdownIt-Anchor" href="#加入swarm"></a> <strong>加入Swarm</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker swarm <span class="built_in">join</span> --token SWMTKN-1-51b7t8whxn8j6mdjt5perjmec9u8qguxq8tern9nill737pra2-ejc5nw5f90oz6xldcbmrl2ztu 192.168.2.61:2377</span><br></pre></td></tr></table></figure><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145636086.3uuv37756b.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145636086.3uuv37756b.webp" /></p><h3 id="查看节点"><a class="markdownIt-Anchor" href="#查看节点"></a> <strong>查看节点</strong></h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[root@manager ~]# docker node <span class="built_in">ls</span></span><br><span class="line">ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION</span><br><span class="line">rzds6oyb0bgvudzegpscmgiz3 *   manager    Ready     Active         Leader           20.10.17</span><br><span class="line">rjj3fr5uazywwsfj6ok3f3fw3     worker1    Ready     Active                          20.10.17</span><br><span class="line">6vkvdm3gcxip8htc6cfk8bm3n     worker2    Ready     Active                          20.10.17</span><br></pre></td></tr></table></figure><h3 id="服务约束"><a class="markdownIt-Anchor" href="#服务约束"></a> <strong>服务约束</strong></h3><p>添加<strong>label</strong></p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker node update --label-add role=<span class="built_in">env</span> manager</span><br><span class="line"><span class="built_in">sudo</span> docker node update --label-add gct_medpro=gct_medpro zhuji</span><br></pre></td></tr></table></figure><p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726162645325.99tdlmmgzk.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726162645325.99tdlmmgzk.webp" /></p><p>给节点也加上</p><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@manager ~]# <span class="built_in">sudo</span> docker node update --label-add role=app worker1</span><br><span class="line">worker1</span><br><span class="line">[root@manager ~]# <span class="built_in">sudo</span> docker node update --label-add role=app worker2</span><br><span class="line">worker2</span><br></pre></td></tr></table></figure>]]></content>
+    
+    
+    <summary type="html">
+  &lt;p&gt;💡Docker-Swarm。&lt;/p&gt;</summary>
+    
+    
+    
+    <category term="DevOps" scheme="https://blog.fantasyke.cn/categories/DevOps/"/>
+    
+    
+    <category term="Docker" scheme="https://blog.fantasyke.cn/tags/Docker/"/>
+    
+    <category term="Docker-Swarm" scheme="https://blog.fantasyke.cn/tags/Docker-Swarm/"/>
     
   </entry>
   
   <entry>
     <title>Windows安装MongoDB</title>
-    <link href="https://zblog.love/2024/01/11/miscellaneous/Windows%E5%AE%89%E8%A3%85MongoDB/"/>
-    <id>https://zblog.love/2024/01/11/miscellaneous/Windows%E5%AE%89%E8%A3%85MongoDB/</id>
+    <link href="https://blog.fantasyke.cn/2024/01/11/miscellaneous/Windows%E5%AE%89%E8%A3%85MongoDB/"/>
+    <id>https://blog.fantasyke.cn/2024/01/11/miscellaneous/Windows%E5%AE%89%E8%A3%85MongoDB/</id>
     <published>2024-01-11T01:40:02.000Z</published>
     <updated>2024-11-16T06:12:02.085Z</updated>
     
@@ -170,17 +170,17 @@
     
     
     
-    <category term="杂七杂八的砖" scheme="https://zblog.love/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
+    <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term="MongoDB" scheme="https://zblog.love/tags/MongoDB/"/>
+    <category term="MongoDB" scheme="https://blog.fantasyke.cn/tags/MongoDB/"/>
     
   </entry>
   
   <entry>
     <title>.Net Core自定义规范响应的中间件</title>
-    <link href="https://zblog.love/2023/11/11/dotnet/8-Net%20Core%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83%E5%93%8D%E5%BA%94%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
-    <id>https://zblog.love/2023/11/11/dotnet/8-Net%20Core%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83%E5%93%8D%E5%BA%94%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6/</id>
+    <link href="https://blog.fantasyke.cn/2023/11/11/dotnet/8-Net%20Core%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83%E5%93%8D%E5%BA%94%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6/"/>
+    <id>https://blog.fantasyke.cn/2023/11/11/dotnet/8-Net%20Core%E8%87%AA%E5%AE%9A%E4%B9%89%E8%A7%84%E8%8C%83%E5%93%8D%E5%BA%94%E7%9A%84%E4%B8%AD%E9%97%B4%E4%BB%B6/</id>
     <published>2023-11-11T01:40:02.000Z</published>
     <updated>2024-11-16T06:11:34.639Z</updated>
     
@@ -192,19 +192,19 @@
     
     
     
-    <category term="杂七杂八的砖" scheme="https://zblog.love/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
+    <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term=".NET Core" scheme="https://zblog.love/tags/NET-Core/"/>
+    <category term=".NET Core" scheme="https://blog.fantasyke.cn/tags/NET-Core/"/>
     
-    <category term="Middleware" scheme="https://zblog.love/tags/Middleware/"/>
+    <category term="Middleware" scheme="https://blog.fantasyke.cn/tags/Middleware/"/>
     
   </entry>
   
   <entry>
     <title>.NET 实现JWT登录认证</title>
-    <link href="https://zblog.love/2023/10/12/dotnet/2-NET%20%E5%AE%9E%E7%8E%B0%20JWT%20%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/"/>
-    <id>https://zblog.love/2023/10/12/dotnet/2-NET%20%E5%AE%9E%E7%8E%B0%20JWT%20%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/</id>
+    <link href="https://blog.fantasyke.cn/2023/10/12/dotnet/2-NET%20%E5%AE%9E%E7%8E%B0%20JWT%20%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/"/>
+    <id>https://blog.fantasyke.cn/2023/10/12/dotnet/2-NET%20%E5%AE%9E%E7%8E%B0%20JWT%20%E7%99%BB%E5%BD%95%E9%AA%8C%E8%AF%81/</id>
     <published>2023-10-12T09:40:02.000Z</published>
     <updated>2024-11-16T06:08:33.878Z</updated>
     
@@ -216,19 +216,19 @@
     
     
     
-    <category term="杂七杂八的砖" scheme="https://zblog.love/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
+    <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term="JWT" scheme="https://zblog.love/tags/JWT/"/>
+    <category term=".NET Core" scheme="https://blog.fantasyke.cn/tags/NET-Core/"/>
     
-    <category term=".NET Core" scheme="https://zblog.love/tags/NET-Core/"/>
+    <category term="JWT" scheme="https://blog.fantasyke.cn/tags/JWT/"/>
     
   </entry>
   
   <entry>
     <title>.NET Core中RabbitMQ初识</title>
-    <link href="https://zblog.love/2023/10/11/dotnet/1-NET%20Core%E4%B8%ADRabbitMQ%E5%88%9D%E8%AF%86/"/>
-    <id>https://zblog.love/2023/10/11/dotnet/1-NET%20Core%E4%B8%ADRabbitMQ%E5%88%9D%E8%AF%86/</id>
+    <link href="https://blog.fantasyke.cn/2023/10/11/dotnet/1-NET%20Core%E4%B8%ADRabbitMQ%E5%88%9D%E8%AF%86/"/>
+    <id>https://blog.fantasyke.cn/2023/10/11/dotnet/1-NET%20Core%E4%B8%ADRabbitMQ%E5%88%9D%E8%AF%86/</id>
     <published>2023-10-11T01:40:02.000Z</published>
     <updated>2024-11-16T06:07:09.854Z</updated>
     
@@ -240,21 +240,21 @@
     
     
     
-    <category term="杂七杂八的砖" scheme="https://zblog.love/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
+    <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term=".NET Core" scheme="https://zblog.love/tags/NET-Core/"/>
+    <category term="消息队列" scheme="https://blog.fantasyke.cn/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"/>
     
-    <category term="消息队列" scheme="https://zblog.love/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"/>
+    <category term="RabbitMQ" scheme="https://blog.fantasyke.cn/tags/RabbitMQ/"/>
     
-    <category term="RabbitMQ" scheme="https://zblog.love/tags/RabbitMQ/"/>
+    <category term=".NET Core" scheme="https://blog.fantasyke.cn/tags/NET-Core/"/>
     
   </entry>
   
   <entry>
     <title>.NET Core使用Cap</title>
-    <link href="https://zblog.love/2023/07/08/dotnet/3-NET%20Core%E4%BD%BF%E7%94%A8Cap/"/>
-    <id>https://zblog.love/2023/07/08/dotnet/3-NET%20Core%E4%BD%BF%E7%94%A8Cap/</id>
+    <link href="https://blog.fantasyke.cn/2023/07/08/dotnet/3-NET%20Core%E4%BD%BF%E7%94%A8Cap/"/>
+    <id>https://blog.fantasyke.cn/2023/07/08/dotnet/3-NET%20Core%E4%BD%BF%E7%94%A8Cap/</id>
     <published>2023-07-08T12:36:00.000Z</published>
     <updated>2024-11-16T05:59:58.208Z</updated>
     
@@ -270,19 +270,19 @@
     
     
     
-    <category term="杂七杂八的砖" scheme="https://zblog.love/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
+    <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term="ASP.NET Core" scheme="https://zblog.love/tags/ASP-NET-Core/"/>
+    <category term="ASP.NET Core" scheme="https://blog.fantasyke.cn/tags/ASP-NET-Core/"/>
     
-    <category term="CAP" scheme="https://zblog.love/tags/CAP/"/>
+    <category term="CAP" scheme="https://blog.fantasyke.cn/tags/CAP/"/>
     
   </entry>
   
   <entry>
     <title>EntityFramework Core的并发处理</title>
-    <link href="https://zblog.love/2023/07/05/dotnet/6-EntityFramework%20Core%E7%9A%84%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/"/>
-    <id>https://zblog.love/2023/07/05/dotnet/6-EntityFramework%20Core%E7%9A%84%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/</id>
+    <link href="https://blog.fantasyke.cn/2023/07/05/dotnet/6-EntityFramework%20Core%E7%9A%84%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/"/>
+    <id>https://blog.fantasyke.cn/2023/07/05/dotnet/6-EntityFramework%20Core%E7%9A%84%E5%B9%B6%E5%8F%91%E5%A4%84%E7%90%86/</id>
     <published>2023-07-05T12:36:00.000Z</published>
     <updated>2024-11-16T06:00:06.933Z</updated>
     
@@ -297,21 +297,21 @@
     
     
     
-    <category term="杂七杂八的砖" scheme="https://zblog.love/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
+    <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term="ASP.NET Core" scheme="https://zblog.love/tags/ASP-NET-Core/"/>
+    <category term="ASP.NET Core" scheme="https://blog.fantasyke.cn/tags/ASP-NET-Core/"/>
     
-    <category term="EntityFramework Core" scheme="https://zblog.love/tags/EntityFramework-Core/"/>
+    <category term="EntityFramework Core" scheme="https://blog.fantasyke.cn/tags/EntityFramework-Core/"/>
     
-    <category term="ORM" scheme="https://zblog.love/tags/ORM/"/>
+    <category term="ORM" scheme="https://blog.fantasyke.cn/tags/ORM/"/>
     
   </entry>
   
   <entry>
     <title>gRPC in ASP.NET Core</title>
-    <link href="https://zblog.love/2023/06/28/dotnet/4-gRPC%20in%20ASP.NET%20Core/"/>
-    <id>https://zblog.love/2023/06/28/dotnet/4-gRPC%20in%20ASP.NET%20Core/</id>
+    <link href="https://blog.fantasyke.cn/2023/06/28/dotnet/4-gRPC%20in%20ASP.NET%20Core/"/>
+    <id>https://blog.fantasyke.cn/2023/06/28/dotnet/4-gRPC%20in%20ASP.NET%20Core/</id>
     <published>2023-06-28T13:36:00.000Z</published>
     <updated>2024-11-16T06:00:01.125Z</updated>
     
@@ -326,19 +326,19 @@
     
     
     
-    <category term="杂七杂八的砖" scheme="https://zblog.love/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
+    <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term="gRPC" scheme="https://zblog.love/tags/gRPC/"/>
+    <category term="ASP.NET Core" scheme="https://blog.fantasyke.cn/tags/ASP-NET-Core/"/>
     
-    <category term="ASP.NET Core" scheme="https://zblog.love/tags/ASP-NET-Core/"/>
+    <category term="gRPC" scheme="https://blog.fantasyke.cn/tags/gRPC/"/>
     
   </entry>
   
   <entry>
     <title>MediatR：轻松实现命令查询职责分离模式(CQRS)</title>
-    <link href="https://zblog.love/2023/06/26/dotnet/5-MediatR%EF%BC%9A%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E5%91%BD%E4%BB%A4%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F(CQRS)/"/>
-    <id>https://zblog.love/2023/06/26/dotnet/5-MediatR%EF%BC%9A%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E5%91%BD%E4%BB%A4%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F(CQRS)/</id>
+    <link href="https://blog.fantasyke.cn/2023/06/26/dotnet/5-MediatR%EF%BC%9A%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E5%91%BD%E4%BB%A4%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F(CQRS)/"/>
+    <id>https://blog.fantasyke.cn/2023/06/26/dotnet/5-MediatR%EF%BC%9A%E8%BD%BB%E6%9D%BE%E5%AE%9E%E7%8E%B0%E5%91%BD%E4%BB%A4%E6%9F%A5%E8%AF%A2%E8%81%8C%E8%B4%A3%E5%88%86%E7%A6%BB%E6%A8%A1%E5%BC%8F(CQRS)/</id>
     <published>2023-06-26T14:36:00.000Z</published>
     <updated>2024-11-16T06:00:03.948Z</updated>
     
@@ -352,23 +352,23 @@
     
     
     
-    <category term="杂七杂八的砖" scheme="https://zblog.love/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
+    <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term="ASP.NET Core" scheme="https://zblog.love/tags/ASP-NET-Core/"/>
+    <category term="ASP.NET Core" scheme="https://blog.fantasyke.cn/tags/ASP-NET-Core/"/>
     
-    <category term="CQRS" scheme="https://zblog.love/tags/CQRS/"/>
+    <category term="CQRS" scheme="https://blog.fantasyke.cn/tags/CQRS/"/>
     
-    <category term="MediatR" scheme="https://zblog.love/tags/MediatR/"/>
+    <category term="MediatR" scheme="https://blog.fantasyke.cn/tags/MediatR/"/>
     
-    <category term="DDD" scheme="https://zblog.love/tags/DDD/"/>
+    <category term="DDD" scheme="https://blog.fantasyke.cn/tags/DDD/"/>
     
   </entry>
   
   <entry>
     <title>MySql、Sqlserver外键约束处理</title>
-    <link href="https://zblog.love/2023/06/03/%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%E5%A4%84%E7%90%86/"/>
-    <id>https://zblog.love/2023/06/03/%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%E5%A4%84%E7%90%86/</id>
+    <link href="https://blog.fantasyke.cn/2023/06/03/%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%E5%A4%84%E7%90%86/"/>
+    <id>https://blog.fantasyke.cn/2023/06/03/%E5%A4%96%E9%94%AE%E7%BA%A6%E6%9D%9F%E5%A4%84%E7%90%86/</id>
     <published>2023-06-03T08:06:00.000Z</published>
     <updated>2024-11-26T15:06:39.506Z</updated>
     
@@ -380,17 +380,17 @@
     
     
     
-    <category term="DB" scheme="https://zblog.love/categories/DB/"/>
+    <category term="DB" scheme="https://blog.fantasyke.cn/categories/DB/"/>
     
     
-    <category term="SQL Server" scheme="https://zblog.love/tags/SQL-Server/"/>
+    <category term="SQL Server" scheme="https://blog.fantasyke.cn/tags/SQL-Server/"/>
     
   </entry>
   
   <entry>
     <title>Oracle支持批量操作方案</title>
-    <link href="https://zblog.love/2023/06/03/miscellaneous/Oracle%E6%94%AF%E6%8C%81%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E6%96%B9%E6%A1%88/"/>
-    <id>https://zblog.love/2023/06/03/miscellaneous/Oracle%E6%94%AF%E6%8C%81%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E6%96%B9%E6%A1%88/</id>
+    <link href="https://blog.fantasyke.cn/2023/06/03/miscellaneous/Oracle%E6%94%AF%E6%8C%81%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E6%96%B9%E6%A1%88/"/>
+    <id>https://blog.fantasyke.cn/2023/06/03/miscellaneous/Oracle%E6%94%AF%E6%8C%81%E6%89%B9%E9%87%8F%E6%93%8D%E4%BD%9C%E6%96%B9%E6%A1%88/</id>
     <published>2023-06-03T08:06:00.000Z</published>
     <updated>2024-11-26T15:06:39.493Z</updated>
     
@@ -402,17 +402,17 @@
     
     
     
-    <category term="开发方案" scheme="https://zblog.love/categories/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/"/>
+    <category term="开发方案" scheme="https://blog.fantasyke.cn/categories/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/"/>
     
     
-    <category term="开发方案" scheme="https://zblog.love/tags/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/"/>
+    <category term="开发方案" scheme="https://blog.fantasyke.cn/tags/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/"/>
     
   </entry>
   
   <entry>
     <title>docker部署 gitlab Runner 运行</title>
-    <link href="https://zblog.love/2023/06/03/miscellaneous/gitlabrunner/"/>
-    <id>https://zblog.love/2023/06/03/miscellaneous/gitlabrunner/</id>
+    <link href="https://blog.fantasyke.cn/2023/06/03/miscellaneous/gitlabrunner/"/>
+    <id>https://blog.fantasyke.cn/2023/06/03/miscellaneous/gitlabrunner/</id>
     <published>2023-06-03T08:06:00.000Z</published>
     <updated>2024-11-26T15:06:39.497Z</updated>
     
@@ -424,19 +424,19 @@
     
     
     
-    <category term="DevOps" scheme="https://zblog.love/categories/DevOps/"/>
+    <category term="DevOps" scheme="https://blog.fantasyke.cn/categories/DevOps/"/>
     
     
-    <category term="gitlab" scheme="https://zblog.love/tags/gitlab/"/>
+    <category term="gitlab" scheme="https://blog.fantasyke.cn/tags/gitlab/"/>
     
-    <category term="docker" scheme="https://zblog.love/tags/docker/"/>
+    <category term="docker" scheme="https://blog.fantasyke.cn/tags/docker/"/>
     
   </entry>
   
   <entry>
     <title>Git常用命令备忘</title>
-    <link href="https://zblog.love/2023/06/03/miscellaneous/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98/"/>
-    <id>https://zblog.love/2023/06/03/miscellaneous/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98/</id>
+    <link href="https://blog.fantasyke.cn/2023/06/03/miscellaneous/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98/"/>
+    <id>https://blog.fantasyke.cn/2023/06/03/miscellaneous/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98/</id>
     <published>2023-06-03T08:02:00.000Z</published>
     <updated>2024-11-16T06:00:13.517Z</updated>
     
@@ -447,19 +447,19 @@
     
     
     
-    <category term="杂七杂八的砖" scheme="https://zblog.love/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
+    <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term="版本控制" scheme="https://zblog.love/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
+    <category term="版本控制" scheme="https://blog.fantasyke.cn/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/"/>
     
-    <category term="Git" scheme="https://zblog.love/tags/Git/"/>
+    <category term="Git" scheme="https://blog.fantasyke.cn/tags/Git/"/>
     
   </entry>
   
   <entry>
     <title>开发方案模版</title>
-    <link href="https://zblog.love/2023/06/03/miscellaneous/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88%E6%A8%A1%E7%89%88/"/>
-    <id>https://zblog.love/2023/06/03/miscellaneous/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88%E6%A8%A1%E7%89%88/</id>
+    <link href="https://blog.fantasyke.cn/2023/06/03/miscellaneous/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88%E6%A8%A1%E7%89%88/"/>
+    <id>https://blog.fantasyke.cn/2023/06/03/miscellaneous/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88%E6%A8%A1%E7%89%88/</id>
     <published>2023-06-03T08:02:00.000Z</published>
     <updated>2024-11-26T15:06:39.501Z</updated>
     
@@ -471,17 +471,17 @@
     
     
     
-    <category term="开发方案" scheme="https://zblog.love/categories/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/"/>
+    <category term="开发方案" scheme="https://blog.fantasyke.cn/categories/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/"/>
     
     
-    <category term="开发方案" scheme="https://zblog.love/tags/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/"/>
+    <category term="开发方案" scheme="https://blog.fantasyke.cn/tags/%E5%BC%80%E5%8F%91%E6%96%B9%E6%A1%88/"/>
     
   </entry>
   
   <entry>
     <title>事务</title>
-    <link href="https://zblog.love/2023/06/03/%E4%BA%8B%E5%8A%A1/"/>
-    <id>https://zblog.love/2023/06/03/%E4%BA%8B%E5%8A%A1/</id>
+    <link href="https://blog.fantasyke.cn/2023/06/03/%E4%BA%8B%E5%8A%A1/"/>
+    <id>https://blog.fantasyke.cn/2023/06/03/%E4%BA%8B%E5%8A%A1/</id>
     <published>2023-06-03T01:55:00.000Z</published>
     <updated>2024-11-16T06:01:37.491Z</updated>
     
@@ -497,10 +497,10 @@
     
     
     
-    <category term="DB" scheme="https://zblog.love/categories/DB/"/>
+    <category term="DB" scheme="https://blog.fantasyke.cn/categories/DB/"/>
     
     
-    <category term="事务" scheme="https://zblog.love/tags/%E4%BA%8B%E5%8A%A1/"/>
+    <category term="事务" scheme="https://blog.fantasyke.cn/tags/%E4%BA%8B%E5%8A%A1/"/>
     
   </entry>
   
