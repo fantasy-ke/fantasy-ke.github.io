@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.fantasyke.cn/images/picX/rabbitMQ/rabbitMQ_info.json</loc>
+    <loc>https://blog.fantasyke.cn/images/picX/docker/docker_info.json</loc>
     
     <lastmod>2024-12-12</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/images/picX/docker/docker_info.json</loc>
+    <loc>https://blog.fantasyke.cn/images/picX/rabbitMQ/rabbitMQ_info.json</loc>
     
     <lastmod>2024-12-12</lastmod>
     
@@ -317,6 +317,15 @@
   </url>
   
   <url>
+    <loc>https://blog.fantasyke.cn/2024/05/06/docker/Swarm-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</loc>
+    
+    <lastmod>2024-11-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.fantasyke.cn/2024/05/06/docker/docker-swarm%E9%80%9F%E6%88%90/</loc>
     
     <lastmod>2024-11-18</lastmod>
@@ -327,15 +336,6 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/2023/10/11/dotnet/1-NET%20Core%E4%B8%ADRabbitMQ%E5%88%9D%E8%AF%86/</loc>
-    
-    <lastmod>2024-11-18</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/2024/05/06/docker/Swarm-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</loc>
     
     <lastmod>2024-11-18</lastmod>
     
@@ -389,7 +389,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/2023/04/11/docker/3-docker-basic-commands/</loc>
+    <loc>https://blog.fantasyke.cn/2023/04/11/docker/2-docker-basic-use/</loc>
     
     <lastmod>2024-11-18</lastmod>
     
@@ -398,7 +398,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/2023/04/11/docker/2-docker-basic-use/</loc>
+    <loc>https://blog.fantasyke.cn/2023/04/11/docker/3-docker-basic-commands/</loc>
     
     <lastmod>2024-11-18</lastmod>
     
@@ -615,20 +615,6 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/nginx/</loc>
-    <lastmod>2024-12-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/tags/Ubuntu/</loc>
-    <lastmod>2024-12-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.fantasyke.cn/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/</loc>
     <lastmod>2024-12-12</lastmod>
     <changefreq>weekly</changefreq>
@@ -637,6 +623,20 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/tags/Git/</loc>
+    <lastmod>2024-12-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/tags/nginx/</loc>
+    <lastmod>2024-12-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/tags/Ubuntu/</loc>
     <lastmod>2024-12-12</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

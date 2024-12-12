@@ -574,185 +574,6 @@ docker-engine
       </tags>
   </entry>
   <entry>
-    <title>3.Docker基本命令</title>
-    <url>/2023/04/11/docker/3-docker-basic-commands/</url>
-    <content><![CDATA[<h1 id="docker基本命令"><a class="markdownIt-Anchor" href="#docker基本命令"></a> Docker基本命令</h1>
-<aside>
-💡 每个人都可以评论它
-</aside>
-<h1 id="docker常用命令"><a class="markdownIt-Anchor" href="#docker常用命令"></a> Docker常用命令</h1>
-<h2 id="启动-docker"><a class="markdownIt-Anchor" href="#启动-docker"></a> 启动 Docker</h2>
-<h3 id="systemctl-start-docker"><a class="markdownIt-Anchor" href="#systemctl-start-docker"></a> systemctl start docker</h3>
-<p>在服务器关机或者重启后，是需要重新启动 Docker 的。 命令如下：</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">start</span> docker</span><br></pre></td></tr></table></figure>
-<h2 id="查看日志"><a class="markdownIt-Anchor" href="#查看日志"></a> 查看日志</h2>
-<h3 id="docker-logs"><a class="markdownIt-Anchor" href="#docker-logs"></a> docker logs</h3>
-<blockquote>
-<p>语法</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker logs [参数] 容器</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li><code>f</code>：日志流动输出。</li>
-<li><code>t</code>：展示时间戳。</li>
-<li><code>-tail</code>：从日志末尾显示的行数。</li>
-</ul>
-<blockquote>
-<p>为模拟日志输出效果，我们先编写一段脚本</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> true;<span class="keyword">do</span> <span class="built_in">echo</span> sail;<span class="built_in">sleep</span> <span class="number">3</span>;done</span><br></pre></td></tr></table></figure>
-<p>以上脚本实现的效果为：每隔 3 秒输出字符串 sail。</p>
-<blockquote>
-<p>以脚本启动容器</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@sail ~]# docker logs -f -t --<span class="built_in">tail</span> 10 c3d59f55d600</span><br><span class="line">2021-12-10T03:01:28.607288480Z sail</span><br><span class="line">2021-12-10T03:01:31.609334595Z sail</span><br><span class="line">2021-12-10T03:01:34.611361943Z sail</span><br><span class="line">2021-12-10T03:01:37.613461457Z sail</span><br><span class="line">2021-12-10T03:02:10.636760025Z sail</span><br></pre></td></tr></table></figure>
-<p>可以看到，按此命令会看到容器最后 10 条日志，且每隔 3 秒滚动输出一条日志。</p>
-<h2 id="后台启动"><a class="markdownIt-Anchor" href="#后台启动"></a> 后台启动</h2>
-<h3 id="docker-run-d"><a class="markdownIt-Anchor" href="#docker-run-d"></a> docker run -d</h3>
-<blockquote>
-<p>语法</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">-d</span> 镜像</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>后台启动镜像</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d centos</span></span><br><span class="line"><span class="number">0</span>aee6f74b913f120195ca323892867bba7d72f2671f2f8b17278a3e029ad5bfd</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>使用 docker run -d 启动，也并不能保证容器一定能在后台运行，如果没有前台使用，容器启动后发现自己没有提供服务，会立刻停止。</p>
-</blockquote>
-<p>前面的 <code>docker run -d centos /bin/sh -c &quot;while true;do echo sail;sleep 3;done&quot;</code> 命令，由于启动后运行了脚本打印日志，即提供了服务，所以不会停止。</p>
-<h2 id="查看容器信息"><a class="markdownIt-Anchor" href="#查看容器信息"></a> 查看容器信息</h2>
-<h3 id="docker-inspect"><a class="markdownIt-Anchor" href="#docker-inspect"></a> docker inspect</h3>
-<blockquote>
-<p>语法</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker inspect 容器</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>示例</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS         PORTS     NAMES</span><br><span class="line">c3d59f55d600   centos    <span class="string">&quot;/bin/sh -c &#x27;while t…&quot;</span>   <span class="number">24</span> minutes ago   Up <span class="number">5</span> seconds             musing_poincare</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker inspect c3d59f55d600</span></span><br><span class="line">[<span class="type">.....</span>]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>不管容器是否运行，都可以使用该命令查看。</p>
-</blockquote>
-<h2 id="进入正在运行的容器"><a class="markdownIt-Anchor" href="#进入正在运行的容器"></a> 进入正在运行的容器</h2>
-<p>容器是一个微型的 Linux 系统，我们通常需要进入容器进行操作。</p>
-<h3 id="docker-exec"><a class="markdownIt-Anchor" href="#docker-exec"></a> docker exec</h3>
-<p>使用 <code>docker exec</code> 可以进入容器并开启一个新的终端，可以在里面操作。</p>
-<blockquote>
-<p>语法</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker exec [参数] 容器 路径</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li><code>d</code>：后台运行。</li>
-<li><code>it</code>：交互模式进入。</li>
-</ul>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES</span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">15</span> hours ago   Up <span class="number">15</span> hours             centos01</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker exec -it 96ed3fe3e7f1 /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> /]<span class="comment"># ls</span></span><br><span class="line">bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> /]<span class="comment"># ps -ef</span></span><br><span class="line">UID        PID  PPID  C STIME TTY          TIME CMD</span><br><span class="line">root         <span class="number">1</span>     <span class="number">0</span>  <span class="number">0</span> Dec09 pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> /bin/bash</span><br><span class="line">root        <span class="number">15</span>     <span class="number">0</span>  <span class="number">0</span> <span class="number">03</span>:<span class="number">38</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> /bin/bash</span><br><span class="line">root        <span class="number">30</span>    <span class="number">15</span>  <span class="number">0</span> <span class="number">03</span>:<span class="number">39</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> <span class="built_in">ps</span> <span class="literal">-ef</span></span><br></pre></td></tr></table></figure>
-<p>这种进入方式是单独开了一个新进程的方式。</p>
-<h3 id="docker-attach"><a class="markdownIt-Anchor" href="#docker-attach"></a> docker attach</h3>
-<p>使用 <code>docker attach</code> 会进入容器正在执行的终端，不会启动新的进程。</p>
-<blockquote>
-<p>语法 docker attach 容器</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES</span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">17</span> hours ago   Up <span class="number">17</span> hours             centos01</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker attach 96ed3fe3e7f1</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> /]<span class="comment"># ps -ef</span></span><br><span class="line">UID        PID  PPID  C STIME TTY          TIME CMD</span><br><span class="line">root         <span class="number">1</span>     <span class="number">0</span>  <span class="number">0</span> Dec09 pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> /bin/bash</span><br><span class="line">root        <span class="number">33</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">05</span>:<span class="number">49</span> pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> <span class="built_in">ps</span> <span class="literal">-ef</span></span><br></pre></td></tr></table></figure>
-<p>这种进入方式没有开启新的进程（<code>/bin/bash</code> 是 centos 容器的默认终端）。</p>
-<h2 id="从容器内拷贝文件到主机"><a class="markdownIt-Anchor" href="#从容器内拷贝文件到主机"></a> 从容器内拷贝文件到主机</h2>
-<blockquote>
-<p>查看启动的容器</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES</span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">17</span> hours ago   Up <span class="number">17</span> hours             centos01</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>进入容器，创建一个文件</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker attach 96ed3fe3e7f1</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> <span class="type">home</span>]<span class="comment"># exit</span></span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>退出容器后，不管容器是否启动，都可以复制容器中的文件到主机上</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker cp 96ed3fe3e7f1:/home/test.java /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  f2  f3  sail  test.java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这种方式是一个手动过程，很不方便，推荐使用数据卷技术，可以实现自动同步主机和容器的目录。</p>
-</blockquote>
-<p>详情见：<span class="exturl" data-url="aHR0cHM6Ly93d3cua3VhbmdzdHVkeS5jb20vYmJzLzE0ODQ3ODIxNDA2NjY1OTMyODI=">Docker 12 数据卷<i class="fa fa-external-link-alt"></i></span></p>
-<h2 id="查看docker内存占用"><a class="markdownIt-Anchor" href="#查看docker内存占用"></a> 查看Docker内存占用</h2>
-<h3 id="docker-stats"><a class="markdownIt-Anchor" href="#docker-stats"></a> docker stats</h3>
-<blockquote>
-<p>语法</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker stats [参数] [容器<span class="type">...</span>]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li><code>a</code>：查看所有容器的内存占用（默认只展示运行的容器）。</li>
-</ul>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker stats</span></span><br><span class="line">CONTAINER ID   NAME       CPU %     MEM USAGE / LIMIT   MEM %     NET I/O   BLOCK I/O   PIDS</span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos01   <span class="number">0.00</span>%     <span class="number">524</span>KiB / <span class="number">1.694</span>GiB   <span class="number">0.03</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">1</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker stats -a</span></span><br><span class="line">CONTAINER ID   NAME              CPU %     MEM USAGE / LIMIT   MEM %     NET I/O   BLOCK I/O   PIDS</span><br><span class="line"><span class="number">0</span>aee6f74b913   brave_rosalind    <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B             <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">0</span></span><br><span class="line">c3d59f55d600   musing_poincare   <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B             <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">0</span></span><br><span class="line"><span class="number">569026</span>bc0955   centos03          <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B             <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">0</span></span><br><span class="line"><span class="number">71</span>a97b830ec5   centos02          <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B             <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">0</span></span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos01          <span class="number">0.00</span>%     <span class="number">524</span>KiB / <span class="number">1.694</span>GiB   <span class="number">0.03</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">1</span></span><br></pre></td></tr></table></figure>
-<h1 id="docker部署"><a class="markdownIt-Anchor" href="#docker部署"></a> Docker部署</h1>
-<h2 id="部署nginx"><a class="markdownIt-Anchor" href="#部署nginx"></a> 部署Nginx</h2>
-<h3 id="下载镜像"><a class="markdownIt-Anchor" href="#下载镜像"></a> 下载镜像</h3>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker pull nginx</span></span><br><span class="line"><span class="keyword">Using</span> default tag: latest</span><br><span class="line">latest: Pulling from library/nginx</span><br><span class="line">e5ae68f74026: Pull complete </span><br><span class="line"><span class="number">21</span>e0df283cd6: Pull complete </span><br><span class="line">ed835de16acd: Pull complete </span><br><span class="line"><span class="number">881</span>ff011f1c9: Pull complete </span><br><span class="line"><span class="number">77700</span>c52c969: Pull complete </span><br><span class="line"><span class="number">44</span>be98c0fab6: Pull complete </span><br><span class="line">Digest: sha256:<span class="number">9522864</span>dd661dcadfd9958f9e0de192a1fdda2c162a35668ab6ac42b465f0603</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> nginx:latest</span><br><span class="line">docker.io/library/nginx:latest</span><br></pre></td></tr></table></figure>
-<h3 id="查看镜像"><a class="markdownIt-Anchor" href="#查看镜像"></a> 查看镜像</h3>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY   TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">nginx        latest    f652ca386ed1   <span class="number">7</span> days ago     <span class="number">141</span>MB</span><br></pre></td></tr></table></figure>
-<h3 id="运行镜像"><a class="markdownIt-Anchor" href="#运行镜像"></a> 运行镜像</h3>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker run -d --name=nginx01 -p 3344:80 nginx</span></span><br><span class="line">f58fb3ed8c5587d2c28567c865759438e449f2fd65889f2910286b9cd74debec</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                  NAMES</span><br><span class="line">f58fb3ed8c55   nginx     <span class="string">&quot;/docker-entrypoint.…&quot;</span>   <span class="number">23</span> seconds ago   Up <span class="number">22</span> seconds   <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">3344</span>-&gt;<span class="number">80</span>/tcp   nginx01</span><br></pre></td></tr></table></figure>
-<h3 id="测试验证"><a class="markdownIt-Anchor" href="#测试验证"></a> 测试验证</h3>
-<p>使用 <code>curl</code> 命令可以模拟网页访问，以此来测试 Nginx 启动情况。</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># curl localhost:3344</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;Welcome to nginx!&lt;/title&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">html &#123; color<span class="literal">-scheme</span>: light dark; &#125;</span><br><span class="line">body &#123; width: <span class="number">35</span>em; margin: <span class="number">0</span> auto;</span><br><span class="line">font<span class="literal">-family</span>: Tahoma, Verdana, Arial, sans<span class="literal">-serif</span>; &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;<span class="keyword">If</span> you see this page, the nginx web server is successfully installed and</span><br><span class="line">working. Further configuration is required.&lt;/p&gt;</span><br><span class="line">&lt;p&gt;<span class="keyword">For</span> online documentation and support please refer to</span><br><span class="line">&lt;a href=<span class="string">&quot;http://nginx.org/&quot;</span>&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;</span><br><span class="line">Commercial support is available at</span><br><span class="line">&lt;a href=<span class="string">&quot;http://nginx.com/&quot;</span>&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;</span><br><span class="line">&lt;p&gt;&lt;em&gt;Thank you <span class="keyword">for</span> <span class="keyword">using</span> nginx.&lt;/em&gt;&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<h3 id="外网访问测试"><a class="markdownIt-Anchor" href="#外网访问测试"></a> 外网访问测试</h3>
-<p>如果是使用<strong>阿里云服务器</strong>，需要先开启端口。</p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7i0eqb1crt.webp" alt="image.png" /></p>
-<p>使用阿里云的公网 IP 即可进行访问。</p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.ic58ep5p6.webp" alt="image.png" /></p>
-<p>出现此页面，即代表 Nginx 部署成功。</p>
-<blockquote>
-<p>查看启动的容器</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                  NAMES</span><br><span class="line">f58fb3ed8c55   nginx     <span class="string">&quot;/docker-entrypoint.…&quot;</span>   <span class="number">12</span> minutes ago   Up <span class="number">12</span> minutes   <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">3344</span>-&gt;<span class="number">80</span>/tcp   nginx01</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看容器中 Nginx 目录</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker exec -it nginx01 /bin/bash</span></span><br><span class="line">root@f58fb3ed8c55:/<span class="comment"># whereis nginx</span></span><br><span class="line">nginx: /usr/sbin/nginx /usr/lib/nginx /etc/nginx /usr/share/nginx</span><br><span class="line">root@f58fb3ed8c55:/<span class="comment"># cd /etc/nginx</span></span><br><span class="line">root@f58fb3ed8c55:/etc/nginx<span class="comment"># ls</span></span><br><span class="line">conf.d    fastcgi_params    mime.types  modules  nginx.conf  scgi_params  uwsgi_params</span><br></pre></td></tr></table></figure>
-<p>如此，如果需要修改 Nginx 的配置即可修改 <strong>nginx.conf</strong> 文件实现。</p>
-<p>不过如果每次修改都要进入容器后再进行操作，是很繁琐的事，还是更推荐使用<strong>容器卷技术</strong>。</p>
-<h3 id="部署原理"><a class="markdownIt-Anchor" href="#部署原理"></a> 部署原理</h3>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.5j47zywdab.webp" alt="image.png" /></p>
-<h2 id="部署tomcat"><a class="markdownIt-Anchor" href="#部署tomcat"></a> 部署Tomcat</h2>
-<h3 id="启动tomcat"><a class="markdownIt-Anchor" href="#启动tomcat"></a> 启动Tomcat</h3>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">bin</span>]<span class="comment"># docker run -d -p 8080:8080 --name=tomcat01 tomcat</span></span><br><span class="line">Unable to find image <span class="string">&#x27;tomcat:latest&#x27;</span> locally</span><br><span class="line">latest: Pulling from library/tomcat</span><br><span class="line"><span class="number">5</span>e0b432e8ba9: Pull complete </span><br><span class="line">a84cfd68b5ce: Pull complete </span><br><span class="line">e8b8f2315954: Pull complete </span><br><span class="line"><span class="number">0598</span>fa43a7e7: Pull complete </span><br><span class="line">e0d35e3be804: Pull complete </span><br><span class="line"><span class="number">8</span>fc448a0c88b: Pull complete </span><br><span class="line">dbdff6e5955b: Pull complete </span><br><span class="line"><span class="number">5</span>daf3771e3d8: Pull complete </span><br><span class="line">e4265b3badfc: Pull complete </span><br><span class="line"><span class="number">126</span>f233cb97a: Pull complete </span><br><span class="line">Digest: sha256:<span class="number">429</span>d5c140820d5eba38042823501d5f4e0f03b282133513e29c22d6358daa7c7</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> tomcat:latest</span><br><span class="line">fe247e0ef80de961df2f73216b3c604d97094b9a35064f9bef421243e610e487</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">bin</span>]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND             CREATED              STATUS              PORTS                    NAMES</span><br><span class="line">fe247e0ef80d   tomcat    <span class="string">&quot;catalina.sh run&quot;</span>   About a minute ago   Up About a minute   <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">8080</span>-&gt;<span class="number">8080</span>/tcp   tomcat01</span><br></pre></td></tr></table></figure>
-<p>这里选择直接启动的方式，若本地没有该镜像，则先从官方库拉取。</p>
-<h3 id="进入容器"><a class="markdownIt-Anchor" href="#进入容器"></a> 进入容器</h3>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">sail</span>]<span class="comment"># docker exec -it tomcat01 /bin/bash</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># ls</span></span><br><span class="line">BUILDING.txt  CONTRIBUTING.md  LICENSE    NOTICE    README.md  RELEASE<span class="literal">-NOTES</span>  RUNNING.txt  bin  conf  lib  logs  native<span class="literal">-jni-lib</span>  temp  webapps  webapps.dist  work</span><br><span class="line"></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># cd webapps</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps<span class="comment"># ls</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-<p>这里发现一个问题，Tomcat 下的 <strong>webapps</strong> 没有文件，所以 Tomcat 的初始页面是不能显示的。</p>
-<blockquote>
-<p>这也是 Docker 的精髓，只保留最核心的东西，剔除所有不必要的内容。</p>
-</blockquote>
-<p>这也并非不可解决，<strong>webapps</strong> 的默认内容是存放在 <strong>webapps.dist</strong> 中的</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># cd webapps.dist</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps.dist<span class="comment"># ls</span></span><br><span class="line">ROOT  docs  examples  host<span class="literal">-manager</span>  manager</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>将 webapps.dist 中的内容复制到 webapps 下</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># cp -r webapps.dist/* webapps</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># cd webapps</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps<span class="comment"># ls</span></span><br><span class="line">ROOT  docs  examples  host<span class="literal">-manager</span>  manager</span><br></pre></td></tr></table></figure>
-<h3 id="外网访问测试-2"><a class="markdownIt-Anchor" href="#外网访问测试-2"></a> 外网访问测试</h3>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.2obju6henu.webp" alt="image.png" /></p>
-<blockquote>
-<p>命令测试</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps<span class="comment"># ll</span></span><br><span class="line">bash: ll: command not found</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>这里又发现一个问题，ll 这种相对基础的命令也是没有的，如此也可以看出 Docker 极致的精简。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>DevOps</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>2.Docker基本使用</title>
     <url>/2023/04/11/docker/2-docker-basic-use/</url>
     <content><![CDATA[<h1 id="docker基本使用"><a class="markdownIt-Anchor" href="#docker基本使用"></a> Docker基本使用</h1>
@@ -1075,6 +896,412 @@ docker-engine
       </tags>
   </entry>
   <entry>
+    <title>3.Docker基本命令</title>
+    <url>/2023/04/11/docker/3-docker-basic-commands/</url>
+    <content><![CDATA[<h1 id="docker基本命令"><a class="markdownIt-Anchor" href="#docker基本命令"></a> Docker基本命令</h1>
+<aside>
+💡 每个人都可以评论它
+</aside>
+<h1 id="docker常用命令"><a class="markdownIt-Anchor" href="#docker常用命令"></a> Docker常用命令</h1>
+<h2 id="启动-docker"><a class="markdownIt-Anchor" href="#启动-docker"></a> 启动 Docker</h2>
+<h3 id="systemctl-start-docker"><a class="markdownIt-Anchor" href="#systemctl-start-docker"></a> systemctl start docker</h3>
+<p>在服务器关机或者重启后，是需要重新启动 Docker 的。 命令如下：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">systemctl <span class="built_in">start</span> docker</span><br></pre></td></tr></table></figure>
+<h2 id="查看日志"><a class="markdownIt-Anchor" href="#查看日志"></a> 查看日志</h2>
+<h3 id="docker-logs"><a class="markdownIt-Anchor" href="#docker-logs"></a> docker logs</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker logs [参数] 容器</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>f</code>：日志流动输出。</li>
+<li><code>t</code>：展示时间戳。</li>
+<li><code>-tail</code>：从日志末尾显示的行数。</li>
+</ul>
+<blockquote>
+<p>为模拟日志输出效果，我们先编写一段脚本</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span> true;<span class="keyword">do</span> <span class="built_in">echo</span> sail;<span class="built_in">sleep</span> <span class="number">3</span>;done</span><br></pre></td></tr></table></figure>
+<p>以上脚本实现的效果为：每隔 3 秒输出字符串 sail。</p>
+<blockquote>
+<p>以脚本启动容器</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@sail ~]# docker logs -f -t --<span class="built_in">tail</span> 10 c3d59f55d600</span><br><span class="line">2021-12-10T03:01:28.607288480Z sail</span><br><span class="line">2021-12-10T03:01:31.609334595Z sail</span><br><span class="line">2021-12-10T03:01:34.611361943Z sail</span><br><span class="line">2021-12-10T03:01:37.613461457Z sail</span><br><span class="line">2021-12-10T03:02:10.636760025Z sail</span><br></pre></td></tr></table></figure>
+<p>可以看到，按此命令会看到容器最后 10 条日志，且每隔 3 秒滚动输出一条日志。</p>
+<h2 id="后台启动"><a class="markdownIt-Anchor" href="#后台启动"></a> 后台启动</h2>
+<h3 id="docker-run-d"><a class="markdownIt-Anchor" href="#docker-run-d"></a> docker run -d</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">-d</span> 镜像</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>后台启动镜像</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d centos</span></span><br><span class="line"><span class="number">0</span>aee6f74b913f120195ca323892867bba7d72f2671f2f8b17278a3e029ad5bfd</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用 docker run -d 启动，也并不能保证容器一定能在后台运行，如果没有前台使用，容器启动后发现自己没有提供服务，会立刻停止。</p>
+</blockquote>
+<p>前面的 <code>docker run -d centos /bin/sh -c &quot;while true;do echo sail;sleep 3;done&quot;</code> 命令，由于启动后运行了脚本打印日志，即提供了服务，所以不会停止。</p>
+<h2 id="查看容器信息"><a class="markdownIt-Anchor" href="#查看容器信息"></a> 查看容器信息</h2>
+<h3 id="docker-inspect"><a class="markdownIt-Anchor" href="#docker-inspect"></a> docker inspect</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker inspect 容器</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS         PORTS     NAMES</span><br><span class="line">c3d59f55d600   centos    <span class="string">&quot;/bin/sh -c &#x27;while t…&quot;</span>   <span class="number">24</span> minutes ago   Up <span class="number">5</span> seconds             musing_poincare</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker inspect c3d59f55d600</span></span><br><span class="line">[<span class="type">.....</span>]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>不管容器是否运行，都可以使用该命令查看。</p>
+</blockquote>
+<h2 id="进入正在运行的容器"><a class="markdownIt-Anchor" href="#进入正在运行的容器"></a> 进入正在运行的容器</h2>
+<p>容器是一个微型的 Linux 系统，我们通常需要进入容器进行操作。</p>
+<h3 id="docker-exec"><a class="markdownIt-Anchor" href="#docker-exec"></a> docker exec</h3>
+<p>使用 <code>docker exec</code> 可以进入容器并开启一个新的终端，可以在里面操作。</p>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker exec [参数] 容器 路径</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>d</code>：后台运行。</li>
+<li><code>it</code>：交互模式进入。</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES</span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">15</span> hours ago   Up <span class="number">15</span> hours             centos01</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker exec -it 96ed3fe3e7f1 /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> /]<span class="comment"># ls</span></span><br><span class="line">bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> /]<span class="comment"># ps -ef</span></span><br><span class="line">UID        PID  PPID  C STIME TTY          TIME CMD</span><br><span class="line">root         <span class="number">1</span>     <span class="number">0</span>  <span class="number">0</span> Dec09 pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> /bin/bash</span><br><span class="line">root        <span class="number">15</span>     <span class="number">0</span>  <span class="number">0</span> <span class="number">03</span>:<span class="number">38</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> /bin/bash</span><br><span class="line">root        <span class="number">30</span>    <span class="number">15</span>  <span class="number">0</span> <span class="number">03</span>:<span class="number">39</span> pts/<span class="number">1</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> <span class="built_in">ps</span> <span class="literal">-ef</span></span><br></pre></td></tr></table></figure>
+<p>这种进入方式是单独开了一个新进程的方式。</p>
+<h3 id="docker-attach"><a class="markdownIt-Anchor" href="#docker-attach"></a> docker attach</h3>
+<p>使用 <code>docker attach</code> 会进入容器正在执行的终端，不会启动新的进程。</p>
+<blockquote>
+<p>语法 docker attach 容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES</span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">17</span> hours ago   Up <span class="number">17</span> hours             centos01</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker attach 96ed3fe3e7f1</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> /]<span class="comment"># ps -ef</span></span><br><span class="line">UID        PID  PPID  C STIME TTY          TIME CMD</span><br><span class="line">root         <span class="number">1</span>     <span class="number">0</span>  <span class="number">0</span> Dec09 pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> /bin/bash</span><br><span class="line">root        <span class="number">33</span>     <span class="number">1</span>  <span class="number">0</span> <span class="number">05</span>:<span class="number">49</span> pts/<span class="number">0</span>    <span class="number">00</span>:<span class="number">00</span>:<span class="number">00</span> <span class="built_in">ps</span> <span class="literal">-ef</span></span><br></pre></td></tr></table></figure>
+<p>这种进入方式没有开启新的进程（<code>/bin/bash</code> 是 centos 容器的默认终端）。</p>
+<h2 id="从容器内拷贝文件到主机"><a class="markdownIt-Anchor" href="#从容器内拷贝文件到主机"></a> 从容器内拷贝文件到主机</h2>
+<blockquote>
+<p>查看启动的容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED        STATUS        PORTS     NAMES</span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">17</span> hours ago   Up <span class="number">17</span> hours             centos01</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>进入容器，创建一个文件</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker attach 96ed3fe3e7f1</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br><span class="line">[<span class="type">root</span>@<span class="number">96</span><span class="type">ed3fe3e7f1</span> <span class="type">home</span>]<span class="comment"># exit</span></span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>退出容器后，不管容器是否启动，都可以复制容器中的文件到主机上</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker cp 96ed3fe3e7f1:/home/test.java /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  f2  f3  sail  test.java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这种方式是一个手动过程，很不方便，推荐使用数据卷技术，可以实现自动同步主机和容器的目录。</p>
+</blockquote>
+<p>详情见：<span class="exturl" data-url="aHR0cHM6Ly93d3cua3VhbmdzdHVkeS5jb20vYmJzLzE0ODQ3ODIxNDA2NjY1OTMyODI=">Docker 12 数据卷<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="查看docker内存占用"><a class="markdownIt-Anchor" href="#查看docker内存占用"></a> 查看Docker内存占用</h2>
+<h3 id="docker-stats"><a class="markdownIt-Anchor" href="#docker-stats"></a> docker stats</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker stats [参数] [容器<span class="type">...</span>]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>a</code>：查看所有容器的内存占用（默认只展示运行的容器）。</li>
+</ul>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker stats</span></span><br><span class="line">CONTAINER ID   NAME       CPU %     MEM USAGE / LIMIT   MEM %     NET I/O   BLOCK I/O   PIDS</span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos01   <span class="number">0.00</span>%     <span class="number">524</span>KiB / <span class="number">1.694</span>GiB   <span class="number">0.03</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">1</span></span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker stats -a</span></span><br><span class="line">CONTAINER ID   NAME              CPU %     MEM USAGE / LIMIT   MEM %     NET I/O   BLOCK I/O   PIDS</span><br><span class="line"><span class="number">0</span>aee6f74b913   brave_rosalind    <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B             <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">0</span></span><br><span class="line">c3d59f55d600   musing_poincare   <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B             <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">0</span></span><br><span class="line"><span class="number">569026</span>bc0955   centos03          <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B             <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">0</span></span><br><span class="line"><span class="number">71</span>a97b830ec5   centos02          <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B             <span class="number">0.00</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">0</span></span><br><span class="line"><span class="number">96</span>ed3fe3e7f1   centos01          <span class="number">0.00</span>%     <span class="number">524</span>KiB / <span class="number">1.694</span>GiB   <span class="number">0.03</span>%     <span class="number">0</span>B / <span class="number">0</span>B   <span class="number">0</span>B / <span class="number">0</span>B     <span class="number">1</span></span><br></pre></td></tr></table></figure>
+<h1 id="docker部署"><a class="markdownIt-Anchor" href="#docker部署"></a> Docker部署</h1>
+<h2 id="部署nginx"><a class="markdownIt-Anchor" href="#部署nginx"></a> 部署Nginx</h2>
+<h3 id="下载镜像"><a class="markdownIt-Anchor" href="#下载镜像"></a> 下载镜像</h3>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker pull nginx</span></span><br><span class="line"><span class="keyword">Using</span> default tag: latest</span><br><span class="line">latest: Pulling from library/nginx</span><br><span class="line">e5ae68f74026: Pull complete </span><br><span class="line"><span class="number">21</span>e0df283cd6: Pull complete </span><br><span class="line">ed835de16acd: Pull complete </span><br><span class="line"><span class="number">881</span>ff011f1c9: Pull complete </span><br><span class="line"><span class="number">77700</span>c52c969: Pull complete </span><br><span class="line"><span class="number">44</span>be98c0fab6: Pull complete </span><br><span class="line">Digest: sha256:<span class="number">9522864</span>dd661dcadfd9958f9e0de192a1fdda2c162a35668ab6ac42b465f0603</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> nginx:latest</span><br><span class="line">docker.io/library/nginx:latest</span><br></pre></td></tr></table></figure>
+<h3 id="查看镜像"><a class="markdownIt-Anchor" href="#查看镜像"></a> 查看镜像</h3>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY   TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">nginx        latest    f652ca386ed1   <span class="number">7</span> days ago     <span class="number">141</span>MB</span><br></pre></td></tr></table></figure>
+<h3 id="运行镜像"><a class="markdownIt-Anchor" href="#运行镜像"></a> 运行镜像</h3>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker run -d --name=nginx01 -p 3344:80 nginx</span></span><br><span class="line">f58fb3ed8c5587d2c28567c865759438e449f2fd65889f2910286b9cd74debec</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                  NAMES</span><br><span class="line">f58fb3ed8c55   nginx     <span class="string">&quot;/docker-entrypoint.…&quot;</span>   <span class="number">23</span> seconds ago   Up <span class="number">22</span> seconds   <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">3344</span>-&gt;<span class="number">80</span>/tcp   nginx01</span><br></pre></td></tr></table></figure>
+<h3 id="测试验证"><a class="markdownIt-Anchor" href="#测试验证"></a> 测试验证</h3>
+<p>使用 <code>curl</code> 命令可以模拟网页访问，以此来测试 Nginx 启动情况。</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># curl localhost:3344</span></span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">&lt;title&gt;Welcome to nginx!&lt;/title&gt;</span><br><span class="line">&lt;style&gt;</span><br><span class="line">html &#123; color<span class="literal">-scheme</span>: light dark; &#125;</span><br><span class="line">body &#123; width: <span class="number">35</span>em; margin: <span class="number">0</span> auto;</span><br><span class="line">font<span class="literal">-family</span>: Tahoma, Verdana, Arial, sans<span class="literal">-serif</span>; &#125;</span><br><span class="line">&lt;/style&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;</span><br><span class="line">&lt;p&gt;<span class="keyword">If</span> you see this page, the nginx web server is successfully installed and</span><br><span class="line">working. Further configuration is required.&lt;/p&gt;</span><br><span class="line">&lt;p&gt;<span class="keyword">For</span> online documentation and support please refer to</span><br><span class="line">&lt;a href=<span class="string">&quot;http://nginx.org/&quot;</span>&gt;nginx.org&lt;/a&gt;.&lt;br/&gt;</span><br><span class="line">Commercial support is available at</span><br><span class="line">&lt;a href=<span class="string">&quot;http://nginx.com/&quot;</span>&gt;nginx.com&lt;/a&gt;.&lt;/p&gt;</span><br><span class="line">&lt;p&gt;&lt;em&gt;Thank you <span class="keyword">for</span> <span class="keyword">using</span> nginx.&lt;/em&gt;&lt;/p&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+<h3 id="外网访问测试"><a class="markdownIt-Anchor" href="#外网访问测试"></a> 外网访问测试</h3>
+<p>如果是使用<strong>阿里云服务器</strong>，需要先开启端口。</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7i0eqb1crt.webp" alt="image.png" /></p>
+<p>使用阿里云的公网 IP 即可进行访问。</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.ic58ep5p6.webp" alt="image.png" /></p>
+<p>出现此页面，即代表 Nginx 部署成功。</p>
+<blockquote>
+<p>查看启动的容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS          PORTS                  NAMES</span><br><span class="line">f58fb3ed8c55   nginx     <span class="string">&quot;/docker-entrypoint.…&quot;</span>   <span class="number">12</span> minutes ago   Up <span class="number">12</span> minutes   <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">3344</span>-&gt;<span class="number">80</span>/tcp   nginx01</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看容器中 Nginx 目录</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># docker exec -it nginx01 /bin/bash</span></span><br><span class="line">root@f58fb3ed8c55:/<span class="comment"># whereis nginx</span></span><br><span class="line">nginx: /usr/sbin/nginx /usr/lib/nginx /etc/nginx /usr/share/nginx</span><br><span class="line">root@f58fb3ed8c55:/<span class="comment"># cd /etc/nginx</span></span><br><span class="line">root@f58fb3ed8c55:/etc/nginx<span class="comment"># ls</span></span><br><span class="line">conf.d    fastcgi_params    mime.types  modules  nginx.conf  scgi_params  uwsgi_params</span><br></pre></td></tr></table></figure>
+<p>如此，如果需要修改 Nginx 的配置即可修改 <strong>nginx.conf</strong> 文件实现。</p>
+<p>不过如果每次修改都要进入容器后再进行操作，是很繁琐的事，还是更推荐使用<strong>容器卷技术</strong>。</p>
+<h3 id="部署原理"><a class="markdownIt-Anchor" href="#部署原理"></a> 部署原理</h3>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.5j47zywdab.webp" alt="image.png" /></p>
+<h2 id="部署tomcat"><a class="markdownIt-Anchor" href="#部署tomcat"></a> 部署Tomcat</h2>
+<h3 id="启动tomcat"><a class="markdownIt-Anchor" href="#启动tomcat"></a> 启动Tomcat</h3>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">bin</span>]<span class="comment"># docker run -d -p 8080:8080 --name=tomcat01 tomcat</span></span><br><span class="line">Unable to find image <span class="string">&#x27;tomcat:latest&#x27;</span> locally</span><br><span class="line">latest: Pulling from library/tomcat</span><br><span class="line"><span class="number">5</span>e0b432e8ba9: Pull complete </span><br><span class="line">a84cfd68b5ce: Pull complete </span><br><span class="line">e8b8f2315954: Pull complete </span><br><span class="line"><span class="number">0598</span>fa43a7e7: Pull complete </span><br><span class="line">e0d35e3be804: Pull complete </span><br><span class="line"><span class="number">8</span>fc448a0c88b: Pull complete </span><br><span class="line">dbdff6e5955b: Pull complete </span><br><span class="line"><span class="number">5</span>daf3771e3d8: Pull complete </span><br><span class="line">e4265b3badfc: Pull complete </span><br><span class="line"><span class="number">126</span>f233cb97a: Pull complete </span><br><span class="line">Digest: sha256:<span class="number">429</span>d5c140820d5eba38042823501d5f4e0f03b282133513e29c22d6358daa7c7</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> tomcat:latest</span><br><span class="line">fe247e0ef80de961df2f73216b3c604d97094b9a35064f9bef421243e610e487</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">bin</span>]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND             CREATED              STATUS              PORTS                    NAMES</span><br><span class="line">fe247e0ef80d   tomcat    <span class="string">&quot;catalina.sh run&quot;</span>   About a minute ago   Up About a minute   <span class="number">0.0</span>.<span class="number">0.0</span>:<span class="number">8080</span>-&gt;<span class="number">8080</span>/tcp   tomcat01</span><br></pre></td></tr></table></figure>
+<p>这里选择直接启动的方式，若本地没有该镜像，则先从官方库拉取。</p>
+<h3 id="进入容器"><a class="markdownIt-Anchor" href="#进入容器"></a> 进入容器</h3>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">sail</span>]<span class="comment"># docker exec -it tomcat01 /bin/bash</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># ls</span></span><br><span class="line">BUILDING.txt  CONTRIBUTING.md  LICENSE    NOTICE    README.md  RELEASE<span class="literal">-NOTES</span>  RUNNING.txt  bin  conf  lib  logs  native<span class="literal">-jni-lib</span>  temp  webapps  webapps.dist  work</span><br><span class="line"></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># cd webapps</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps<span class="comment"># ls</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<p>这里发现一个问题，Tomcat 下的 <strong>webapps</strong> 没有文件，所以 Tomcat 的初始页面是不能显示的。</p>
+<blockquote>
+<p>这也是 Docker 的精髓，只保留最核心的东西，剔除所有不必要的内容。</p>
+</blockquote>
+<p>这也并非不可解决，<strong>webapps</strong> 的默认内容是存放在 <strong>webapps.dist</strong> 中的</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># cd webapps.dist</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps.dist<span class="comment"># ls</span></span><br><span class="line">ROOT  docs  examples  host<span class="literal">-manager</span>  manager</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>将 webapps.dist 中的内容复制到 webapps 下</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># cp -r webapps.dist/* webapps</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat<span class="comment"># cd webapps</span></span><br><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps<span class="comment"># ls</span></span><br><span class="line">ROOT  docs  examples  host<span class="literal">-manager</span>  manager</span><br></pre></td></tr></table></figure>
+<h3 id="外网访问测试-2"><a class="markdownIt-Anchor" href="#外网访问测试-2"></a> 外网访问测试</h3>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.2obju6henu.webp" alt="image.png" /></p>
+<blockquote>
+<p>命令测试</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">root@fe247e0ef80d:/usr/local/tomcat/webapps<span class="comment"># ll</span></span><br><span class="line">bash: ll: command not found</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里又发现一个问题，ll 这种相对基础的命令也是没有的，如此也可以看出 Docker 极致的精简。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DevOps</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>4.Docker镜像原理</title>
+    <url>/2023/04/11/docker/4-docker-mirroring-principle/</url>
+    <content><![CDATA[<h1 id="docker镜像原理"><a class="markdownIt-Anchor" href="#docker镜像原理"></a> Docker镜像原理</h1>
+<h1 id="docker-10-镜像原理"><a class="markdownIt-Anchor" href="#docker-10-镜像原理"></a> Docker 10 镜像原理</h1>
+<h2 id="联合文件系统"><a class="markdownIt-Anchor" href="#联合文件系统"></a> 联合文件系统</h2>
+<p><strong>联合文件系统</strong>（UnionFS）是 Docker 的核心，也是 Docker 得以极致精简的保证。</p>
+<p>以拉取 redis 镜像为例</p>
+<blockquote>
+<p>先拉取最新版镜像</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@sail ~]# docker pull redis</span><br><span class="line">Using default tag: latest <span class="comment"># 默认最新版标签</span></span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Pull complete <span class="comment"># 分层下载，docker image的核心：联合文件系统</span></span><br><span class="line">37c4354629da: Pull complete </span><br><span class="line">b065b1b1fa0f: Pull complete </span><br><span class="line">6954d19bb2e5: Pull complete </span><br><span class="line">6333f8baaf7c: Pull complete </span><br><span class="line">f9772c8a44e7: Pull complete </span><br><span class="line">Digest: sha256:2f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796 <span class="comment">#防伪签名</span></span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">docker.io/library/redis:latest <span class="comment"># 真实地址，docker pull redis 等价于 docker pull docker.io/library/redis:latest</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>再拉取指定版镜像</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker pull redis</span></span><br><span class="line"><span class="keyword">Using</span> default tag: latest # 默认最新版标签</span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Pull complete <span class="comment"># 分层下载，docker image的核心：联合文件系统</span></span><br><span class="line"><span class="number">37</span>c4354629da: Pull complete </span><br><span class="line">b065b1b1fa0f: Pull complete </span><br><span class="line"><span class="number">6954</span>d19bb2e5: Pull complete </span><br><span class="line"><span class="number">6333</span>f8baaf7c: Pull complete </span><br><span class="line">f9772c8a44e7: Pull complete </span><br><span class="line">Digest: sha256:<span class="number">2</span>f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796 <span class="comment">#防伪签名</span></span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">docker.io/library/redis:latest <span class="comment"># 真实地址，docker pull redis 等价于 docker pull docker.io/library/redis:latest</span></span><br></pre></td></tr></table></figure>
+<p>由此可见，redis 镜像一共 6 层，由于之前拉取了默认的最新版 <strong>redis</strong> 镜像，再拉取 <strong>redis:5.0</strong> 时，有 3 层是可以复用的，所以只下载了不能复用的 3 层。</p>
+<blockquote>
+<p>这样既能提高下载速度，也能极大节省磁盘占用和资源消耗。</p>
+</blockquote>
+<h2 id="分层镜像"><a class="markdownIt-Anchor" href="#分层镜像"></a> 分层镜像</h2>
+<p>Docker 使用联合文件系统对镜像做了分层，如下图所示：</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.6ikbd541xb.webp" alt="image.png" /></p>
+<ul>
+<li><strong>bootfs</strong>（boot file system）：启动文件系统。</li>
+<li><strong>rootfs</strong>：root file system：基础文件系统。</li>
+</ul>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.wikza2x40.webp" alt="image.png" /></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.5xanqu9x5u.webp" alt="image.png" /></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.13lsuppeor.webp" alt="image.png" /></p>
+<p>Docker 镜像都是<strong>只读</strong>的，当容器启动时，一个新的可写层被加到镜像的顶部。</p>
+<p>这一层就是我们通常说的<strong>容器层</strong>，容器层之下的都叫<strong>镜像层</strong>。</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.99tdl7qwni.webp" alt="image.png" /></p>
+<p>我们自己也是可以制作镜像并提交的，使用 <code>docker commit</code> 命令。</p>
+<h1 id="docker自定义镜像"><a class="markdownIt-Anchor" href="#docker自定义镜像"></a> Docker自定义镜像</h1>
+<h2 id="提交镜像"><a class="markdownIt-Anchor" href="#提交镜像"></a> 提交镜像</h2>
+<h3 id="docker-commit"><a class="markdownIt-Anchor" href="#docker-commit"></a> docker commit</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker commit [参数] 容器 [仓库[:标签]]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>a</code>：作者信息。一般为 <strong>作者名字&lt;邮箱&gt;</strong>。</li>
+<li><code>c</code>：将 <strong>Dockerfile</strong> 指令应用于创建的映像。</li>
+<li><code>m</code>：注释信息。</li>
+<li><code>p</code>：提交期间暂停容器（默认）。</li>
+</ul>
+<blockquote>
+<p>将这个容器创建为一个自定义的镜像并提交到仓库中。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker commit -a=&quot;sail&lt;yifansailing@163.com&gt;&quot; -m=&quot;diy tomcat by sail&quot; fe247e0ef80d tomcat4sail:1.0</span></span><br><span class="line">sha256:<span class="number">187</span>a99503046ef1a4316221d174add0fbc92391ac534fb1926e535474491f9d2</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY            TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">tomcat4sail           <span class="number">1.0</span>       <span class="number">187</span>a99503046   <span class="number">5</span> seconds ago   <span class="number">684</span>MB</span><br><span class="line">tomcat                latest    <span class="number">24207</span>ccc9cce   <span class="number">4</span> days ago      <span class="number">680</span>MB</span><br></pre></td></tr></table></figure>
+<p>可以看到，我们自定义的镜像已经在本地镜像库中了。</p>
+<h2 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h2>
+<blockquote>
+<p>停止原有容器。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker stop fe247e0ef80d</span></span><br><span class="line">fe247e0ef80d</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>启动自定义镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d -p 8080:8080 --name=&quot;tomcat4sail&quot; 187a99503046</span></span><br><span class="line"><span class="number">602</span>c3c576c1b6d13aa0d2508490220d479eaf8c52c9cfe116029c67437fac61b</span><br></pre></td></tr></table></figure>
+<p>由于自定义的镜像还没有提交到远程库，所以这里只能使用镜像 ID 启动。</p>
+<p>如果使用镜像名启动，会从远程库中进行搜索，由于我们还没有提交，会因为搜索不到报错。</p>
+<blockquote>
+<p>访问测试</p>
+</blockquote>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.9kg7ed6b7w.webp" alt="image.png" /></p>
+<p>这里我们并没有改变容器中 <strong>webapps</strong> 下的内容，但依然可以直接访问，说明我们自定义的镜像是生效了的。</p>
+<h1 id="docker数据卷-挂载"><a class="markdownIt-Anchor" href="#docker数据卷-挂载"></a> Docker数据卷 挂载</h1>
+<h2 id="由来"><a class="markdownIt-Anchor" href="#由来"></a> 由来</h2>
+<p>Docker 是将应用和环境打包成一个镜像。</p>
+<p>这样，数据就不应该保存在容器中，否则容器删除，数据就会丢失，有着非常大的风险。</p>
+<p>为此，容器和主机之间需要有一个数据共享技术，使得在 Docker 容器中产生的数据能够同步到本地。</p>
+<p>这就是<strong>数据卷</strong>技术。其本质上是一个<strong>目录挂载</strong>，将容器内的目录挂载到主机上。</p>
+<h2 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h2>
+<h3 id="命令方式"><a class="markdownIt-Anchor" href="#命令方式"></a> 命令方式</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">-v</span> 主机目录:容器目录</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看主机 /home 目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># ls /homeadmin  f2  f3  sail  test.java</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以交互模式启动 centos 镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -it -v /home/ceshi:/home centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>新开一个窗口查看容器详情。</p>
+</blockquote>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7i0eqb7w9y.webp" alt="image.png" /></p>
+<p><strong>Mounts</strong> 下的 <strong>Source</strong> 即为设置的主机目录、<strong>Destination</strong> 即为设置的容器目录，他们已经绑定在了一起。</p>
+<blockquote>
+<p>在主机中查看 /home。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  ceshi  f2  f3  sail  test.java</span><br></pre></td></tr></table></figure>
+<p>主机上的 <code>/home</code> 下已经有了 <code>ceshi</code> 目录。说明容器一经启动，就会在主机生成对应的挂载目录。</p>
+<blockquote>
+<p>在容器中的 /home 下新建一个文件。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看主机的 ceshi 目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># cd ceshi</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br></pre></td></tr></table></figure>
+<p>此时主机中的 <code>ceshi</code> 目录下也有了这个文件。</p>
+<blockquote>
+<p>关闭容器。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># exit</span></span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改主机中 /home/ceshi/test.java 文件的内容。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># vim test.java</span></span><br><span class="line"><span class="comment"># 此处编辑文件过程省略</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># cat test.java</span></span><br><span class="line">hello sail</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>重启容器。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker start ec95646b1a4c</span></span><br><span class="line">ec95646b1a4c</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE          COMMAND             CREATED          STATUS         PORTS                    NAMES</span><br><span class="line">ec95646b1a4c   centos         <span class="string">&quot;/bin/bash&quot;</span>         <span class="number">19</span> minutes ago   Up <span class="number">5</span> seconds                            charming_cartwright</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看 /home 下的文件。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker exec -it ec95646b1a4c /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># cat test.java</span></span><br><span class="line">hello sail</span><br></pre></td></tr></table></figure>
+<p>此时容器中的文件也更改了。</p>
+<blockquote>
+<p>由此可见，数据卷技术实现的是双向同步。</p>
+</blockquote>
+<h3 id="权限设置"><a class="markdownIt-Anchor" href="#权限设置"></a> 权限设置</h3>
+<p>在使用命令方式设置卷时，还可以指定权限，以此保证数据安全。</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>ro</code>(readonly)：只读。</li>
+<li><code>rw</code>(readwrite)：可读可写。</li>
+</ul>
+<blockquote>
+<p>以数据卷只读权限启动镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:ro centos /bin/bash</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>新建文件测试。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="number">02</span><span class="type">ef70c94920</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">touch: cannot touch <span class="string">&#x27;test.java&#x27;</span>: <span class="built_in">Read-only</span> file system</span><br></pre></td></tr></table></figure>
+<p>容器内部该目录是没有写入权限的。</p>
+<blockquote>
+<p>以数据卷可读可写的权限启动镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:rw centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">apache<span class="literal">-tomcat-9</span>.<span class="number">0.55</span>.tar.gz  jdk<span class="literal">-8u301-linux-x64</span>.rpm  test.java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>新建文件测试。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:rw centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">apache<span class="literal">-tomcat-9</span>.<span class="number">0.55</span>.tar.gz  jdk<span class="literal">-8u301-linux-x64</span>.rpm  test.java</span><br></pre></td></tr></table></figure>
+<p>容器内部该目录写入是没有问题的。</p>
+<blockquote>
+<p>前面我们没有指定权限也可以写入，由此可见，数据卷默认是具有读写权限的。</p>
+</blockquote>
+<h2 id="具名挂载"><a class="markdownIt-Anchor" href="#具名挂载"></a> 具名挂载</h2>
+<blockquote>
+<p>启动镜像时只定义主机卷名称，不指定挂载目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v my-centos:/home centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">3</span><span class="type">cf74e9e6973</span> /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看目前挂载的卷。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用 Ctrl + P + Q 不退出容器的情况下回到主机目录。</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume ls</span></span><br><span class="line">DRIVER    VOLUME NAME</span><br><span class="line">local     my<span class="literal">-centos</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看卷的详情。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume inspect my-centos</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;CreatedAt&quot;</span>: <span class="string">&quot;2021-12-20T16:55:35+08:00&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Driver&quot;</span>: <span class="string">&quot;local&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Labels&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Mountpoint&quot;</span>: <span class="string">&quot;/var/lib/docker/volumes/my-centos/_data&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Name&quot;</span>: <span class="string">&quot;my-centos&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Options&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Scope&quot;</span>: <span class="string">&quot;local&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>卷挂载在 <code>/var/lib/docker/volumes/卷名/_data</code> 目录下。</p>
+<p>在没有指定主机挂载目录的情况下，会默认挂载到该目录。</p>
+<blockquote>
+<p>由于指定了卷名，所以这种方式称为具名挂载。</p>
+</blockquote>
+<h2 id="匿名挂载"><a class="markdownIt-Anchor" href="#匿名挂载"></a> 匿名挂载</h2>
+<blockquote>
+<p>启动镜像时只指定容器目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home centos /bin/bash</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看目前挂载的卷。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume ls</span></span><br><span class="line">DRIVER    VOLUME NAME</span><br><span class="line">local     <span class="number">159830</span>cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看卷的详情。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume inspect 159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;CreatedAt&quot;</span>: <span class="string">&quot;2021-12-20T17:05:23+08:00&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Driver&quot;</span>: <span class="string">&quot;local&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Labels&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Mountpoint&quot;</span>: <span class="string">&quot;/var/lib/docker/volumes/159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940/_data&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Name&quot;</span>: <span class="string">&quot;159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Options&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Scope&quot;</span>: <span class="string">&quot;local&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>卷也是挂载在 <code>/var/lib/docker/volumes/xxx/_data</code> 目录下。</p>
+<p>在没有指定主机挂载目录的情况下，会默认挂载到该目录。</p>
+<blockquote>
+<p>由于没有指定卷名，所以这种方式称为匿名挂载。</p>
+</blockquote>
+<p>只有指定主机目录的情况下会挂载到指定目录，否则都会挂载到默认目录。</p>
+<h2 id="实战"><a class="markdownIt-Anchor" href="#实战"></a> 实战</h2>
+<h3 id="mysql数据同步"><a class="markdownIt-Anchor" href="#mysql数据同步"></a> mysql数据同步</h3>
+<p>数据库中的数据极为重要，必须同步到主机，否则将会有非常大的数据丢失风险。</p>
+<p>这里以 mysql 镜像为例演示数据同步的过程。</p>
+<blockquote>
+<p>启动 mysql 镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql01 mysql:5.7</span></span><br><span class="line">Unable to find image <span class="string">&#x27;mysql:5.7&#x27;</span> locally</span><br><span class="line"><span class="number">5.7</span>: Pulling from library/mysql</span><br><span class="line">ffbb094f4f9e: Pull complete </span><br><span class="line"><span class="number">6</span>c1cb25f7525: Pull complete </span><br><span class="line">Digest: sha256:d1cc87a3bd5dc07defc837bc9084f748a130606ff41923f46dec1986e0dc828d</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> mysql:<span class="number">5.7</span></span><br><span class="line">a016e564d977550e475474556cfd033fb1c731002381bc9f9544c63fccb7f60c</span><br></pre></td></tr></table></figure>
+<p>其中 <code>-e</code> 为环境配置。安装启动 mysql 需要配置密码。</p>
+<blockquote>
+<p>使用docker inspect查看挂载情况。</p>
+</blockquote>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7ax6uvlxds.webp" alt="image.png" /></p>
+<p>已经生成了两个目录的挂载。</p>
+<blockquote>
+<p>查看主机同步的目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  ceshi  f2  f3  mysql  sail  test.java</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># cd mysql</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># ls</span></span><br><span class="line">conf  <span class="keyword">data</span></span><br></pre></td></tr></table></figure>
+<p>主机已经同步了容器挂载的目录。</p>
+<blockquote>
+<p>使用数据库管理工具连接测试（这里使用 IDEA 自带的数据库工具）。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DevOps</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>5.Dockerfile</title>
     <url>/2023/04/11/docker/5-docker-file/</url>
     <content><![CDATA[<h1 id="dockerfile"><a class="markdownIt-Anchor" href="#dockerfile"></a> Dockerfile</h1>
@@ -1372,233 +1599,6 @@ docker-engine
 </blockquote>
 <figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">fantasy</span> <span class="type">logs</span>]<span class="comment"># docker run -it registry.cn-hangzhou.aliyuncs.com/fantasyke/fantasy:1.0</span></span><br></pre></td></tr></table></figure>
 <p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.9kg7edawsp.webp" alt="image.png" /></p>
-]]></content>
-      <categories>
-        <category>DevOps</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>4.Docker镜像原理</title>
-    <url>/2023/04/11/docker/4-docker-mirroring-principle/</url>
-    <content><![CDATA[<h1 id="docker镜像原理"><a class="markdownIt-Anchor" href="#docker镜像原理"></a> Docker镜像原理</h1>
-<h1 id="docker-10-镜像原理"><a class="markdownIt-Anchor" href="#docker-10-镜像原理"></a> Docker 10 镜像原理</h1>
-<h2 id="联合文件系统"><a class="markdownIt-Anchor" href="#联合文件系统"></a> 联合文件系统</h2>
-<p><strong>联合文件系统</strong>（UnionFS）是 Docker 的核心，也是 Docker 得以极致精简的保证。</p>
-<p>以拉取 redis 镜像为例</p>
-<blockquote>
-<p>先拉取最新版镜像</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@sail ~]# docker pull redis</span><br><span class="line">Using default tag: latest <span class="comment"># 默认最新版标签</span></span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Pull complete <span class="comment"># 分层下载，docker image的核心：联合文件系统</span></span><br><span class="line">37c4354629da: Pull complete </span><br><span class="line">b065b1b1fa0f: Pull complete </span><br><span class="line">6954d19bb2e5: Pull complete </span><br><span class="line">6333f8baaf7c: Pull complete </span><br><span class="line">f9772c8a44e7: Pull complete </span><br><span class="line">Digest: sha256:2f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796 <span class="comment">#防伪签名</span></span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">docker.io/library/redis:latest <span class="comment"># 真实地址，docker pull redis 等价于 docker pull docker.io/library/redis:latest</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>再拉取指定版镜像</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker pull redis</span></span><br><span class="line"><span class="keyword">Using</span> default tag: latest # 默认最新版标签</span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Pull complete <span class="comment"># 分层下载，docker image的核心：联合文件系统</span></span><br><span class="line"><span class="number">37</span>c4354629da: Pull complete </span><br><span class="line">b065b1b1fa0f: Pull complete </span><br><span class="line"><span class="number">6954</span>d19bb2e5: Pull complete </span><br><span class="line"><span class="number">6333</span>f8baaf7c: Pull complete </span><br><span class="line">f9772c8a44e7: Pull complete </span><br><span class="line">Digest: sha256:<span class="number">2</span>f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796 <span class="comment">#防伪签名</span></span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">docker.io/library/redis:latest <span class="comment"># 真实地址，docker pull redis 等价于 docker pull docker.io/library/redis:latest</span></span><br></pre></td></tr></table></figure>
-<p>由此可见，redis 镜像一共 6 层，由于之前拉取了默认的最新版 <strong>redis</strong> 镜像，再拉取 <strong>redis:5.0</strong> 时，有 3 层是可以复用的，所以只下载了不能复用的 3 层。</p>
-<blockquote>
-<p>这样既能提高下载速度，也能极大节省磁盘占用和资源消耗。</p>
-</blockquote>
-<h2 id="分层镜像"><a class="markdownIt-Anchor" href="#分层镜像"></a> 分层镜像</h2>
-<p>Docker 使用联合文件系统对镜像做了分层，如下图所示：</p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.6ikbd541xb.webp" alt="image.png" /></p>
-<ul>
-<li><strong>bootfs</strong>（boot file system）：启动文件系统。</li>
-<li><strong>rootfs</strong>：root file system：基础文件系统。</li>
-</ul>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.wikza2x40.webp" alt="image.png" /></p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.5xanqu9x5u.webp" alt="image.png" /></p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.13lsuppeor.webp" alt="image.png" /></p>
-<p>Docker 镜像都是<strong>只读</strong>的，当容器启动时，一个新的可写层被加到镜像的顶部。</p>
-<p>这一层就是我们通常说的<strong>容器层</strong>，容器层之下的都叫<strong>镜像层</strong>。</p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.99tdl7qwni.webp" alt="image.png" /></p>
-<p>我们自己也是可以制作镜像并提交的，使用 <code>docker commit</code> 命令。</p>
-<h1 id="docker自定义镜像"><a class="markdownIt-Anchor" href="#docker自定义镜像"></a> Docker自定义镜像</h1>
-<h2 id="提交镜像"><a class="markdownIt-Anchor" href="#提交镜像"></a> 提交镜像</h2>
-<h3 id="docker-commit"><a class="markdownIt-Anchor" href="#docker-commit"></a> docker commit</h3>
-<blockquote>
-<p>语法</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker commit [参数] 容器 [仓库[:标签]]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li><code>a</code>：作者信息。一般为 <strong>作者名字&lt;邮箱&gt;</strong>。</li>
-<li><code>c</code>：将 <strong>Dockerfile</strong> 指令应用于创建的映像。</li>
-<li><code>m</code>：注释信息。</li>
-<li><code>p</code>：提交期间暂停容器（默认）。</li>
-</ul>
-<blockquote>
-<p>将这个容器创建为一个自定义的镜像并提交到仓库中。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker commit -a=&quot;sail&lt;yifansailing@163.com&gt;&quot; -m=&quot;diy tomcat by sail&quot; fe247e0ef80d tomcat4sail:1.0</span></span><br><span class="line">sha256:<span class="number">187</span>a99503046ef1a4316221d174add0fbc92391ac534fb1926e535474491f9d2</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY            TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">tomcat4sail           <span class="number">1.0</span>       <span class="number">187</span>a99503046   <span class="number">5</span> seconds ago   <span class="number">684</span>MB</span><br><span class="line">tomcat                latest    <span class="number">24207</span>ccc9cce   <span class="number">4</span> days ago      <span class="number">680</span>MB</span><br></pre></td></tr></table></figure>
-<p>可以看到，我们自定义的镜像已经在本地镜像库中了。</p>
-<h2 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h2>
-<blockquote>
-<p>停止原有容器。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker stop fe247e0ef80d</span></span><br><span class="line">fe247e0ef80d</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>启动自定义镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d -p 8080:8080 --name=&quot;tomcat4sail&quot; 187a99503046</span></span><br><span class="line"><span class="number">602</span>c3c576c1b6d13aa0d2508490220d479eaf8c52c9cfe116029c67437fac61b</span><br></pre></td></tr></table></figure>
-<p>由于自定义的镜像还没有提交到远程库，所以这里只能使用镜像 ID 启动。</p>
-<p>如果使用镜像名启动，会从远程库中进行搜索，由于我们还没有提交，会因为搜索不到报错。</p>
-<blockquote>
-<p>访问测试</p>
-</blockquote>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.9kg7ed6b7w.webp" alt="image.png" /></p>
-<p>这里我们并没有改变容器中 <strong>webapps</strong> 下的内容，但依然可以直接访问，说明我们自定义的镜像是生效了的。</p>
-<h1 id="docker数据卷-挂载"><a class="markdownIt-Anchor" href="#docker数据卷-挂载"></a> Docker数据卷 挂载</h1>
-<h2 id="由来"><a class="markdownIt-Anchor" href="#由来"></a> 由来</h2>
-<p>Docker 是将应用和环境打包成一个镜像。</p>
-<p>这样，数据就不应该保存在容器中，否则容器删除，数据就会丢失，有着非常大的风险。</p>
-<p>为此，容器和主机之间需要有一个数据共享技术，使得在 Docker 容器中产生的数据能够同步到本地。</p>
-<p>这就是<strong>数据卷</strong>技术。其本质上是一个<strong>目录挂载</strong>，将容器内的目录挂载到主机上。</p>
-<h2 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h2>
-<h3 id="命令方式"><a class="markdownIt-Anchor" href="#命令方式"></a> 命令方式</h3>
-<blockquote>
-<p>语法</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">-v</span> 主机目录:容器目录</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看主机 /home 目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># ls /homeadmin  f2  f3  sail  test.java</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>以交互模式启动 centos 镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -it -v /home/ceshi:/home centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>新开一个窗口查看容器详情。</p>
-</blockquote>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7i0eqb7w9y.webp" alt="image.png" /></p>
-<p><strong>Mounts</strong> 下的 <strong>Source</strong> 即为设置的主机目录、<strong>Destination</strong> 即为设置的容器目录，他们已经绑定在了一起。</p>
-<blockquote>
-<p>在主机中查看 /home。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  ceshi  f2  f3  sail  test.java</span><br></pre></td></tr></table></figure>
-<p>主机上的 <code>/home</code> 下已经有了 <code>ceshi</code> 目录。说明容器一经启动，就会在主机生成对应的挂载目录。</p>
-<blockquote>
-<p>在容器中的 /home 下新建一个文件。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看主机的 ceshi 目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># cd ceshi</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br></pre></td></tr></table></figure>
-<p>此时主机中的 <code>ceshi</code> 目录下也有了这个文件。</p>
-<blockquote>
-<p>关闭容器。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># exit</span></span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>修改主机中 /home/ceshi/test.java 文件的内容。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># vim test.java</span></span><br><span class="line"><span class="comment"># 此处编辑文件过程省略</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># cat test.java</span></span><br><span class="line">hello sail</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>重启容器。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker start ec95646b1a4c</span></span><br><span class="line">ec95646b1a4c</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE          COMMAND             CREATED          STATUS         PORTS                    NAMES</span><br><span class="line">ec95646b1a4c   centos         <span class="string">&quot;/bin/bash&quot;</span>         <span class="number">19</span> minutes ago   Up <span class="number">5</span> seconds                            charming_cartwright</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看 /home 下的文件。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker exec -it ec95646b1a4c /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># cat test.java</span></span><br><span class="line">hello sail</span><br></pre></td></tr></table></figure>
-<p>此时容器中的文件也更改了。</p>
-<blockquote>
-<p>由此可见，数据卷技术实现的是双向同步。</p>
-</blockquote>
-<h3 id="权限设置"><a class="markdownIt-Anchor" href="#权限设置"></a> 权限设置</h3>
-<p>在使用命令方式设置卷时，还可以指定权限，以此保证数据安全。</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li><code>ro</code>(readonly)：只读。</li>
-<li><code>rw</code>(readwrite)：可读可写。</li>
-</ul>
-<blockquote>
-<p>以数据卷只读权限启动镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:ro centos /bin/bash</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>新建文件测试。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="number">02</span><span class="type">ef70c94920</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">touch: cannot touch <span class="string">&#x27;test.java&#x27;</span>: <span class="built_in">Read-only</span> file system</span><br></pre></td></tr></table></figure>
-<p>容器内部该目录是没有写入权限的。</p>
-<blockquote>
-<p>以数据卷可读可写的权限启动镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:rw centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">apache<span class="literal">-tomcat-9</span>.<span class="number">0.55</span>.tar.gz  jdk<span class="literal">-8u301-linux-x64</span>.rpm  test.java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>新建文件测试。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:rw centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">apache<span class="literal">-tomcat-9</span>.<span class="number">0.55</span>.tar.gz  jdk<span class="literal">-8u301-linux-x64</span>.rpm  test.java</span><br></pre></td></tr></table></figure>
-<p>容器内部该目录写入是没有问题的。</p>
-<blockquote>
-<p>前面我们没有指定权限也可以写入，由此可见，数据卷默认是具有读写权限的。</p>
-</blockquote>
-<h2 id="具名挂载"><a class="markdownIt-Anchor" href="#具名挂载"></a> 具名挂载</h2>
-<blockquote>
-<p>启动镜像时只定义主机卷名称，不指定挂载目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v my-centos:/home centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">3</span><span class="type">cf74e9e6973</span> /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看目前挂载的卷。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用 Ctrl + P + Q 不退出容器的情况下回到主机目录。</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume ls</span></span><br><span class="line">DRIVER    VOLUME NAME</span><br><span class="line">local     my<span class="literal">-centos</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看卷的详情。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume inspect my-centos</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;CreatedAt&quot;</span>: <span class="string">&quot;2021-12-20T16:55:35+08:00&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Driver&quot;</span>: <span class="string">&quot;local&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Labels&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Mountpoint&quot;</span>: <span class="string">&quot;/var/lib/docker/volumes/my-centos/_data&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Name&quot;</span>: <span class="string">&quot;my-centos&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Options&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Scope&quot;</span>: <span class="string">&quot;local&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>卷挂载在 <code>/var/lib/docker/volumes/卷名/_data</code> 目录下。</p>
-<p>在没有指定主机挂载目录的情况下，会默认挂载到该目录。</p>
-<blockquote>
-<p>由于指定了卷名，所以这种方式称为具名挂载。</p>
-</blockquote>
-<h2 id="匿名挂载"><a class="markdownIt-Anchor" href="#匿名挂载"></a> 匿名挂载</h2>
-<blockquote>
-<p>启动镜像时只指定容器目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home centos /bin/bash</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看目前挂载的卷。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume ls</span></span><br><span class="line">DRIVER    VOLUME NAME</span><br><span class="line">local     <span class="number">159830</span>cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看卷的详情。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume inspect 159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;CreatedAt&quot;</span>: <span class="string">&quot;2021-12-20T17:05:23+08:00&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Driver&quot;</span>: <span class="string">&quot;local&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Labels&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Mountpoint&quot;</span>: <span class="string">&quot;/var/lib/docker/volumes/159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940/_data&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Name&quot;</span>: <span class="string">&quot;159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Options&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Scope&quot;</span>: <span class="string">&quot;local&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>卷也是挂载在 <code>/var/lib/docker/volumes/xxx/_data</code> 目录下。</p>
-<p>在没有指定主机挂载目录的情况下，会默认挂载到该目录。</p>
-<blockquote>
-<p>由于没有指定卷名，所以这种方式称为匿名挂载。</p>
-</blockquote>
-<p>只有指定主机目录的情况下会挂载到指定目录，否则都会挂载到默认目录。</p>
-<h2 id="实战"><a class="markdownIt-Anchor" href="#实战"></a> 实战</h2>
-<h3 id="mysql数据同步"><a class="markdownIt-Anchor" href="#mysql数据同步"></a> mysql数据同步</h3>
-<p>数据库中的数据极为重要，必须同步到主机，否则将会有非常大的数据丢失风险。</p>
-<p>这里以 mysql 镜像为例演示数据同步的过程。</p>
-<blockquote>
-<p>启动 mysql 镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql01 mysql:5.7</span></span><br><span class="line">Unable to find image <span class="string">&#x27;mysql:5.7&#x27;</span> locally</span><br><span class="line"><span class="number">5.7</span>: Pulling from library/mysql</span><br><span class="line">ffbb094f4f9e: Pull complete </span><br><span class="line"><span class="number">6</span>c1cb25f7525: Pull complete </span><br><span class="line">Digest: sha256:d1cc87a3bd5dc07defc837bc9084f748a130606ff41923f46dec1986e0dc828d</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> mysql:<span class="number">5.7</span></span><br><span class="line">a016e564d977550e475474556cfd033fb1c731002381bc9f9544c63fccb7f60c</span><br></pre></td></tr></table></figure>
-<p>其中 <code>-e</code> 为环境配置。安装启动 mysql 需要配置密码。</p>
-<blockquote>
-<p>使用docker inspect查看挂载情况。</p>
-</blockquote>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7ax6uvlxds.webp" alt="image.png" /></p>
-<p>已经生成了两个目录的挂载。</p>
-<blockquote>
-<p>查看主机同步的目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  ceshi  f2  f3  mysql  sail  test.java</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># cd mysql</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># ls</span></span><br><span class="line">conf  <span class="keyword">data</span></span><br></pre></td></tr></table></figure>
-<p>主机已经同步了容器挂载的目录。</p>
-<blockquote>
-<p>使用数据库管理工具连接测试（这里使用 IDEA 自带的数据库工具）。</p>
-</blockquote>
 ]]></content>
       <categories>
         <category>DevOps</category>
@@ -1940,6 +1940,96 @@ docker-engine
       <tags>
         <tag>Docker</tag>
         <tag>Mysql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Swarm-环境搭建</title>
+    <url>/2024/05/06/docker/Swarm-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
+    <content><![CDATA[<h1 id="swarm-环境搭建"><a class="markdownIt-Anchor" href="#swarm-环境搭建"></a> Swarm-环境搭建</h1>
+<h2 id="系统规划"><a class="markdownIt-Anchor" href="#系统规划"></a> <strong>系统规划</strong></h2>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726154555016.39l7gwav0x.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726154555016.39l7gwav0x.webp" /></p>
+<h2 id="环境准备"><a class="markdownIt-Anchor" href="#环境准备"></a> <strong>环境准备</strong></h2>
+<h3 id="创建服务器"><a class="markdownIt-Anchor" href="#创建服务器"></a> <strong>创建服务器</strong></h3>
+<p>新建三台虚拟机</p>
+<table>
+<thead>
+<tr>
+<th><strong>节点</strong></th>
+<th><strong>IP</strong></th>
+<th><strong>系统</strong></th>
+<th><strong>配置</strong></th>
+<th><strong>存储</strong></th>
+<th><strong>服务</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>manager</td>
+<td>192.168.2.xx</td>
+<td>CentOS7.6</td>
+<td>8U16G</td>
+<td>100G</td>
+<td>redis,frp,mssql</td>
+</tr>
+<tr>
+<td>worker1</td>
+<td>192.168.2.xx</td>
+<td>CentOS7.6</td>
+<td>4U8G</td>
+<td>80G</td>
+<td>app</td>
+</tr>
+<tr>
+<td>worker2</td>
+<td>192.168.2.xx</td>
+<td>CentOS7.6</td>
+<td>4U8G</td>
+<td>80G</td>
+<td>app</td>
+</tr>
+</tbody>
+</table>
+<h3 id="时间同步"><a class="markdownIt-Anchor" href="#时间同步"></a> <strong>时间同步</strong></h3>
+<p>时间同步任务</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install -y ntp</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt;<span class="string">EOF&gt;&gt;/var/spool/cron/root</span></span><br><span class="line"><span class="string"># 12点同步</span></span><br><span class="line"><span class="string">00 12 * * * /usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span></span><br><span class="line"><span class="string"># 23：59分执行删除</span></span><br><span class="line"><span class="string">59 23 * * *  docker image prune -af</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##查看计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment">##手动执行</span></span><br><span class="line">/usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span><br></pre></td></tr></table></figure>
+<h3 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> <strong>Docker</strong></h3>
+<p>启动docker</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
+<h3 id="防火墙"><a class="markdownIt-Anchor" href="#防火墙"></a> <strong>防火墙</strong></h3>
+<blockquote>
+<p>Error response from daemon: rpc error: code = Unavailable desc = connection error: desc = “transport: Error while dialing dial tcp 192.168.2.61:2377: connect: no route to host”</p>
+</blockquote>
+<p><strong>打开防火墙</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># manager</span></span><br><span class="line">firewall-cmd --zone=public --add-port=2377/tcp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --zone=public --add-port=7946/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=7946/udp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/udp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
+<p>要在 swarm 集群中使用使用路由网格，首先需要开启加入swarm集群的节点的以下端口：</p>
+<ul>
+<li><code>2377</code> ：主节点监听端口</li>
+<li><code>7946</code> ：容器网络发现</li>
+<li><code>4789</code> ：容器网络入口</li>
+</ul>
+<h2 id="swarm"><a class="markdownIt-Anchor" href="#swarm"></a> <strong>Swarm</strong></h2>
+<h3 id="创建swarm"><a class="markdownIt-Anchor" href="#创建swarm"></a> <strong>创建Swarm</strong></h3>
+<p>创建<strong>Swarm</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker swarm init --advertise-addr your_manager_ip</span><br></pre></td></tr></table></figure>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145701895.6m3xb9smof.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145701895.6m3xb9smof.webp" /></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@manager ~]# docker swarm init --advertise-addr 192.168.2.61</span><br><span class="line">Swarm initialized: current node (rzds6oyb0bgvudzegpscmgiz3) is now a manager.</span><br><span class="line"></span><br><span class="line">To add a worker to this swarm, run the following <span class="built_in">command</span>:</span><br><span class="line"></span><br><span class="line">    docker swarm <span class="built_in">join</span> --token SWMTKN-1-51b7t8whxn8j6mdjt5perjmec9u8qguxq8tern9nill737pra2-ejc5nw5f90oz6xldcbmrl2ztu 192.168.2.61:2377</span><br><span class="line"></span><br><span class="line">To add a manager to this swarm, run <span class="string">&#x27;docker swarm join-token manager&#x27;</span> and follow the instructions.</span><br></pre></td></tr></table></figure>
+<h3 id="加入swarm"><a class="markdownIt-Anchor" href="#加入swarm"></a> <strong>加入Swarm</strong></h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker swarm <span class="built_in">join</span> --token SWMTKN-1-51b7t8whxn8j6mdjt5perjmec9u8qguxq8tern9nill737pra2-ejc5nw5f90oz6xldcbmrl2ztu 192.168.2.61:2377</span><br></pre></td></tr></table></figure>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145636086.3uuv37756b.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145636086.3uuv37756b.webp" /></p>
+<h3 id="查看节点"><a class="markdownIt-Anchor" href="#查看节点"></a> <strong>查看节点</strong></h3>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@manager ~]# docker node <span class="built_in">ls</span></span><br><span class="line">ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION</span><br><span class="line">rzds6oyb0bgvudzegpscmgiz3 *   manager    Ready     Active         Leader           20.10.17</span><br><span class="line">rjj3fr5uazywwsfj6ok3f3fw3     worker1    Ready     Active                          20.10.17</span><br><span class="line">6vkvdm3gcxip8htc6cfk8bm3n     worker2    Ready     Active                          20.10.17</span><br></pre></td></tr></table></figure>
+<h3 id="服务约束"><a class="markdownIt-Anchor" href="#服务约束"></a> <strong>服务约束</strong></h3>
+<p>添加<strong>label</strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker node update --label-add role=<span class="built_in">env</span> manager</span><br><span class="line"><span class="built_in">sudo</span> docker node update --label-add gct_medpro=gct_medpro zhuji</span><br></pre></td></tr></table></figure>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726162645325.99tdlmmgzk.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726162645325.99tdlmmgzk.webp" /></p>
+<p>给节点也加上</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@manager ~]# <span class="built_in">sudo</span> docker node update --label-add role=app worker1</span><br><span class="line">worker1</span><br><span class="line">[root@manager ~]# <span class="built_in">sudo</span> docker node update --label-add role=app worker2</span><br><span class="line">worker2</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>DevOps</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+        <tag>Docker-Swarm</tag>
       </tags>
   </entry>
   <entry>
@@ -2451,96 +2541,6 @@ docker-engine
         <tag>消息队列</tag>
         <tag>RabbitMQ</tag>
         <tag>.NET Core</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Swarm-环境搭建</title>
-    <url>/2024/05/06/docker/Swarm-%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA/</url>
-    <content><![CDATA[<h1 id="swarm-环境搭建"><a class="markdownIt-Anchor" href="#swarm-环境搭建"></a> Swarm-环境搭建</h1>
-<h2 id="系统规划"><a class="markdownIt-Anchor" href="#系统规划"></a> <strong>系统规划</strong></h2>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726154555016.39l7gwav0x.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726154555016.39l7gwav0x.webp" /></p>
-<h2 id="环境准备"><a class="markdownIt-Anchor" href="#环境准备"></a> <strong>环境准备</strong></h2>
-<h3 id="创建服务器"><a class="markdownIt-Anchor" href="#创建服务器"></a> <strong>创建服务器</strong></h3>
-<p>新建三台虚拟机</p>
-<table>
-<thead>
-<tr>
-<th><strong>节点</strong></th>
-<th><strong>IP</strong></th>
-<th><strong>系统</strong></th>
-<th><strong>配置</strong></th>
-<th><strong>存储</strong></th>
-<th><strong>服务</strong></th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>manager</td>
-<td>192.168.2.xx</td>
-<td>CentOS7.6</td>
-<td>8U16G</td>
-<td>100G</td>
-<td>redis,frp,mssql</td>
-</tr>
-<tr>
-<td>worker1</td>
-<td>192.168.2.xx</td>
-<td>CentOS7.6</td>
-<td>4U8G</td>
-<td>80G</td>
-<td>app</td>
-</tr>
-<tr>
-<td>worker2</td>
-<td>192.168.2.xx</td>
-<td>CentOS7.6</td>
-<td>4U8G</td>
-<td>80G</td>
-<td>app</td>
-</tr>
-</tbody>
-</table>
-<h3 id="时间同步"><a class="markdownIt-Anchor" href="#时间同步"></a> <strong>时间同步</strong></h3>
-<p>时间同步任务</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install -y ntp</span><br><span class="line"></span><br><span class="line"><span class="built_in">cat</span> &lt;&lt;<span class="string">EOF&gt;&gt;/var/spool/cron/root</span></span><br><span class="line"><span class="string"># 12点同步</span></span><br><span class="line"><span class="string">00 12 * * * /usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span></span><br><span class="line"><span class="string"># 23：59分执行删除</span></span><br><span class="line"><span class="string">59 23 * * *  docker image prune -af</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"></span><br><span class="line"><span class="comment">##查看计划任务</span></span><br><span class="line">crontab -l</span><br><span class="line"></span><br><span class="line"><span class="comment">##手动执行</span></span><br><span class="line">/usr/sbin/ntpdate -u ntp1.aliyun.com &amp;&amp; /usr/sbin/hwclock -w</span><br></pre></td></tr></table></figure>
-<h3 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> <strong>Docker</strong></h3>
-<p>启动docker</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> systemctl start docker</span><br><span class="line"><span class="built_in">sudo</span> systemctl <span class="built_in">enable</span> docker</span><br></pre></td></tr></table></figure>
-<h3 id="防火墙"><a class="markdownIt-Anchor" href="#防火墙"></a> <strong>防火墙</strong></h3>
-<blockquote>
-<p>Error response from daemon: rpc error: code = Unavailable desc = connection error: desc = “transport: Error while dialing dial tcp 192.168.2.61:2377: connect: no route to host”</p>
-</blockquote>
-<p><strong>打开防火墙</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># manager</span></span><br><span class="line">firewall-cmd --zone=public --add-port=2377/tcp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --zone=public --add-port=7946/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=7946/udp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/tcp --permanent</span><br><span class="line">firewall-cmd --zone=public --add-port=4789/udp --permanent</span><br><span class="line"></span><br><span class="line"><span class="comment"># 所有node</span></span><br><span class="line">firewall-cmd --reload</span><br><span class="line">systemctl restart docker</span><br></pre></td></tr></table></figure>
-<p>要在 swarm 集群中使用使用路由网格，首先需要开启加入swarm集群的节点的以下端口：</p>
-<ul>
-<li><code>2377</code> ：主节点监听端口</li>
-<li><code>7946</code> ：容器网络发现</li>
-<li><code>4789</code> ：容器网络入口</li>
-</ul>
-<h2 id="swarm"><a class="markdownIt-Anchor" href="#swarm"></a> <strong>Swarm</strong></h2>
-<h3 id="创建swarm"><a class="markdownIt-Anchor" href="#创建swarm"></a> <strong>创建Swarm</strong></h3>
-<p>创建<strong>Swarm</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker swarm init --advertise-addr your_manager_ip</span><br></pre></td></tr></table></figure>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145701895.6m3xb9smof.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145701895.6m3xb9smof.webp" /></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@manager ~]# docker swarm init --advertise-addr 192.168.2.61</span><br><span class="line">Swarm initialized: current node (rzds6oyb0bgvudzegpscmgiz3) is now a manager.</span><br><span class="line"></span><br><span class="line">To add a worker to this swarm, run the following <span class="built_in">command</span>:</span><br><span class="line"></span><br><span class="line">    docker swarm <span class="built_in">join</span> --token SWMTKN-1-51b7t8whxn8j6mdjt5perjmec9u8qguxq8tern9nill737pra2-ejc5nw5f90oz6xldcbmrl2ztu 192.168.2.61:2377</span><br><span class="line"></span><br><span class="line">To add a manager to this swarm, run <span class="string">&#x27;docker swarm join-token manager&#x27;</span> and follow the instructions.</span><br></pre></td></tr></table></figure>
-<h3 id="加入swarm"><a class="markdownIt-Anchor" href="#加入swarm"></a> <strong>加入Swarm</strong></h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker swarm <span class="built_in">join</span> --token SWMTKN-1-51b7t8whxn8j6mdjt5perjmec9u8qguxq8tern9nill737pra2-ejc5nw5f90oz6xldcbmrl2ztu 192.168.2.61:2377</span><br></pre></td></tr></table></figure>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145636086.3uuv37756b.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726145636086.3uuv37756b.webp" /></p>
-<h3 id="查看节点"><a class="markdownIt-Anchor" href="#查看节点"></a> <strong>查看节点</strong></h3>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@manager ~]# docker node <span class="built_in">ls</span></span><br><span class="line">ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION</span><br><span class="line">rzds6oyb0bgvudzegpscmgiz3 *   manager    Ready     Active         Leader           20.10.17</span><br><span class="line">rjj3fr5uazywwsfj6ok3f3fw3     worker1    Ready     Active                          20.10.17</span><br><span class="line">6vkvdm3gcxip8htc6cfk8bm3n     worker2    Ready     Active                          20.10.17</span><br></pre></td></tr></table></figure>
-<h3 id="服务约束"><a class="markdownIt-Anchor" href="#服务约束"></a> <strong>服务约束</strong></h3>
-<p>添加<strong>label</strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="built_in">sudo</span> docker node update --label-add role=<span class="built_in">env</span> manager</span><br><span class="line"><span class="built_in">sudo</span> docker node update --label-add gct_medpro=gct_medpro zhuji</span><br></pre></td></tr></table></figure>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726162645325.99tdlmmgzk.webp" alt="https://fantasy-ke.github.io/picx-images-hosting/docker/image-20220726162645325.99tdlmmgzk.webp" /></p>
-<p>给节点也加上</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@manager ~]# <span class="built_in">sudo</span> docker node update --label-add role=app worker1</span><br><span class="line">worker1</span><br><span class="line">[root@manager ~]# <span class="built_in">sudo</span> docker node update --label-add role=app worker2</span><br><span class="line">worker2</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>DevOps</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-        <tag>Docker-Swarm</tag>
       </tags>
   </entry>
   <entry>
@@ -3213,6 +3213,43 @@ SubController.cs中新增Group参数
       </tags>
   </entry>
   <entry>
+    <title>Git常用命令备忘</title>
+    <url>/2023/06/03/miscellaneous/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98/</url>
+    <content><![CDATA[<h1 id=""><a class="markdownIt-Anchor" href="#"></a> <a href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2" title="本地仓库版本切换"></a>本地仓库版本切换</h1>
+<ul>
+<li>查询当前本版以前的所有提交记录：<code>git log --pretty=o</code></li>
+</ul>
+<!-- more -->
+<h1 id="-2"><a class="markdownIt-Anchor" href="#-2"></a> <a href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2" title="本地仓库版本切换"></a>本地仓库版本切换</h1>
+<ul>
+<li>查询当前本版以前的所有提交记录：<code>git log --pretty=oneline</code></li>
+<li>查询所有版本记录：<code>git reflog</code></li>
+<li>代码切换到指定目录：<code>git reset --hard 版本号</code></li>
+</ul>
+<h1 id="-3"><a class="markdownIt-Anchor" href="#-3"></a> <a href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E6%93%8D%E4%BD%9C" title="远程仓库操作"></a>远程仓库操作</h1>
+<ul>
+<li>推送本地仓库代码到远程仓库：<code>git push</code></li>
+<li>拉取远程仓库代码：<code>git pull</code></li>
+</ul>
+<h1 id="-4"><a class="markdownIt-Anchor" href="#-4"></a> <a href="#%E5%88%86%E6%94%AF%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4" title="分支常用命令"></a>分支常用命令</h1>
+<ul>
+<li>查看分支：<code>git branch</code></li>
+<li>创建分支：<code>git branch 分支名</code></li>
+<li>切换分支：<code>git checkout 分支名</code></li>
+<li>创建再切换到新建的分支：<code>git checkout -b 分支名</code></li>
+<li>删除分支：<code>git branch -d 分支名</code> <strong>不能删除当前正在使用的分支</strong></li>
+<li>合并分支：<code>git merge 被合并的分支名</code></li>
+</ul>
+]]></content>
+      <categories>
+        <category>杂七杂八的砖</category>
+      </categories>
+      <tags>
+        <tag>版本控制</tag>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nginx for Ubuntu</title>
     <url>/2024/06/03/miscellaneous/Nginx%20for%20Ubuntu/</url>
     <content><![CDATA[<h1 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h1>
@@ -3260,43 +3297,6 @@ SubController.cs中新增Group参数
       <tags>
         <tag>nginx</tag>
         <tag>Ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git常用命令备忘</title>
-    <url>/2023/06/03/miscellaneous/Git%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4%E5%A4%87%E5%BF%98/</url>
-    <content><![CDATA[<h1 id=""><a class="markdownIt-Anchor" href="#"></a> <a href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2" title="本地仓库版本切换"></a>本地仓库版本切换</h1>
-<ul>
-<li>查询当前本版以前的所有提交记录：<code>git log --pretty=o</code></li>
-</ul>
-<!-- more -->
-<h1 id="-2"><a class="markdownIt-Anchor" href="#-2"></a> <a href="#%E6%9C%AC%E5%9C%B0%E4%BB%93%E5%BA%93%E7%89%88%E6%9C%AC%E5%88%87%E6%8D%A2" title="本地仓库版本切换"></a>本地仓库版本切换</h1>
-<ul>
-<li>查询当前本版以前的所有提交记录：<code>git log --pretty=oneline</code></li>
-<li>查询所有版本记录：<code>git reflog</code></li>
-<li>代码切换到指定目录：<code>git reset --hard 版本号</code></li>
-</ul>
-<h1 id="-3"><a class="markdownIt-Anchor" href="#-3"></a> <a href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E6%93%8D%E4%BD%9C" title="远程仓库操作"></a>远程仓库操作</h1>
-<ul>
-<li>推送本地仓库代码到远程仓库：<code>git push</code></li>
-<li>拉取远程仓库代码：<code>git pull</code></li>
-</ul>
-<h1 id="-4"><a class="markdownIt-Anchor" href="#-4"></a> <a href="#%E5%88%86%E6%94%AF%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4" title="分支常用命令"></a>分支常用命令</h1>
-<ul>
-<li>查看分支：<code>git branch</code></li>
-<li>创建分支：<code>git branch 分支名</code></li>
-<li>切换分支：<code>git checkout 分支名</code></li>
-<li>创建再切换到新建的分支：<code>git checkout -b 分支名</code></li>
-<li>删除分支：<code>git branch -d 分支名</code> <strong>不能删除当前正在使用的分支</strong></li>
-<li>合并分支：<code>git merge 被合并的分支名</code></li>
-</ul>
-]]></content>
-      <categories>
-        <category>杂七杂八的砖</category>
-      </categories>
-      <tags>
-        <tag>版本控制</tag>
-        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
