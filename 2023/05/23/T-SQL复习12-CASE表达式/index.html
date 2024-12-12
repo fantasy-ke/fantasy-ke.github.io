@@ -44,7 +44,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.fantasyke.cn/2023/05/23/T-SQL%E5%A4%8D%E4%B9%A012-CASE%E8%A1%A8%E8%BE%BE%E5%BC%8F/","path":"2023/05/23/T-SQL复习12-CASE表达式/","title":"T-SQL复习12--CASE表达式"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>T-SQL复习12--CASE表达式 | Fantasy'Ke Blog</title>
+<title>T-SQL复习12--CASE表达式 | Fantasy'Ke Blog</title><meta name="robots" content="noindex">
   
 
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -170,7 +170,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -285,10 +285,8 @@
   </div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2023/05/22/T-SQL%E5%A4%8D%E4%B9%A010-%E7%B4%A2%E5%BC%95/" rel="bookmark">
-        <time class="popular-posts-time">2023-05-22</time>
-        <br>
-      T-SQL复习10--索引
+      <a class="popular-posts-link" href="/" rel="bookmark">
+      
       </a>
     </li>
   </ul>
@@ -414,7 +412,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span>   </span><br><span class="line">(  </span><br><span class="line"> <span class="keyword">CASE</span>   </span><br><span class="line"> <span class="keyword">WHEN</span> AGE<span class="operator">&gt;</span><span class="number">18</span> <span class="keyword">THEN</span> <span class="string">&#x27;已成年&#x27;</span>  </span><br><span class="line"> <span class="keyword">ELSE</span> <span class="string">&#x27;未成年&#x27;</span>  </span><br><span class="line"> <span class="keyword">END</span>  </span><br><span class="line">) <span class="keyword">AS</span> 是否成年,<span class="built_in">COUNT</span>(ID) <span class="keyword">AS</span> 人数  </span><br><span class="line"><span class="keyword">FROM</span> dbo.STUDENT  </span><br><span class="line"><span class="keyword">GROUP</span> <span class="keyword">BY</span>   </span><br><span class="line">(  </span><br><span class="line"> <span class="keyword">CASE</span>   </span><br><span class="line"> <span class="keyword">WHEN</span> AGE<span class="operator">&gt;</span><span class="number">18</span> <span class="keyword">THEN</span> <span class="string">&#x27;已成年&#x27;</span>  </span><br><span class="line"> <span class="keyword">ELSE</span> <span class="string">&#x27;未成年&#x27;</span>  </span><br><span class="line"> <span class="keyword">END</span>  </span><br><span class="line">)  </span><br><span class="line"><span class="keyword">ORDER</span> <span class="keyword">BY</span> 是否成年  </span><br></pre></td></tr></table></figure>
 <h1 id="-4"><a class="markdownIt-Anchor" href="#-4"></a> <a href="#%E5%9C%A8UPDATE%E4%B8%AD%E4%BD%BF%E7%94%A8CASE%E8%A1%A8%E8%BE%BE%E5%BC%8F" title="在UPDATE中使用CASE表达式"></a>在UPDATE中使用CASE表达式</h1>
 <p>示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> dbo.STUDENT <span class="keyword">SET</span>  </span><br><span class="line">AGE<span class="operator">=</span>  </span><br><span class="line">(  </span><br><span class="line"><span class="keyword">CASE</span> NAME   </span><br><span class="line"><span class="keyword">WHEN</span> <span class="string">&#x27;Hello&#x27;</span> <span class="keyword">THEN</span> <span class="number">18</span>  </span><br><span class="line"><span class="keyword">WHEN</span> <span class="string">&#x27;world&#x27;</span> <span class="keyword">THEN</span> <span class="number">11</span>  </span><br><span class="line"><span class="keyword">ELSE</span> AGE  </span><br><span class="line"><span class="keyword">end</span>  </span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">UPDATE</span> dbo.STUDENT <span class="keyword">SET</span>  </span><br><span class="line">AGE<span class="operator">=</span>  </span><br><span class="line">(  </span><br><span class="line"><span class="keyword">CASE</span> NAME   </span><br><span class="line"><span class="keyword">WHEN</span> <span class="string">&#x27;Hello&#x27;</span> <span class="keyword">THEN</span> <span class="number">18</span>  </span><br><span class="line"><span class="keyword">WHEN</span> <span class="string">&#x27;world&#x27;</span> <span class="keyword">THEN</span> <span class="number">11</span>  </span><br><span class="line"><span class="keyword">ELSE</span> AGE  </span><br><span class="line"><span class="keyword">end</span>  </span><br><span class="line">)</span><br></pre></td></tr></table></figure><!-- flag of hidden posts -->
     </div>
 
     
@@ -509,18 +507,6 @@
       <a class="a2a_button_wechat"></a>
   </div>
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2023/05/23/T-SQL%E5%A4%8D%E4%B9%A013-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/" rel="prev" title="T-SQL复习13--流程控制语句">
-                  <i class="fa fa-angle-left"></i> T-SQL复习13--流程控制语句
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2023/05/22/T-SQL%E5%A4%8D%E4%B9%A011-%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B/" rel="next" title="T-SQL复习11--存储过程">
-                  T-SQL复习11--存储过程 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
     </footer>
   </article>
 </div>
@@ -551,14 +537,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Word count total: </span>
-    <span title="Word count total">79k</span>
+    <span title="Word count total">69k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">4:46</span>
+    <span title="Reading time total">4:12</span>
   </span>
 </div>
 <div class="busuanzi-count">

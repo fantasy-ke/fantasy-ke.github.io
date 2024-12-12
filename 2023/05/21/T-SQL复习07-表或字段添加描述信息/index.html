@@ -44,7 +44,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.fantasyke.cn/2023/05/21/T-SQL%E5%A4%8D%E4%B9%A007-%E8%A1%A8%E6%88%96%E5%AD%97%E6%AE%B5%E6%B7%BB%E5%8A%A0%E6%8F%8F%E8%BF%B0%E4%BF%A1%E6%81%AF/","path":"2023/05/21/T-SQL复习07-表或字段添加描述信息/","title":"T-SQL复习07--表或字段添加描述信息"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>T-SQL复习07--表或字段添加描述信息 | Fantasy'Ke Blog</title>
+<title>T-SQL复习07--表或字段添加描述信息 | Fantasy'Ke Blog</title><meta name="robots" content="noindex">
   
 
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -170,7 +170,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -385,7 +385,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">EXEC</span> sys.sp_addextendedproperty  <span class="comment">--添加字段描述信息  </span></span><br><span class="line"> <span class="comment">-- sys.sp_updateextendedproperty  更新字段属性信息  </span></span><br><span class="line"> <span class="comment">-- sp_dropextendedproperty  删除字段属性信息   </span></span><br><span class="line"> <span class="variable">@name</span> <span class="operator">=</span> N<span class="string">&#x27;ID&#x27;</span>,       <span class="comment">-- 描述的名称，可以设定为字段名称  </span></span><br><span class="line"> <span class="variable">@value</span> <span class="operator">=</span> N<span class="string">&#x27;学生编号&#x27;</span>,      <span class="comment">-- 描述内容  </span></span><br><span class="line"> <span class="variable">@level0type</span> <span class="operator">=</span> N<span class="string">&#x27;SCHEMA&#x27;</span>,   <span class="comment">-- 固定语法  </span></span><br><span class="line"> <span class="variable">@level0name</span> <span class="operator">=</span> N<span class="string">&#x27;dbo&#x27;</span>, <span class="comment">-- 架构  </span></span><br><span class="line"> <span class="variable">@level1type</span> <span class="operator">=</span> N<span class="string">&#x27;TABLE&#x27;</span>,   <span class="comment">-- 类型  </span></span><br><span class="line"> <span class="variable">@level1name</span> <span class="operator">=</span> N<span class="string">&#x27;STUDENT&#x27;</span>, <span class="comment">-- 表名  </span></span><br><span class="line"> <span class="variable">@level2type</span> <span class="operator">=</span> N<span class="string">&#x27;COLUMN&#x27;</span>,   <span class="comment">-- 列  </span></span><br><span class="line"> <span class="variable">@level2name</span> <span class="operator">=</span> N<span class="string">&#x27;ID&#x27;</span>  <span class="comment">-- 要添加描述的字段名  </span></span><br></pre></td></tr></table></figure>
 <h1 id="-4"><a class="markdownIt-Anchor" href="#-4"></a> <a href="#%E6%9F%A5%E8%AF%A2%E8%A1%A8%E4%B8%AD%E7%9A%84%E6%8F%8F%E8%BF%B0%E4%BF%A1%E6%81%AF" title="查询表中的描述信息"></a>查询表中的描述信息</h1>
 <p>示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.extended_properties a <span class="keyword">WHERE</span> a.major_id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;[dbo].[STUDENT]&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> sys.extended_properties a <span class="keyword">WHERE</span> a.major_id<span class="operator">=</span>OBJECT_ID(<span class="string">&#x27;[dbo].[STUDENT]&#x27;</span>)</span><br></pre></td></tr></table></figure><!-- flag of hidden posts -->
     </div>
 
     
@@ -480,18 +480,6 @@
       <a class="a2a_button_wechat"></a>
   </div>
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2023/05/22/T-SQL%E5%A4%8D%E4%B9%A008-%E6%95%B0%E6%8D%AE%E5%AE%8C%E6%95%B4%E6%80%A7-%E7%BA%A6%E6%9D%9F/" rel="prev" title="T-SQL复习08--数据完整性(约束)">
-                  <i class="fa fa-angle-left"></i> T-SQL复习08--数据完整性(约束)
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2023/04/11/docker/7-docker-compose/" rel="next" title="7.Docker Compose">
-                  7.Docker Compose <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
     </footer>
   </article>
 </div>
@@ -522,14 +510,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Word count total: </span>
-    <span title="Word count total">79k</span>
+    <span title="Word count total">69k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">4:46</span>
+    <span title="Reading time total">4:12</span>
   </span>
 </div>
 <div class="busuanzi-count">

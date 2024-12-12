@@ -44,7 +44,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.fantasyke.cn/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A015-%E4%BA%8B%E5%8A%A1/","path":"2023/05/24/T-SQL复习15-事务/","title":"T-SQL复习15--事务"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>T-SQL复习15--事务 | Fantasy'Ke Blog</title>
+<title>T-SQL复习15--事务 | Fantasy'Ke Blog</title><meta name="robots" content="noindex">
   
 
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -170,7 +170,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -285,10 +285,8 @@
   </div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2023/05/23/T-SQL%E5%A4%8D%E4%B9%A013-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/" rel="bookmark">
-        <time class="popular-posts-time">2023-05-23</time>
-        <br>
-      T-SQL复习13--流程控制语句
+      <a class="popular-posts-link" href="/" rel="bookmark">
+      
       </a>
     </li>
   </ul>
@@ -428,7 +426,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">BEGIN</span> TRANSACTION UP_STU  </span><br><span class="line"><span class="keyword">UPDATE</span> dbo.STUDENT <span class="keyword">SET</span> Age<span class="operator">=</span><span class="number">10</span> <span class="keyword">WHERE</span> NAME<span class="operator">=</span><span class="string">&#x27;Hello&#x27;</span>  </span><br><span class="line">SAVE TRANSACTION TRAN_SAVE  </span><br><span class="line"><span class="keyword">UPDATE</span> dbo.STUDENT <span class="keyword">SET</span> Age<span class="operator">=</span><span class="number">12</span> <span class="keyword">WHERE</span> NAME<span class="operator">=</span><span class="string">&#x27;World&#x27;</span>  </span><br><span class="line"><span class="keyword">ROLLBACK</span> TRANSACTION TRAN_SAVE <span class="comment">--回滚到事务的保存点位置，ROLLBACK TRANSACTION savePointName 不影响@@TRANCOUNT  </span></span><br><span class="line"><span class="keyword">UPDATE</span> dbo.STUDENT <span class="keyword">SET</span> Age<span class="operator">=</span><span class="number">13</span> <span class="keyword">WHERE</span> NAME<span class="operator">=</span><span class="string">&#x27;World&#x27;</span>  </span><br><span class="line"><span class="keyword">COMMIT</span> TRANSACTION UP_STU  </span><br></pre></td></tr></table></figure>
 <h1 id="-7"><a class="markdownIt-Anchor" href="#-7"></a> <a href="#%E5%9C%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E4%BD%BF%E7%94%A8%E4%BA%8B%E5%8A%A1" title="在存储过程中使用事务"></a>在存储过程中使用事务</h1>
 <p>示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">USE SCHOOL  </span><br><span class="line">GO  </span><br><span class="line">IF OBJECT_ID(<span class="string">&#x27;P_STUDENT&#x27;</span>,<span class="string">&#x27;P&#x27;</span>) <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>  </span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> P_STUDENT  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> P_STUDENT  </span><br><span class="line"><span class="keyword">AS</span>  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"> <span class="keyword">BEGIN</span> TRY  </span><br><span class="line"><span class="keyword">BEGIN</span> TRANSACTION TRAN1 <span class="comment">--外层事务  </span></span><br><span class="line"><span class="keyword">UPDATE</span> STUDENT <span class="keyword">SET</span> Age<span class="operator">=</span><span class="number">10</span> <span class="keyword">WHERE</span> NAME<span class="operator">=</span><span class="string">&#x27;Hello&#x27;</span>  </span><br><span class="line"><span class="keyword">BEGIN</span> TRANSACTION SUBTRAN1  <span class="comment">--嵌套事务  </span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> STUDENT(NAME,Age,SEX) <span class="keyword">VALUES</span>(<span class="string">&#x27;JAME&#x27;</span>,<span class="number">12</span>,<span class="string">&#x27;男&#x27;</span>)  </span><br><span class="line"><span class="keyword">COMMIT</span> TRANSACTION SUBTRAN1  </span><br><span class="line"><span class="keyword">COMMIT</span> TRANSACTION TRAN1  </span><br><span class="line"><span class="keyword">END</span> TRY  </span><br><span class="line"><span class="keyword">BEGIN</span> CATCH  </span><br><span class="line">IF @<span class="variable">@TRANCOUNT</span> <span class="operator">&gt;</span> <span class="number">0</span> <span class="comment">--@@TRANCOUNT&gt;0表示在TRY块中的事务没有成功提交，那么就回滚整个外层事务  </span></span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">PRINT @<span class="variable">@TRANCOUNT</span>  </span><br><span class="line"><span class="keyword">SELECT</span> ERROR_LINE(),ERROR_MESSAGE(),ERROR_PROCEDURE()  </span><br><span class="line"><span class="keyword">ROLLBACK</span> TRANSACTION TRAN1  </span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line"><span class="keyword">ELSE</span>  <span class="comment">--ELSE就是@@TRANCOUNT的值为0，说明事务都已经全部提交了  </span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> dbo.STUDENT  </span><br><span class="line"><span class="keyword">END</span> CATCH  </span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line">GO</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">USE SCHOOL  </span><br><span class="line">GO  </span><br><span class="line">IF OBJECT_ID(<span class="string">&#x27;P_STUDENT&#x27;</span>,<span class="string">&#x27;P&#x27;</span>) <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>  </span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> P_STUDENT  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> P_STUDENT  </span><br><span class="line"><span class="keyword">AS</span>  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"> <span class="keyword">BEGIN</span> TRY  </span><br><span class="line"><span class="keyword">BEGIN</span> TRANSACTION TRAN1 <span class="comment">--外层事务  </span></span><br><span class="line"><span class="keyword">UPDATE</span> STUDENT <span class="keyword">SET</span> Age<span class="operator">=</span><span class="number">10</span> <span class="keyword">WHERE</span> NAME<span class="operator">=</span><span class="string">&#x27;Hello&#x27;</span>  </span><br><span class="line"><span class="keyword">BEGIN</span> TRANSACTION SUBTRAN1  <span class="comment">--嵌套事务  </span></span><br><span class="line"><span class="keyword">INSERT</span> <span class="keyword">INTO</span> STUDENT(NAME,Age,SEX) <span class="keyword">VALUES</span>(<span class="string">&#x27;JAME&#x27;</span>,<span class="number">12</span>,<span class="string">&#x27;男&#x27;</span>)  </span><br><span class="line"><span class="keyword">COMMIT</span> TRANSACTION SUBTRAN1  </span><br><span class="line"><span class="keyword">COMMIT</span> TRANSACTION TRAN1  </span><br><span class="line"><span class="keyword">END</span> TRY  </span><br><span class="line"><span class="keyword">BEGIN</span> CATCH  </span><br><span class="line">IF @<span class="variable">@TRANCOUNT</span> <span class="operator">&gt;</span> <span class="number">0</span> <span class="comment">--@@TRANCOUNT&gt;0表示在TRY块中的事务没有成功提交，那么就回滚整个外层事务  </span></span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">PRINT @<span class="variable">@TRANCOUNT</span>  </span><br><span class="line"><span class="keyword">SELECT</span> ERROR_LINE(),ERROR_MESSAGE(),ERROR_PROCEDURE()  </span><br><span class="line"><span class="keyword">ROLLBACK</span> TRANSACTION TRAN1  </span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line"><span class="keyword">ELSE</span>  <span class="comment">--ELSE就是@@TRANCOUNT的值为0，说明事务都已经全部提交了  </span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> dbo.STUDENT  </span><br><span class="line"><span class="keyword">END</span> CATCH  </span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line">GO</span><br></pre></td></tr></table></figure><!-- flag of hidden posts -->
     </div>
 
     
@@ -523,18 +521,6 @@
       <a class="a2a_button_wechat"></a>
   </div>
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A016-%E5%87%BD%E6%95%B0/" rel="prev" title="T-SQL复习16--函数">
-                  <i class="fa fa-angle-left"></i> T-SQL复习16--函数
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2023/05/23/T-SQL%E5%A4%8D%E4%B9%A014-%E6%B8%B8%E6%A0%87/" rel="next" title="T-SQL复习14--游标">
-                  T-SQL复习14--游标 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
     </footer>
   </article>
 </div>
@@ -565,14 +551,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Word count total: </span>
-    <span title="Word count total">79k</span>
+    <span title="Word count total">69k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">4:46</span>
+    <span title="Reading time total">4:12</span>
   </span>
 </div>
 <div class="busuanzi-count">

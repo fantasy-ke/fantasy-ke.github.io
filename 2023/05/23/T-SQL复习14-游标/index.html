@@ -44,7 +44,7 @@
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.fantasyke.cn/2023/05/23/T-SQL%E5%A4%8D%E4%B9%A014-%E6%B8%B8%E6%A0%87/","path":"2023/05/23/T-SQL复习14-游标/","title":"T-SQL复习14--游标"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>T-SQL复习14--游标 | Fantasy'Ke Blog</title>
+<title>T-SQL复习14--游标 | Fantasy'Ke Blog</title><meta name="robots" content="noindex">
   
 
 
@@ -159,7 +159,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -170,7 +170,7 @@
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">33</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -285,10 +285,8 @@
   </div>
   <ul class="popular-posts">
     <li class="popular-posts-item">
-      <a class="popular-posts-link" href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A017-%E8%A7%A6%E5%8F%91%E5%99%A8/" rel="bookmark">
-        <time class="popular-posts-time">2023-05-24</time>
-        <br>
-      T-SQL复习17--触发器
+      <a class="popular-posts-link" href="/" rel="bookmark">
+      
       </a>
     </li>
   </ul>
@@ -443,7 +441,7 @@
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DECLARE</span> CUR_STU <span class="keyword">CURSOR</span>  </span><br><span class="line"><span class="keyword">FOR</span>  </span><br><span class="line"><span class="keyword">SELECT</span> <span class="operator">*</span> <span class="keyword">FROM</span> dbo.STUDENT <span class="keyword">WHERE</span> SEX<span class="operator">=</span><span class="string">&#x27;男&#x27;</span>  </span><br><span class="line">GO  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">OPEN</span> CUR_STU  </span><br><span class="line"><span class="keyword">FETCH</span> NEXT <span class="keyword">FROM</span> CUR_STU  </span><br><span class="line">WHILE (<span class="keyword">SELECT</span> @<span class="variable">@FETCH_STATUS</span>)<span class="operator">=</span><span class="number">0</span>  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"> <span class="keyword">FETCH</span> NEXT <span class="keyword">FROM</span> CUR_STU  </span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line"><span class="keyword">CLOSE</span> CUR_STU  </span><br><span class="line"><span class="keyword">DEALLOCATE</span> CUR_STU  </span><br></pre></td></tr></table></figure>
 <h1 id="-9"><a class="markdownIt-Anchor" href="#-9"></a> <a href="#%E5%9C%A8%E5%AD%98%E5%82%A8%E8%BF%87%E7%A8%8B%E4%B8%AD%E4%BD%BF%E7%94%A8%E6%B8%B8%E6%A0%87" title="在存储过程中使用游标"></a>在存储过程中使用游标</h1>
 <p>示例：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">USE SCHOOL  </span><br><span class="line">GO  </span><br><span class="line">IF OBJECT_ID(<span class="string">&#x27;P_UPDATE_STU&#x27;</span>,<span class="string">&#x27;P&#x27;</span>) <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>  </span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> P_UPDATE_STU  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> P_UPDATE_STU  </span><br><span class="line"><span class="keyword">AS</span>  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"> <span class="keyword">BEGIN</span> TRY  </span><br><span class="line"><span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span> <span class="comment">--关闭显示受影响行数消息  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">DECLARE</span> <span class="variable">@ID</span> <span class="type">BIGINT</span> <span class="comment">--定义两个变量  </span></span><br><span class="line"><span class="keyword">DECLARE</span> <span class="variable">@AGE</span> <span class="type">INT</span>  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">DECLARE</span> STU_CUR <span class="keyword">CURSOR</span> <span class="keyword">FOR</span>  <span class="comment">--定义游标  </span></span><br><span class="line"><span class="keyword">SELECT</span> STU.ID,stu.AGE <span class="keyword">FROM</span> dbo.GRADE GR <span class="keyword">INNER</span> <span class="keyword">JOIN</span> dbo.STUDENT STU <span class="keyword">ON</span> GR.STUDENTID<span class="operator">=</span>STU.ID  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">OPEN</span> STU_CUR  <span class="comment">--打开游标  </span></span><br><span class="line"><span class="keyword">FETCH</span> NEXT <span class="keyword">FROM</span> STU_CUR <span class="keyword">INTO</span> <span class="variable">@ID</span>,<span class="variable">@AGE</span>  <span class="comment">--获取第一行赋值给两个变量  </span></span><br><span class="line">WHILE @<span class="variable">@FETCH_STATUS</span><span class="operator">=</span><span class="number">0</span>  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"><span class="keyword">UPDATE</span> dbo.STUDENT <span class="keyword">SET</span> AGE<span class="operator">=</span><span class="variable">@AGE</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">WHERE</span> ID<span class="operator">=</span><span class="variable">@ID</span>  </span><br><span class="line"><span class="keyword">FETCH</span> NEXT <span class="keyword">FROM</span> STU_CUR <span class="keyword">INTO</span> <span class="variable">@ID</span>,<span class="variable">@AGE</span>  </span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line"><span class="keyword">END</span> TRY  </span><br><span class="line"><span class="keyword">BEGIN</span> CATCH  </span><br><span class="line"><span class="keyword">SELECT</span> ERROR_NUMBER(),ERROR_PROCEDURE(),ERROR_MESSAGE()  </span><br><span class="line"><span class="keyword">END</span> CATCH  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">CLOSE</span> STU_CUR  </span><br><span class="line"><span class="keyword">DEALLOCATE</span> STU_CUR  </span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">USE SCHOOL  </span><br><span class="line">GO  </span><br><span class="line">IF OBJECT_ID(<span class="string">&#x27;P_UPDATE_STU&#x27;</span>,<span class="string">&#x27;P&#x27;</span>) <span class="keyword">IS</span> <span class="keyword">NOT</span> <span class="keyword">NULL</span>  </span><br><span class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> P_UPDATE_STU  </span><br><span class="line">GO  </span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> P_UPDATE_STU  </span><br><span class="line"><span class="keyword">AS</span>  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"> <span class="keyword">BEGIN</span> TRY  </span><br><span class="line"><span class="keyword">SET</span> NOCOUNT <span class="keyword">ON</span> <span class="comment">--关闭显示受影响行数消息  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">DECLARE</span> <span class="variable">@ID</span> <span class="type">BIGINT</span> <span class="comment">--定义两个变量  </span></span><br><span class="line"><span class="keyword">DECLARE</span> <span class="variable">@AGE</span> <span class="type">INT</span>  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">DECLARE</span> STU_CUR <span class="keyword">CURSOR</span> <span class="keyword">FOR</span>  <span class="comment">--定义游标  </span></span><br><span class="line"><span class="keyword">SELECT</span> STU.ID,stu.AGE <span class="keyword">FROM</span> dbo.GRADE GR <span class="keyword">INNER</span> <span class="keyword">JOIN</span> dbo.STUDENT STU <span class="keyword">ON</span> GR.STUDENTID<span class="operator">=</span>STU.ID  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">OPEN</span> STU_CUR  <span class="comment">--打开游标  </span></span><br><span class="line"><span class="keyword">FETCH</span> NEXT <span class="keyword">FROM</span> STU_CUR <span class="keyword">INTO</span> <span class="variable">@ID</span>,<span class="variable">@AGE</span>  <span class="comment">--获取第一行赋值给两个变量  </span></span><br><span class="line">WHILE @<span class="variable">@FETCH_STATUS</span><span class="operator">=</span><span class="number">0</span>  </span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line"><span class="keyword">UPDATE</span> dbo.STUDENT <span class="keyword">SET</span> AGE<span class="operator">=</span><span class="variable">@AGE</span><span class="operator">+</span><span class="number">1</span> <span class="keyword">WHERE</span> ID<span class="operator">=</span><span class="variable">@ID</span>  </span><br><span class="line"><span class="keyword">FETCH</span> NEXT <span class="keyword">FROM</span> STU_CUR <span class="keyword">INTO</span> <span class="variable">@ID</span>,<span class="variable">@AGE</span>  </span><br><span class="line"><span class="keyword">END</span>  </span><br><span class="line"><span class="keyword">END</span> TRY  </span><br><span class="line"><span class="keyword">BEGIN</span> CATCH  </span><br><span class="line"><span class="keyword">SELECT</span> ERROR_NUMBER(),ERROR_PROCEDURE(),ERROR_MESSAGE()  </span><br><span class="line"><span class="keyword">END</span> CATCH  </span><br><span class="line">  </span><br><span class="line"><span class="keyword">CLOSE</span> STU_CUR  </span><br><span class="line"><span class="keyword">DEALLOCATE</span> STU_CUR  </span><br><span class="line"><span class="keyword">END</span></span><br></pre></td></tr></table></figure><!-- flag of hidden posts -->
     </div>
 
     
@@ -538,18 +536,6 @@
       <a class="a2a_button_wechat"></a>
   </div>
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2023/05/24/T-SQL%E5%A4%8D%E4%B9%A015-%E4%BA%8B%E5%8A%A1/" rel="prev" title="T-SQL复习15--事务">
-                  <i class="fa fa-angle-left"></i> T-SQL复习15--事务
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2023/05/23/T-SQL%E5%A4%8D%E4%B9%A013-%E6%B5%81%E7%A8%8B%E6%8E%A7%E5%88%B6%E8%AF%AD%E5%8F%A5/" rel="next" title="T-SQL复习13--流程控制语句">
-                  T-SQL复习13--流程控制语句 <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-          </div>
     </footer>
   </article>
 </div>
@@ -580,14 +566,14 @@
       <i class="fa fa-chart-line"></i>
     </span>
       <span>Word count total: </span>
-    <span title="Word count total">79k</span>
+    <span title="Word count total">69k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span>Reading time total &asymp;</span>
-    <span title="Reading time total">4:46</span>
+    <span title="Reading time total">4:12</span>
   </span>
 </div>
 <div class="busuanzi-count">
