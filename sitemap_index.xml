@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.fantasyke.cn/images/picX/DevOps/DevOps_info.json</loc>
+    <loc>https://blog.fantasyke.cn/images/picX/rabbitMQ/rabbitMQ_info.json</loc>
     
     <lastmod>2024-12-17</lastmod>
     
@@ -11,7 +11,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/images/picX/rabbitMQ/rabbitMQ_info.json</loc>
+    <loc>https://blog.fantasyke.cn/images/picX/redis/redis_info.json</loc>
     
     <lastmod>2024-12-17</lastmod>
     
@@ -29,7 +29,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/images/picX/redis/redis_info.json</loc>
+    <loc>https://blog.fantasyke.cn/images/picX/DevOps/DevOps_info.json</loc>
     
     <lastmod>2024-12-17</lastmod>
     
@@ -209,7 +209,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/61442/</loc>
+    <loc>https://blog.fantasyke.cn/posts/11767/</loc>
     
     <lastmod>2024-12-17</lastmod>
     
@@ -218,7 +218,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/11767/</loc>
+    <loc>https://blog.fantasyke.cn/posts/61442/</loc>
     
     <lastmod>2024-12-17</lastmod>
     
@@ -498,14 +498,14 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/Docker-Swarm/</loc>
+    <loc>https://blog.fantasyke.cn/tags/Mysql/</loc>
     <lastmod>2024-12-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/Mysql/</loc>
+    <loc>https://blog.fantasyke.cn/tags/Docker-Swarm/</loc>
     <lastmod>2024-12-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -554,6 +554,13 @@
   </url>
   
   <url>
+    <loc>https://blog.fantasyke.cn/tags/gRPC/</loc>
+    <lastmod>2024-12-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.fantasyke.cn/tags/CQRS/</loc>
     <lastmod>2024-12-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -575,6 +582,20 @@
   </url>
   
   <url>
+    <loc>https://blog.fantasyke.cn/tags/EntityFramework-Core/</loc>
+    <lastmod>2024-12-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/tags/ORM/</loc>
+    <lastmod>2024-12-17</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.fantasyke.cn/tags/C/</loc>
     <lastmod>2024-12-17</lastmod>
     <changefreq>weekly</changefreq>
@@ -589,28 +610,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/gRPC/</loc>
-    <lastmod>2024-12-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.fantasyke.cn/tags/Middleware/</loc>
-    <lastmod>2024-12-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/tags/EntityFramework-Core/</loc>
-    <lastmod>2024-12-17</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/tags/ORM/</loc>
     <lastmod>2024-12-17</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
