@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><!-- hexo injector head_begin start -->
+        <link rel="preconnect" href="https://blog.fantasyke.cn/picx-images-hosting" crossorigin=""><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/avatar.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/avatar.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="0qBBGdG7vYORyT5XLZRUqQZ_y5kKYhgyUwNqjSIImg0">
+  <meta name="msvalidate.01" content="63C90D0EC3DA6C31FD109132B7BEF502">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.fantasyke.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.21.1","exturl":true,"sidebar":{"position":"right","width_expanded":350,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":-1}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="💡  开始基本的docker使用吧">
+<meta property="og:type" content="article">
+<meta property="og:title" content="2.Docker基本使用">
+<meta property="og:url" content="https://blog.fantasyke.cn/posts/14184/index.html">
+<meta property="og:site_name" content="Fantasy&#39;Ke Blog">
+<meta property="og:description" content="💡  开始基本的docker使用吧">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7zqgew1tjx.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/docker/image.pfd3uaf3u.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/docker/image.51e6bdu1tg.webp">
+<meta property="article:published_time" content="2023-04-11T01:41:02.000Z">
+<meta property="article:modified_time" content="2024-12-17T06:36:35.376Z">
+<meta property="article:author" content="Fantasy-ke">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7zqgew1tjx.webp">
+
+
+<link rel="canonical" href="https://blog.fantasyke.cn/posts/14184/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.fantasyke.cn/posts/14184/","path":"posts/14184/","title":"2.Docker基本使用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>2.Docker基本使用 | Fantasy'Ke Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Fantasy'Ke Blog" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Fantasy'Ke Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-photos"><a href="/photos/" rel="section"><i class="fas fa-camera-retro fa-fw"></i>photos</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8"><span class="nav-number">1.</span> <span class="nav-text"> Docker基本使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text"> 基本命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%AE%E5%8A%A9"><span class="nav-number">2.1.</span> <span class="nav-text"> 帮助</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-help"><span class="nav-number">2.1.1.</span> <span class="nav-text"> docker —help</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E4%BF%A1%E6%81%AF"><span class="nav-number">2.2.</span> <span class="nav-text"> 基本信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-version"><span class="nav-number">2.2.1.</span> <span class="nav-text"> docker version</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="nav-number">2.3.</span> <span class="nav-text"> 系统信息</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-info"><span class="nav-number">2.3.1.</span> <span class="nav-text"> docker info</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docker%E9%95%9C%E5%83%8F"><span class="nav-number">3.</span> <span class="nav-text"> Docker镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%89%80%E6%9C%89%E9%95%9C%E5%83%8F"><span class="nav-number">3.1.</span> <span class="nav-text"> 查看所有镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-images"><span class="nav-number">3.1.1.</span> <span class="nav-text"> docker images</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%9C%E7%B4%A2%E9%95%9C%E5%83%8F"><span class="nav-number">3.2.</span> <span class="nav-text"> 搜索镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-search"><span class="nav-number">3.2.1.</span> <span class="nav-text"> docker search</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="nav-number">3.3.</span> <span class="nav-text"> 拉取镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-pull"><span class="nav-number">3.3.1.</span> <span class="nav-text"> docker pull</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E9%95%9C%E5%83%8F"><span class="nav-number">3.4.</span> <span class="nav-text"> 删除镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-rmi"><span class="nav-number">3.4.1.</span> <span class="nav-text"> docker rmi</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E9%95%9C%E5%83%8F"><span class="nav-number">3.5.</span> <span class="nav-text"> 运行镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-run"><span class="nav-number">3.5.1.</span> <span class="nav-text"> docker run</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#docker%E5%AE%B9%E5%99%A8"><span class="nav-number">4.</span> <span class="nav-text"> Docker容器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8"><span class="nav-number">4.1.</span> <span class="nav-text"> 查看容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-ps"><span class="nav-number">4.1.1.</span> <span class="nav-text"> docker ps</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%80%E5%87%BA%E5%AE%B9%E5%99%A8"><span class="nav-number">4.2.</span> <span class="nav-text"> 退出容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#exit"><span class="nav-number">4.2.1.</span> <span class="nav-text"> exit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ctrl-p-q"><span class="nav-number">4.2.2.</span> <span class="nav-text"> Ctrl + P + Q</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="nav-number">4.3.</span> <span class="nav-text"> 删除容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-rm"><span class="nav-number">4.3.1.</span> <span class="nav-text"> docker rm</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="nav-number">4.4.</span> <span class="nav-text"> 启动容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-start"><span class="nav-number">4.4.1.</span> <span class="nav-text"> docker start</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%81%9C%E6%AD%A2%E5%AE%B9%E5%99%A8"><span class="nav-number">4.5.</span> <span class="nav-text"> 停止容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-stop"><span class="nav-number">4.5.1.</span> <span class="nav-text"> docker stop</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E5%90%AF%E5%AE%B9%E5%99%A8"><span class="nav-number">4.6.</span> <span class="nav-text"> 重启容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-restart"><span class="nav-number">4.6.1.</span> <span class="nav-text"> docker restart</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9D%80%E6%8E%89%E5%AE%B9%E5%99%A8"><span class="nav-number">4.7.</span> <span class="nav-text"> 杀掉容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-kill"><span class="nav-number">4.7.1.</span> <span class="nav-text"> docker kill</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fantasy-ke"
+      src="/uploads/avatar.png">
+  <p class="site-author-name" itemprop="name">Fantasy-ke</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhbnRhc3kta2U=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fantasy-ke"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9BX0RyZWFtZXJfSGFyZA==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;A_Dreamer_Hard"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vQCVFNSU5MSVBOCVFNiVBMiVBNi16OWk=" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;@%E5%91%A8%E6%A2%A6-z9i"><i class="fab fa-youtube fa-fw"></i>YouTube</span>
+      </span>
+  </div>
+<div class="cc-license animated" itemprop="sponsor">
+  <a href="https://www.netlify.com" class="cc-opacity" title="Deploy with Netlify → https://www.netlify.com" target="_blank"><img width="80" src="https://www.netlify.com/img/global/badges/netlify-dark.svg" alt="Netlify"></a>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<div id="aplayer" style="position:relative;left;0;bottom:0;"></div>
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/color-thief-don@2.0.2/src/color-thief.js"></script>
+<script>
+  const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    autoplay: false, //自动播放
+    listFolded: true, //播放列表默认折叠
+    listMaxHeight: 90, //播放列表最大高度
+    order: 'list', //音频循环顺序, 可选值: 'list', 'random'
+    loop: 'all', //音频循环播放, 可选值: 'all', 'one', 'none'
+    theme: '#e9e9e9', //切换音频时的主题色，优先级低于audio.theme
+    preload: 'none', //音频预加载，可选值: 'none', 'metadata', 'auto'
+    mutex: true, //互斥，阻止多个播放器同时播放，当前播放器播放时暂停其他播放器
+    lrcType: 3, //歌词格式，可选值：3（LRC文件歌词格式），1（JS字符串歌词格式）
+    volume: 0.7, //默认音量，请注意播放器会记忆用户设置，用户手动设置音量后默认音量即失效
+    fixed: false, //吸底模式（fixed:true），迷你模式（mini:true），普通模式（注释此行或者设置fixed:false）
+    audio: [{
+        name: '平凡之路',
+        artist: '朴树',
+        lrc: '/downloads/lrc/平凡之路-朴树.lrc',
+        cover: 'http://p2.music.126.net/W_5XiCv3rGS1-J7EXpHSCQ==/18885211718782327.jpg?param=300x300',
+        url: 'http://ws.stream.qqmusic.qq.com/C4000007nRJ74eQsF6.m4a?guid=942726817&vkey=64755357C5716983BEECE2981FEC3954F0DD03E7630EFF769D9C40C31F50D53E7D260CB63E22CE8F954B1144083716A1BABFC2093F8F1C14&uin=&fromtag=120032'
+      },
+      {
+        name: '后会无期',
+        artist: '徐良,汪苏泷',
+        lrc: '/downloads/lrc/后会无期-G.E.M.邓紫棋.lrc',
+        cover: 'http://p1.music.126.net/vpvPajo3kn88nHc7jUjeWQ==/5974746185758035.jpg?param=300x300',
+        url: 'http://ws.stream.qqmusic.qq.com/C400004ECnYg0QNchK.m4a?guid=893251117&vkey=D9DCBB8C4A4CAF8550E97A2A574DE1231DFDD8BC0989CC724742C7B9831C4108E0A805A46E0F2B2A556228467C146B9C312E3E8B498614C7&uin=&fromtag=120032'
+      }
+    ]
+  });
+
+  // 实现切换音频时，根据音频的封面图片自适应主题色
+  const colorThief = new ColorThief();
+  const setTheme = (index) => {
+    if (!ap.list.audios[index].theme) {
+      colorThief.getColorAsync(ap.list.audios[index].cover, function(color) {
+        ap.theme(`rgb(${color[0]}, ${color[1]}, ${color[2]})`, index);
+      });
+    }
+  };
+  setTheme(ap.list.index);
+  ap.on('listswitch', (data) => {
+    setTheme(data.index);
+  });
+</script>
+
+
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9mYW50YXN5LWtlLmdpdGh1Yi5pbw==" title="https:&#x2F;&#x2F;fantasy-ke.github.io">SunBlog</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9mYW50YXN5LWtlLmdpdGh1Yi5pbw==" title="https:&#x2F;&#x2F;fantasy-ke.github.io">做梦的努力者</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ZhbnRhc3ktS2U=" title="https:&#x2F;&#x2F;github.com&#x2F;Fantasy-Ke">github</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9naXRlZS5jb20vZmFudGFzeV9rZQ==" title="https:&#x2F;&#x2F;gitee.com&#x2F;fantasy_ke">gitee</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vZmFudGFzeS1rZQ==" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;fantasy-ke">我的园子</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9hYnAuaW8v" title="https:&#x2F;&#x2F;abp.io&#x2F;">abp</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9hYnAuaW8vZG9jcy9sYXRlc3Qv" title="https:&#x2F;&#x2F;abp.io&#x2F;docs&#x2F;latest&#x2F;">abp doc</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9ibG9ncy5tYXNhc3RhY2suY29tLw==" title="https:&#x2F;&#x2F;blogs.masastack.com&#x2F;">masa blog</span>
+            </li>
+        </ul>
+      </div>
+    </div>
+        <div class="pjax">
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    Related Posts
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/posts/61442/" rel="bookmark">
+        <time class="popular-posts-time">2023-04-11</time>
+        <br>
+      7.Docker Compose
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/posts/53249/" rel="bookmark">
+        <time class="popular-posts-time">2023-04-11</time>
+        <br>
+      1.Docker介绍
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/posts/31784/" rel="bookmark">
+        <time class="popular-posts-time">2023-04-11</time>
+        <br>
+      3.Docker基本命令
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/posts/12360/" rel="bookmark">
+        <time class="popular-posts-time">2023-04-11</time>
+        <br>
+      6.Docker网络
+      </a>
+    </li>
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/posts/11767/" rel="bookmark">
+        <time class="popular-posts-time">2023-04-11</time>
+        <br>
+      5.Dockerfile
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.fantasyke.cn/posts/14184/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Fantasy-ke">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="2.Docker基本使用 | Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          2.Docker基本使用
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-04-11 09:41:02" itemprop="dateCreated datePublished" datetime="2023-04-11T09:41:02+08:00">2023-04-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-17 14:36:35" itemprop="dateModified" datetime="2024-12-17T14:36:35+08:00">2024-12-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DevOps/" itemprop="url" rel="index"><span itemprop="name">DevOps</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>10 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h1 id="docker基本使用"><a class="markdownIt-Anchor" href="#docker基本使用"></a> Docker基本使用</h1>
+<aside>
+💡  开始基本的docker使用吧
+</aside>
+<h1 id="基本命令"><a class="markdownIt-Anchor" href="#基本命令"></a> 基本命令</h1>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7zqgew1tjx.webp" alt="image.png" /></p>
+<h2 id="帮助"><a class="markdownIt-Anchor" href="#帮助"></a> 帮助</h2>
+<h3 id="docker-help"><a class="markdownIt-Anchor" href="#docker-help"></a> docker —help</h3>
+<p>Docker 的帮助命令是一个<strong>万能命令</strong>，可以用来查看 Docker 的<strong>所有命令</strong>。</p>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker [命令] --<span class="built_in">help</span></span><br></pre></td></tr></table></figure>
+<h2 id="基本信息"><a class="markdownIt-Anchor" href="#基本信息"></a> 基本信息</h2>
+<h3 id="docker-version"><a class="markdownIt-Anchor" href="#docker-version"></a> docker version</h3>
+<p>使用 <code>docker version</code> 命令可以查看 Docker 的基本信息。</p>
+<h2 id="系统信息"><a class="markdownIt-Anchor" href="#系统信息"></a> 系统信息</h2>
+<h3 id="docker-info"><a class="markdownIt-Anchor" href="#docker-info"></a> docker info</h3>
+<p>使用 <code>docker info</code> 命令可以查看 Docker 的系统信息。</p>
+<h1 id="docker镜像"><a class="markdownIt-Anchor" href="#docker镜像"></a> Docker镜像</h1>
+<h2 id="查看所有镜像"><a class="markdownIt-Anchor" href="#查看所有镜像"></a> 查看所有镜像</h2>
+<h3 id="docker-images"><a class="markdownIt-Anchor" href="#docker-images"></a> docker images</h3>
+<p>可以使用 <code>docker images</code> 命令查看所有本地主机上的镜像。</p>
+<blockquote>
+<p>该命令等价于 docker image ls。</p>
+<p>语法</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker images [参数] [镜像[:标签]]</span><br></pre></td></tr></table></figure>
+<p>命令后加上 [镜像[:标签]] 可以对镜像进行过滤。</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>a</code>：显示所有镜像。</li>
+<li><code>q</code>：只显示 ID。</li>
+</ul>
+<blockquote>
+<p>显示所有镜像</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[root@sail ~]# docker images</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">hello-world   latest    feb5d9fea6a5   2 months ago   13.3kB</span><br><span class="line">[root@sail ~]# docker image <span class="built_in">ls</span></span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">hello-world   latest    feb5d9fea6a5   2 months ago   13.3kB</span><br><span class="line">[root@sail ~]# docker images -a</span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">hello-world   latest    feb5d9fea6a5   2 months ago   13.3kB</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>只显示镜像的 ID</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images -q</span></span><br><span class="line">feb5d9fea6a5</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>显示所有镜像的 ID</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images -aq</span></span><br><span class="line">feb5d9fea6a5</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>对镜像进行过滤</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images java</span></span><br><span class="line">REPOSITORY   TAG       IMAGE ID   CREATED   SIZE</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images hello-world</span></span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">hello<span class="literal">-world</span>   latest    feb5d9fea6a5   <span class="number">2</span> months ago   <span class="number">13.3</span>kB</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images hello-world:latest</span></span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">hello<span class="literal">-world</span>   latest    feb5d9fea6a5   <span class="number">2</span> months ago   <span class="number">13.3</span>kB</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>结果分析</p>
+</blockquote>
+<ul>
+<li><strong>REPOSITORY</strong>：镜像名（镜像仓库源）。</li>
+<li><strong>TAG</strong>：镜像的标签。</li>
+<li><strong>IMAGE ID</strong>：镜像的 ID。</li>
+<li><strong>CREATED</strong>：镜像的创建时间。</li>
+<li><strong>SIZE</strong>：镜像的大小。</li>
+</ul>
+<h2 id="搜索镜像"><a class="markdownIt-Anchor" href="#搜索镜像"></a> 搜索镜像</h2>
+<h3 id="docker-search"><a class="markdownIt-Anchor" href="#docker-search"></a> docker search</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search [参数]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>f</code> / <code>-filter</code>：根据过滤条件搜索。</li>
+</ul>
+<blockquote>
+<p>搜索仓库中的镜像，等价于网页搜索。</p>
+</blockquote>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.pfd3uaf3u.webp" alt="image.png" /></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">[root@sail ~]# docker search mysql</span><br><span class="line">NAME                              DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">mysql                             MySQL is a widely used, open-source relation…   11789     [OK]       </span><br><span class="line">mariadb                           MariaDB Server is a high performing open sou…   4488      [OK]       </span><br><span class="line">mysql/mysql-server                Optimized MySQL Server Docker images. Create…   882                  [OK]</span><br><span class="line">centos/mysql-57-centos7           MySQL 5.7 SQL database server                   92                   </span><br><span class="line">mysql/mysql-cluster               Experimental MySQL Cluster Docker images. Cr…   89                   </span><br><span class="line">centurylink/mysql                 Image containing mysql. Optimized to be <span class="built_in">link</span>…   59                   [OK]</span><br><span class="line">databack/mysql-backup             Back up mysql databases to... anywhere!         53                   </span><br><span class="line">prom/mysqld-exporter                                                              44                   [OK]</span><br><span class="line">deitch/mysql-backup               REPLACED! Please use http://hub.docker.com/r…   41                   [OK]</span><br><span class="line">tutum/mysql                       Base docker image to run a MySQL database se…   35                   </span><br><span class="line">linuxserver/mysql                 A Mysql container, brought to you by LinuxSe…   34                   </span><br><span class="line">schickling/mysql-backup-s3        Backup MySQL to S3 (supports periodic backup…   31                   [OK]</span><br><span class="line">mysql/mysql-router                MySQL Router provides transparent routing be…   23                   </span><br><span class="line">centos/mysql-56-centos7           MySQL 5.6 SQL database server                   21                   </span><br><span class="line">arey/mysql-client                 Run a MySQL client from a docker container      19                   [OK]</span><br><span class="line">fradelg/mysql-cron-backup         MySQL/MariaDB database backup using cron tas…   17                   [OK]</span><br><span class="line">genschsa/mysql-employees          MySQL Employee Sample Database                  8                    [OK]</span><br><span class="line">yloeffler/mysql-backup            This image runs mysqldump to backup data usi…   7                    [OK]</span><br><span class="line">openshift/mysql-55-centos7        DEPRECATED: A Centos7 based MySQL v5.5 image…   6                    </span><br><span class="line">devilbox/mysql                    Retagged MySQL, MariaDB and PerconaDB offici…   3                    </span><br><span class="line">ansibleplaybookbundle/mysql-apb   An APB <span class="built_in">which</span> deploys RHSCL MySQL                3                    [OK]</span><br><span class="line">jelastic/mysql                    An image of the MySQL database server mainta…   2                    </span><br><span class="line">centos/mysql-80-centos7           MySQL 8.0 SQL database server                   2                    </span><br><span class="line">widdpim/mysql-client              Dockerized MySQL Client (5.7) including Curl…   1                    [OK]</span><br><span class="line">vitess/mysqlctld                  vitess/mysqlctld                                1                    [OK]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>搜索出 Stars 大于 3000 的</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker search mysql -f=STARS=3000</span></span><br><span class="line">NAME      DESCRIPTION                                     STARS     OFFICIAL   AUTOMATED</span><br><span class="line">mysql     MySQL is a widely used, <span class="built_in">open-source</span> relation…   <span class="number">11789</span>     [<span class="type">OK</span>]       </span><br><span class="line">mariadb   MariaDB Server is a high performing open sou…   <span class="number">4488</span>      [<span class="type">OK</span>]</span><br></pre></td></tr></table></figure>
+<h2 id="拉取镜像"><a class="markdownIt-Anchor" href="#拉取镜像"></a> 拉取镜像</h2>
+<h3 id="docker-pull"><a class="markdownIt-Anchor" href="#docker-pull"></a> docker pull</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull [参数] 镜像名[:标签]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果不输入标签，默认拉取最新版镜像。</p>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>a</code>：拉取镜像的所有标签。</li>
+<li><code>q</code>：抑制详细输出。</li>
+</ul>
+<blockquote>
+<p>默认下载最新版</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">[root@sail ~]# docker pull redis</span><br><span class="line">Using default tag: latest <span class="comment"># 默认最新版标签</span></span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Pull complete <span class="comment"># 分层下载，docker image的核心：联合文件系统</span></span><br><span class="line">37c4354629da: Pull complete </span><br><span class="line">b065b1b1fa0f: Pull complete </span><br><span class="line">6954d19bb2e5: Pull complete </span><br><span class="line">6333f8baaf7c: Pull complete </span><br><span class="line">f9772c8a44e7: Pull complete </span><br><span class="line">Digest: sha256:2f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796 <span class="comment">#防伪签名</span></span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">docker.io/library/redis:latest <span class="comment"># 真实地址，docker pull redis 等价于 docker pull docker.io/library/redis:latest</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>指定版本下载</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[root@sail ~]# docker pull redis:5.0</span><br><span class="line">5.0: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Already exists <span class="comment"># 分层镜像的好处，与之前的版本共用一部分，不用再重复下载</span></span><br><span class="line">37c4354629da: Already exists </span><br><span class="line">b065b1b1fa0f: Already exists </span><br><span class="line">99ab464ba8bb: Pull complete </span><br><span class="line">eb5bbe3179d2: Pull complete </span><br><span class="line">2067794f93b6: Pull complete </span><br><span class="line">Digest: sha256:310f81701011175dc868e833d73f539282dd18510ca35d6f7b63c4d33ab4f54e</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:5.0</span><br><span class="line">docker.io/library/redis:5.0</span><br></pre></td></tr></table></figure>
+<p>版本来自于官网，版本库 <span class="exturl" data-url="aHR0cHM6Ly9odWIuZG9ja2VyLmNvbS9fL3JlZGlz">https://hub.docker.com/_/redis<i class="fa fa-external-link-alt"></i></span></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.51e6bdu1tg.webp" alt="image.png" /></p>
+<blockquote>
+<p>这里输入的标签必须是官网版本库存在的标签，否则无法拉取镜像。</p>
+</blockquote>
+<h2 id="删除镜像"><a class="markdownIt-Anchor" href="#删除镜像"></a> 删除镜像</h2>
+<h3 id="docker-rmi"><a class="markdownIt-Anchor" href="#docker-rmi"></a> docker rmi</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker rmi [参数] 镜像 [镜像<span class="type">...</span>]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>f</code>：强制删除。</li>
+</ul>
+<blockquote>
+<p>查看现存镜像</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY    TAG       IMAGE ID       CREATED        SIZE</span><br><span class="line">redis         <span class="number">5.0</span>       <span class="number">071510791</span>e92   <span class="number">5</span> days ago     <span class="number">110</span>MB</span><br><span class="line">redis         latest    aea9b698d7d1   <span class="number">6</span> days ago     <span class="number">113</span>MB</span><br><span class="line">mysql         <span class="number">5.7</span>       <span class="number">738</span>e7101490b   <span class="number">6</span> days ago     <span class="number">448</span>MB</span><br><span class="line">mysql         latest    bbf6571db497   <span class="number">6</span> days ago     <span class="number">516</span>MB</span><br><span class="line">hello<span class="literal">-world</span>   latest    feb5d9fea6a5   <span class="number">2</span> months ago   <span class="number">13.3</span>kB</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除一个。可以通过名称，也可以指定 ID，-f 表示强制删除。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker rmi -f feb5d9fea6a5</span></span><br><span class="line">Untagged: hello<span class="literal">-world</span>:latest</span><br><span class="line">Untagged: hello<span class="literal">-world</span>@sha256:cc15c5b292d8525effc0f89cb299f1804f3a725c8d05e158653a563f15e4f685</span><br><span class="line">Deleted: sha256:feb5d9fea6a5e9606aa995e879d862b825965ba48de054caab5ef356dc6b3412</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除多个。用空格分隔 ID。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker rmi -f 738e7101490b bbf6571db497</span></span><br><span class="line">Untagged: mysql:<span class="number">5.7</span></span><br><span class="line">Untagged: mysql@sha256:d1cc87a3bd5dc07defc837bc9084f748a130606ff41923f46dec1986e0dc828d</span><br><span class="line">Deleted: sha256:<span class="number">738</span>e7101490b45decf606211a5437ed87aa6a82f1ff03c354564bf9375ce20f9</span><br><span class="line">Deleted: sha256:addad8cfeac97b96eb6652a576269346ac96def9a6709ed2388e24fff4345837</span><br><span class="line">Deleted: sha256:e288c3439a7e2f423f50bf22979a759371c51a70bbbaa450993c336978460b1a</span><br><span class="line">Deleted: sha256:<span class="number">33</span>ece15accaa3bb20e3dee84e2e4501469b917c3abba3d5475cd1fec8bb3e82c</span><br><span class="line">Deleted: sha256:<span class="number">6</span>b15390bceeca8424d82e75f5c9aca5eb4693f96849d6382168a99747877693d</span><br><span class="line">Untagged: mysql:latest</span><br><span class="line">Untagged: mysql@sha256:ff9a288d1ecf4397967989b5d1ec269f7d9042a46fc8bc2c3ae35458c1a26727</span><br><span class="line">Deleted: sha256:bbf6571db4977fe13c3f4e6289c1409fc6f98c2899eabad39bfe07cad8f64f67</span><br><span class="line">Deleted: sha256:a72da99dce60d6f8d4c4cffa4173153c990537fcdfaa27c35324c3348d55dd5c</span><br><span class="line">Deleted: sha256:<span class="number">8</span>b535d432ef2fbd45d93958347b2587c5cbe334f07d6909ad9d2d480ebbafb65</span><br><span class="line">Deleted: sha256:<span class="number">14</span>d13a3b33fc76839f156cd24b4636dab121e6d3d026cefa2985a4b89e9d4df8</span><br><span class="line">Deleted: sha256:<span class="number">77</span>c21a5a897a1ba752f3d742d6c94ee7c6b0e373fd0aeecc4bf88b9a3982007e</span><br><span class="line">Deleted: sha256:<span class="number">189162</span>becec8bb4588c54fb4ea7e62d20121812e68aeb0291fb4bb5df9ec0985</span><br><span class="line">Deleted: sha256:<span class="number">34980</span>dadfd6a5bb9d7f9e8d4e408000e0a8f4840cc7d3092dc94357ebe7a89b6</span><br><span class="line">Deleted: sha256:<span class="number">15</span>b2beb64a91785c8f3709ecd2410d13577b3174faad164524434ce6a7633506</span><br><span class="line">Deleted: sha256:e38dd14d47b61171927ea4b928f7296123b65a81ad1cfde8f5d00cadf1e81bbb</span><br><span class="line">Deleted: sha256:<span class="number">865</span>abdfd8444741f581ce582e4ac5746c4a00c282febf65aa808a235ec7abf78</span><br><span class="line">Deleted: sha256:b1e35233e1ac953bd06fc8fa83afb3a88c39c1aeae0c89a46cb1b652d6821b38</span><br><span class="line">Deleted: sha256:<span class="number">3</span>bcfdf6641227ff63e3ddf9e38e45cf317b178a50a664e45c6ae596107d5bc46</span><br><span class="line">Deleted: sha256:f11bbd657c82c45cc25b0533ce72f193880b630352cc763ed0c045c808ff9ae1</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY   TAG       IMAGE ID       CREATED      SIZE</span><br><span class="line">redis        <span class="number">5.0</span>       <span class="number">071510791</span>e92   <span class="number">6</span> days ago   <span class="number">110</span>MB</span><br><span class="line">redis        latest    aea9b698d7d1   <span class="number">6</span> days ago   <span class="number">113</span>MB</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除所有。先用 docker images -aq 查询出所有镜像，再使用 docker rmi -f 递归删除。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker rmi -f $(docker images -aq)</span></span><br><span class="line">Untagged: redis:<span class="number">5.0</span></span><br><span class="line">Untagged: redis@sha256:<span class="number">310</span>f81701011175dc868e833d73f539282dd18510ca35d6f7b63c4d33ab4f54e</span><br><span class="line">Deleted: sha256:<span class="number">071510791</span>e929570d7dde405f10b19d47115db05e46901b36b7d91ff978444bf</span><br><span class="line">Deleted: sha256:<span class="number">8</span>c023aca07f849d976f91ff85da1a90d39add83d8d50d358e1ec5177e1371907</span><br><span class="line">Deleted: sha256:<span class="number">4</span>dbec1fb2051b365aa3e6a805a052f2c7b4e9087c46847722f9ea5f12b1be308</span><br><span class="line">Deleted: sha256:c6b1ae6dca0b2730bc0d78727b3a7078fce525bfa37dbb750e31b7a976ca1d99</span><br><span class="line">Untagged: redis:latest</span><br><span class="line">Untagged: redis@sha256:<span class="number">2</span>f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796</span><br><span class="line">Deleted: sha256:aea9b698d7d1d2fb22fe74868e27e767334b2cc629a8c6f9db8cc1747ba299fd</span><br><span class="line">Deleted: sha256:beb6c508926e807f60b6a3816068ee3e2cece7654abaff731e4a26bcfebe04d8</span><br><span class="line">Deleted: sha256:a5b5ed3d7c997ffd7c58cd52569d8095a7a3729412746569cdbda0dfdd228d1f</span><br><span class="line">Deleted: sha256:ee76d3703ec1ab8abc11858117233a3ac8c7c5e37682f21a0c298ad0dc09a9fe</span><br><span class="line">Deleted: sha256:<span class="number">60</span>abc26bc7704070b2977b748ac0fd4ca94b818ed4ba1ef59ca8803e95920161</span><br><span class="line">Deleted: sha256:<span class="number">6</span>a2f1dcfa7455f60a810bb7c4786d62029348f64c4fcff81c48f8625cf0d995a</span><br><span class="line">Deleted: sha256:<span class="number">9321</span>ff862abbe8e1532076e5fdc932371eff562334ac86984a836d77dfb717f5</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY   TAG       IMAGE ID   CREATED   SIZE</span><br></pre></td></tr></table></figure>
+<h2 id="运行镜像"><a class="markdownIt-Anchor" href="#运行镜像"></a> 运行镜像</h2>
+<h3 id="docker-run"><a class="markdownIt-Anchor" href="#docker-run"></a> docker run</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run [参数] 镜像名</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li>
+<p><code>--name</code>：指定容器的名称，如果正在运行该名称的容器，会报错。</p>
+</li>
+<li>
+<p><code>-rm</code>：用完即删除，通常用来测试。</p>
+</li>
+<li>
+<p><code>d</code>：后台方式运行。</p>
+</li>
+<li>
+<p><code>it</code>：使用交互方式运行，可以进入容器查看内容。</p>
+</li>
+<li>
+<p><code>e</code>：指定运行环境。</p>
+</li>
+<li>
+<p><code>p</code>：随机指定端口。</p>
+</li>
+<li>
+<p><code>p</code></p>
+<p>：指定容器的端口，如：</p>
+  <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="literal">-p</span> <span class="number">8080</span>:<span class="number">8080</span></span><br></pre></td></tr></table></figure>
+<p>。还可以有以下写法：</p>
+<ul>
+<li><code>p ip:主机端口:容器端口</code></li>
+<li><code>p 主机端口:容器端口</code></li>
+<li><code>p 容器端口</code></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>运行 centos 镜像</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -it centos /bin/bash</span></span><br><span class="line">Unable to find image <span class="string">&#x27;centos:latest&#x27;</span> locally <span class="comment"># 检索本地镜像，发现没有该镜像，则去仓库中搜索。</span></span><br><span class="line">latest: Pulling from library/centos <span class="comment"># 开始从仓库中拉取</span></span><br><span class="line">a1d0c7532777: Pull complete </span><br><span class="line">Digest: sha256:a27fd8080b517143cbbbab9dfb7c8571c40d67d534bbdee55bd6c473f432b177</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> centos:latest</span><br><span class="line">[<span class="type">root</span>@<span class="number">81</span><span class="type">c83ea42dc0</span> /]<span class="comment"># ls # 由于是以交互方式运行，且进入 /bin/bash 中，此时的路径即为 centos 容器中的 /bin/bash</span></span><br><span class="line">bin  dev  etc  home  lib  lib64  lost+found  media  mnt  opt  proc  root  run  sbin  srv  sys  tmp  usr  var</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>由此可以看出，容器就是一个微型的 Linux 系统。它只保留了最核心的功能和最基本的命令，方便进行操作。</p>
+</blockquote>
+<h1 id="docker容器"><a class="markdownIt-Anchor" href="#docker容器"></a> Docker容器</h1>
+<h2 id="查看容器"><a class="markdownIt-Anchor" href="#查看容器"></a> 查看容器</h2>
+<h3 id="docker-ps"><a class="markdownIt-Anchor" href="#docker-ps"></a> docker ps</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">ps</span> [参数]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>a</code>：查看所有容器（包括正在运行的和已经停止的）。</li>
+<li><code>n</code>：显示最近创建的容器，设置显示个数。</li>
+<li><code>q</code>：只显示容器的编号。</li>
+</ul>
+<blockquote>
+<p>查看正在运行的容器</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@sail ~]# docker psCONTAINER ID   IMAGE     COMMAND       CREATED              STATUS              PORTS     NAMES1aaf76d85b9e   centos    <span class="string">&quot;/bin/bash&quot;</span>   About a minute ago   Up About a minute             intelligent_proskuriakova</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看所有容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a</span></span><br><span class="line">CONTAINER ID   IMAGE          COMMAND       CREATED              STATUS                      PORTS     NAMES</span><br><span class="line"><span class="number">1</span>aaf76d85b9e   centos         <span class="string">&quot;/bin/bash&quot;</span>   About a minute ago   Up About a minute                     intelligent_proskuriakova</span><br><span class="line"><span class="number">7</span>ac04abd5a1f   centos         <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">3</span> minutes ago        Exited (<span class="number">0</span>) <span class="number">3</span> minutes ago              elegant_euler</span><br><span class="line">bbb87116d848   centos         <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">8</span> minutes ago        Exited (<span class="number">0</span>) <span class="number">3</span> minutes ago              focused_boyd</span><br><span class="line"><span class="number">81</span>c83ea42dc0   centos         <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">28</span> minutes ago       Exited (<span class="number">0</span>) <span class="number">19</span> minutes ago             zealous_proskuriakova</span><br><span class="line"><span class="number">52918</span>b3ce8f6   feb5d9fea6a5   <span class="string">&quot;/hello&quot;</span>      <span class="number">11</span> days ago          Exited (<span class="number">0</span>) <span class="number">11</span> days ago                friendly_ramanujan</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>显示最近创建的 2 个容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a -n=2</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED       STATUS                   PORTS     NAMES</span><br><span class="line"><span class="number">1</span>aaf76d85b9e   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">5</span> hours ago   Up <span class="number">5</span> hours                         intelligent_proskuriakova</span><br><span class="line"><span class="number">7</span>ac04abd5a1f   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">5</span> hours ago   Exited (<span class="number">0</span>) <span class="number">5</span> hours ago             elegant_euler</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>只显示容器的 ID</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -aq</span></span><br><span class="line"><span class="number">1</span>aaf76d85b9e</span><br><span class="line"><span class="number">7</span>ac04abd5a1f</span><br><span class="line">bbb87116d848</span><br><span class="line"><span class="number">81</span>c83ea42dc0</span><br><span class="line"><span class="number">52918</span>b3ce8f6</span><br></pre></td></tr></table></figure>
+<h2 id="退出容器"><a class="markdownIt-Anchor" href="#退出容器"></a> 退出容器</h2>
+<h3 id="exit"><a class="markdownIt-Anchor" href="#exit"></a> exit</h3>
+<p>进入容器后，可以使用 <code>exit</code> 退出</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[root@sail ~]# docker run -it centos /bin/bash</span><br><span class="line">[root@7ac04abd5a1f /]# <span class="built_in">exit</span></span><br><span class="line"><span class="built_in">exit</span></span><br><span class="line">[root@sail ~]#</span><br><span class="line"></span><br><span class="line">[root@sail ~]# docker ps</span><br><span class="line">CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES</span><br></pre></td></tr></table></figure>
+<p>由此可见，这样退出后容器也会停止。</p>
+<h3 id="ctrl-p-q"><a class="markdownIt-Anchor" href="#ctrl-p-q"></a> Ctrl + P + Q</h3>
+<p>如果想退出后容器不停止，可以使用 <code>Ctrl + P + Q</code> 快捷键退出。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@sail ~]# docker run -it centos /bin/bash</span><br><span class="line">[root@1aaf76d85b9e /]# [root@sail ~]# docker ps <span class="comment"># 此时即为使用 Ctrl + P + Q 快捷键的效果</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS         PORTS     NAMES</span><br><span class="line">1aaf76d85b9e   centos    <span class="string">&quot;/bin/bash&quot;</span>   8 seconds ago   Up 8 seconds             intelligent_proskuriakova</span><br></pre></td></tr></table></figure>
+<h2 id="删除容器"><a class="markdownIt-Anchor" href="#删除容器"></a> 删除容器</h2>
+<h3 id="docker-rm"><a class="markdownIt-Anchor" href="#docker-rm"></a> docker rm</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> [参数] 容器 [容器<span class="type">...</span>]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>f</code>：强制删除。</li>
+</ul>
+<blockquote>
+<p>删除指定容器（不能删除正在运行的容器）</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED       STATUS       PORTS     NAMES</span><br><span class="line"><span class="number">1</span>aaf76d85b9e   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">5</span> hours ago   Up <span class="number">5</span> hours             intelligent_proskuriakova</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker rm 1aaf76d85b9e</span></span><br><span class="line">Error response from daemon: You cannot remove a running container <span class="number">1</span>aaf76d85b9ee5002411c1ea390fca05819f19dc400e85127731d37455cb0acc. Stop the container before attempting removal or force remove</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>强制删除指定容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED       STATUS       PORTS     NAMES</span><br><span class="line"><span class="number">1</span>aaf76d85b9e   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">5</span> hours ago   Up <span class="number">5</span> hours             intelligent_proskuriakova</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker rm -f 1aaf76d85b9e</span></span><br><span class="line"><span class="number">1</span>aaf76d85b9e</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除所有容器。先使用 docker ps -aq 获取所有容器的 ID，再调用 docker rm -f 递归删除。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker rm -f $(docker ps -aq)</span></span><br><span class="line"><span class="number">7</span>ac04abd5a1f</span><br><span class="line">bbb87116d848</span><br><span class="line"><span class="number">81</span>c83ea42dc0</span><br><span class="line"><span class="number">52918</span>b3ce8f6</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND   CREATED   STATUS    PORTS     NAMES</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>删除所有容器。使用管道符 | 获取 Docker 相关的所有容器 ID 并使用 docker rm -f 删除。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a -q|xargs docker rm -f</span></span><br><span class="line"><span class="number">2</span>e61c4578eac</span><br><span class="line"><span class="number">0</span>ebe32ddfa50</span><br></pre></td></tr></table></figure>
+<h2 id="启动容器"><a class="markdownIt-Anchor" href="#启动容器"></a> 启动容器</h2>
+<h3 id="docker-start"><a class="markdownIt-Anchor" href="#docker-start"></a> docker start</h3>
+<blockquote>
+<p>查看所有的容器，容器状态为关闭</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED          STATUS                     PORTS     NAMES</span><br><span class="line"><span class="number">569026</span>bc0955   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">33</span> seconds ago   Exited (<span class="number">0</span>) <span class="number">7</span> seconds ago             centos03</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行关闭的容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker start 569026bc0955 </span></span><br><span class="line"><span class="number">569026</span>bc0955</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>再次查看所有的容器，容器状态为运行</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED              STATUS              PORTS     NAMES</span><br><span class="line"><span class="number">569026</span>bc0955   centos    <span class="string">&quot;/bin/bash&quot;</span>   About a minute ago   Up <span class="number">1</span> second                   centos03</span><br></pre></td></tr></table></figure>
+<h2 id="停止容器"><a class="markdownIt-Anchor" href="#停止容器"></a> 停止容器</h2>
+<h3 id="docker-stop"><a class="markdownIt-Anchor" href="#docker-stop"></a> docker stop</h3>
+<blockquote>
+<p>查看所有的容器，容器状态为运行</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED              STATUS              PORTS     NAMES</span><br><span class="line"><span class="number">569026</span>bc0955   centos    <span class="string">&quot;/bin/bash&quot;</span>   About a minute ago   Up <span class="number">1</span> second                   centos03</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>关闭运行的容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker stop 569026bc0955</span></span><br><span class="line"><span class="number">569026</span>bc0955</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>再次查看所有的容器，容器状态为关闭</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS                      PORTS     NAMES</span><br><span class="line"><span class="number">569026</span>bc0955   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">4</span> minutes ago   Exited (<span class="number">0</span>) <span class="number">38</span> seconds ago             centos03</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>停止所有正在运行的容器。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">sudo</span> docker stop $(<span class="built_in">sudo</span> docker ps -aq)</span><br></pre></td></tr></table></figure>
+<h2 id="重启容器"><a class="markdownIt-Anchor" href="#重启容器"></a> 重启容器</h2>
+<h3 id="docker-restart"><a class="markdownIt-Anchor" href="#docker-restart"></a> docker restart</h3>
+<blockquote>
+<p>查看所有的容器，容器状态为关闭</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS                      PORTS     NAMES</span><br><span class="line"><span class="number">569026</span>bc0955   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">4</span> minutes ago   Exited (<span class="number">0</span>) <span class="number">38</span> seconds ago             centos03</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>重启关闭的容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker restart 569026bc0955</span></span><br><span class="line"><span class="number">569026</span>bc0955</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>再次查看所有的容器，容器状态为运行</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS          PORTS     NAMES</span><br><span class="line"><span class="number">569026</span>bc0955   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">6</span> minutes ago   Up <span class="number">20</span> seconds             centos03</span><br></pre></td></tr></table></figure>
+<h2 id="杀掉容器"><a class="markdownIt-Anchor" href="#杀掉容器"></a> 杀掉容器</h2>
+<h3 id="docker-kill"><a class="markdownIt-Anchor" href="#docker-kill"></a> docker kill</h3>
+<blockquote>
+<p>查看所有的容器，容器状态为运行</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps -a</span></span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS          PORTS     NAMES</span><br><span class="line"><span class="number">569026</span>bc0955   centos    <span class="string">&quot;/bin/bash&quot;</span>   <span class="number">6</span> minutes ago   Up <span class="number">20</span> seconds             centos03</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>杀掉运行的容器</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker kill 569026bc0955</span></span><br><span class="line"><span class="number">569026</span>bc0955</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>再次查看所有的容器，容器状态为关闭</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[root@sail ~]# docker ps -a</span><br><span class="line">CONTAINER ID   IMAGE     COMMAND       CREATED         STATUS                        PORTS     NAMES</span><br><span class="line">569026bc0955   centos    <span class="string">&quot;/bin/bash&quot;</span>   8 minutes ago   Exited (137) 15 seconds ago             centos03</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+
+
+
+
+
+
+<div class="license">
+  <div class="license-title">2.Docker基本使用</div>
+  <div class="license-link">
+    <a href="https://blog.fantasyke.cn/posts/14184/">https://blog.fantasyke.cn/posts/14184/</a>
+  </div>
+  <div class="license-meta">
+    <div class="license-meta-item">
+      <div class="license-meta-title">本文作者</div>
+      <div class="license-meta-text">
+          Fantasy-ke
+      </div>
+    </div>
+      <div class="license-meta-item">
+        <div class="license-meta-title">发布于</div>
+        <div class="license-meta-text">
+          2023-04-11
+        </div>
+      </div>
+      <div class="license-meta-item">
+        <div class="license-meta-title">更新于</div>
+        <div class="license-meta-text">
+          2024-12-17
+        </div>
+      </div>
+    <div class="license-meta-item">
+      <div class="license-meta-title">许可协议</div>
+      <div class="license-meta-text">
+          禁止转载引用
+      </div>
+    </div>
+  </div>
+  <div class="license-statement">
+      如需转载或引用本文，请先获得作者授权！
+  </div>
+</div>
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Fantasy-ke WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://github.com/fantasy-ke">
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span>
+
+            <span class="label">GitHub</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"><i class="fa fa-tag"></i> Docker</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_telegram"></a>
+      <a class="a2a_button_wechat"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/31784/" rel="prev" title="3.Docker基本命令">
+                  <i class="fa fa-angle-left"></i> 3.Docker基本命令
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/53249/" rel="next" title="1.Docker介绍">
+                  1.Docker介绍 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2021 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-solid fa-t-rex"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Fantasy-ke</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>Word count total: </span>
+    <span title="Word count total">71k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>Reading time total &asymp;</span>
+    <span title="Reading time total">4:17</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div> 
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+<script>
+  var now = new Date();
+  function timer() {
+    var grt= new Date("03/12/2022 13:14:21");//此处修改你的建站时间或者网站上线时间
+    now.setTime(now.getTime()+250);
+    days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+    hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+    if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+    mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+    seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+    snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+    var ages = `${dnum}天${hnum}小时${mnum}分${snum}秒`;
+    div.innerHTML = `本站已安全运行 ${ages} 🐶`;
+  }
+  var div = document.createElement("div");
+  //插入到copyright之后
+  var copyright = document.querySelector(".busuanzi-count");
+  document.querySelector(".footer-inner").insertBefore(div, copyright.nextSibling);
+  timer();
+  setInterval("timer()",1000)
+</script>
+
+
+<div class="footer-menu">
+    <a style="color: chocolate;" href="/tags/">文章标签</a> · <a style="color: chocolate;"  href="/policy/">网站政策</a> · <a style="color: chocolate;"  href="/photos/">文章相册</a>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhbnRhc3kta2U=" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"fantasy-ke","repo":"fantasy-ke.github.io","client_id":"Ov23li8eCFrhnzfiGx5T","client_secret":"ce23581c2059392ebd00afd08d5ba43f767fd1b1","admin_user":"fantasy-ke","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"eefdcc316a25ef9bb30aa64f35e12fdd"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+
+<script src="/js/minigrid.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script data-pjax type="text/javascript">
+var album = document.querySelector(".album");
+if (album) {
+  // 相册列表 JSON 数据
+  var imgDataPath = album.getAttribute('json-src');
+  // 照片存储路径
+  var imgPath = album.getAttribute('photo-src');
+  // 最多显示数量
+  var imgMaxNum = 50;
+  // 获取窗口大小以决定图片宽度
+  var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  var imageWidth;
+
+  if (windowWidth < 768) {
+    imageWidth = 145; // 移动端图片宽度
+  } else {
+    imageWidth = 235;
+  }
+
+  // 生成相册
+  var linkDataPath = imgDataPath;
+  var photo = {
+    page: 1,
+    offset: imgMaxNum,
+    init: function () {
+      var that = this;
+      $.getJSON(linkDataPath, function (data) {
+          that.render(that.page, data);
+      });
+    },
+    render: function (page, data) {
+      var begin = (page - 1) * this.offset;
+      var end = page * this.offset;
+      if (begin >= data.length) return;
+      var imgNameWithPattern, imgName, imageSize, imageX, imageY, li = "";
+      for (var i = begin; i < end && i < data.length; i++) {
+        imgNameWithPattern = data[i].path;
+        imgName = data[i].name;
+        imageSize = data[i].size;
+        li += '<div class="card" style="width:' + imageWidth + 'px" >';
+        li += '<div class="album-photo" style="height:' + imageWidth + 'px" >';
+        li += '<a class="fancybox fancybox.image" href="' + imgPath + imgNameWithPattern + '" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url" data-fancybox="group" rel="group" data-caption="' + imgName + '" title="' +  imgName + '">';
+        li += '<img data-src="' + imgPath + imgNameWithPattern + '" src="' + imgPath + imgNameWithPattern + '" alt="' +  imgName + '" data-loaded="true">';
+        li += '</a>';
+        li += '</div>';
+        li += '</div>';
+      }
+      album.insertAdjacentHTML('beforeend', li);
+      this.minigrid();
+    },
+    minigrid: function () {
+      var grid = new Minigrid({
+        container: '.album',
+        item: '.card',
+        gutter: 12
+      });
+      grid.mount();
+      window.addEventListener('resize', function () {
+        grid.mount();
+      });
+    }
+  };
+  photo.init();
+}
+</script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":170,"height":330},"mobile":{"show":true},"react":{"opacity":0.7},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>

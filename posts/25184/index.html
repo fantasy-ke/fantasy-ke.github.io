@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><!-- hexo injector head_begin start -->
+        <link rel="preconnect" href="https://blog.fantasyke.cn/picx-images-hosting" crossorigin=""><!-- hexo injector head_begin end -->
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 7.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/avatar.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/avatar.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta name="google-site-verification" content="0qBBGdG7vYORyT5XLZRUqQZ_y5kKYhgyUwNqjSIImg0">
+  <meta name="msvalidate.01" content="63C90D0EC3DA6C31FD109132B7BEF502">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=ZCOOL+XiaoWei:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha256-5eIC48iZUHmSlSUz9XtjRyK2mzQkHScZY1WdMaoz74E=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.css" integrity="sha256-gkQVf8UKZgQ0HyuxL/VnacadJ+D2Kox2TCEBuNQg5+w=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"blog.fantasyke.cn","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.21.1","exturl":true,"sidebar":{"position":"right","width_expanded":350,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"copycode":{"enable":true,"style":null},"fold":{"enable":true,"height":500},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":true,"nav":{"gitalk":{"text":"gitalk","order":-1}},"activeClass":"gitalk"},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"},"path":"/search.xml","localsearch":{"enable":true,"top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="前提前段时间上班无事，上网冲浪看到了消息队列RabbitMQ，就想着学习一下，网上看了点资料在哔哩哔哩上看的到codeman讲的一个rabbitmq的视频，就跟着仔细学习一下，敲一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".NET Core中RabbitMQ初识">
+<meta property="og:url" content="https://blog.fantasyke.cn/posts/25184/index.html">
+<meta property="og:site_name" content="Fantasy&#39;Ke Blog">
+<meta property="og:description" content="前提前段时间上班无事，上网冲浪看到了消息队列RabbitMQ，就想着学习一下，网上看了点资料在哔哩哔哩上看的到codeman讲的一个rabbitmq的视频，就跟着仔细学习一下，敲一下">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.491aql1sz8.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.32hzhzd8o3.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.5c101gy74i.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8hgi0estjq.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.3uuuzpukf3.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.2rv5otz41x.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.3uuuzpv44v.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.pfd0s1k4d.webp">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8ada4z9ddr.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.83a29jni96.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8z6jozxf4q.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.7zqgbtuw5z.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.2vermjv571.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.2krxteg6at.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.1sf2bo02ow.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.26li2j8o2i.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8s3btkcx59.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.4n7qhgg4iw.png">
+<meta property="og:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.6ikba2srll.png">
+<meta property="article:published_time" content="2023-10-11T01:40:02.000Z">
+<meta property="article:modified_time" content="2024-12-17T06:36:35.367Z">
+<meta property="article:author" content="Fantasy-ke">
+<meta property="article:tag" content="消息队列">
+<meta property="article:tag" content="RabbitMQ">
+<meta property="article:tag" content=".NET Core">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.491aql1sz8.webp">
+
+
+<link rel="canonical" href="https://blog.fantasyke.cn/posts/25184/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.fantasyke.cn/posts/25184/","path":"posts/25184/","title":".NET Core中RabbitMQ初识"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>.NET Core中RabbitMQ初识 | Fantasy'Ke Blog</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="Fantasy'Ke Blog" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}.beian img{display:inline-block!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Fantasy'Ke Blog</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a></li><li class="menu-item menu-item-photos"><a href="/photos/" rel="section"><i class="fas fa-camera-retro fa-fw"></i>photos</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+      <div class="search-header">
+        <span class="search-icon">
+          <i class="fa fa-search"></i>
+        </span>
+        <div class="search-input-container">
+          <input autocomplete="off" autocapitalize="off" maxlength="80"
+                placeholder="Searching..." spellcheck="false"
+                type="search" class="search-input">
+        </div>
+        <span class="popup-btn-close" role="button">
+          <i class="fa fa-times-circle"></i>
+        </span>
+      </div>
+      <div class="search-result-container">
+        <div class="search-result-icon">
+          <i class="fa fa-spinner fa-pulse fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E6%8F%90"><span class="nav-number">1.</span> <span class="nav-text"> 前提</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rabbitmq%E4%BB%8B%E7%BB%8D"><span class="nav-number">2.</span> <span class="nav-text"> RabbitMq介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="nav-number">2.1.</span> <span class="nav-text"> 什么是消息队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">2.2.</span> <span class="nav-text"> 应用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%89%8A%E5%B3%B0%E5%A1%AB%E8%B0%B7"><span class="nav-number">2.2.1.</span> <span class="nav-text"> 削峰填谷</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E6%8F%90%E9%80%9F"><span class="nav-number">2.2.2.</span> <span class="nav-text"> 异步提速</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.</span> <span class="nav-text"> 消息模型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%82%B9%E5%AF%B9%E7%82%B9%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.1.</span> <span class="nav-text"> 点对点模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E9%99%84%E4%B8%8A"><span class="nav-number">2.3.1.1.</span> <span class="nav-text"> 代码附上</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#work%E6%B6%88%E6%81%AF%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.2.</span> <span class="nav-text"> work消息模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%A3%E7%A0%81%E9%99%84%E4%B8%8A-2"><span class="nav-number">2.3.2.1.</span> <span class="nav-text"> 代码附上</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%83%BD%E8%80%85%E5%A4%9A%E5%8A%B3"><span class="nav-number">2.3.2.2.</span> <span class="nav-text"> 能者多劳</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E5%B8%83%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.3.</span> <span class="nav-text"> 发布订阅模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%851%E6%94%B6%E5%88%B0%E7%9A%84%E5%A4%A9%E6%B0%94"><span class="nav-number">2.3.3.1.</span> <span class="nav-text"> 消费者1收到的天气</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%852%E6%94%B6%E5%88%B0%E7%9A%84%E5%A4%A9%E6%B0%94"><span class="nav-number">2.3.3.2.</span> <span class="nav-text"> 消费者2收到的天气</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85%E5%8F%91%E9%80%81%E5%A4%A9%E6%B0%94"><span class="nav-number">2.3.3.3.</span> <span class="nav-text"> 生产者发送天气</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#routing-%E8%B7%AF%E7%94%B1%E6%A8%A1%E5%9E%8B"><span class="nav-number">2.3.4.</span> <span class="nav-text"> Routing 路由模型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85"><span class="nav-number">2.3.4.1.</span> <span class="nav-text"> 生产者</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%851"><span class="nav-number">2.3.4.2.</span> <span class="nav-text"> 消费者1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%852"><span class="nav-number">2.3.4.3.</span> <span class="nav-text"> 消费者2</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%E5%BE%97%E5%88%B0%E7%9A%84%E6%95%88%E6%9E%9C"><span class="nav-number">2.3.4.4.</span> <span class="nav-text"> 最后得到的效果</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#topics-%E9%80%9A%E9%85%8D%E7%AC%A6%E6%A8%A1%E5%BC%8F"><span class="nav-number">2.3.5.</span> <span class="nav-text"> Topics 通配符模式</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#routingkey%E6%94%AF%E6%8C%81%E9%80%9A%E9%85%8D%E7%AC%A6%E5%8C%B9%E9%85%8D%E6%A0%BC%E5%BC%8F"><span class="nav-number">2.3.5.1.</span> <span class="nav-text"> routingkey支持通配符匹配格式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%9F%E4%BA%A7%E8%80%85-2"><span class="nav-number">2.3.5.2.</span> <span class="nav-text"> 生产者</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%851-2"><span class="nav-number">2.3.5.3.</span> <span class="nav-text"> 消费者1</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B6%88%E8%B4%B9%E8%80%852-2"><span class="nav-number">2.3.5.4.</span> <span class="nav-text"> 消费者2</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%80%E5%90%8E%E5%BE%97%E5%88%B0%E7%9A%84%E6%95%88%E6%9E%9C-2"><span class="nav-number">2.3.5.5.</span> <span class="nav-text"> 最后得到的效果</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rpc"><span class="nav-number">2.3.6.</span> <span class="nav-text"> RPC</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">2.3.6.1.</span> <span class="nav-text"> 基本概念：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%81%E7%A8%8B%E8%AF%B4%E6%98%8E"><span class="nav-number">2.3.6.2.</span> <span class="nav-text"> 流程说明：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%86%E4%BA%AB%E5%87%A0%E9%A2%98%E9%9D%A2%E8%AF%95%E9%A2%98"><span class="nav-number">2.4.</span> <span class="nav-text"> 分享几题面试题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#rabbitmq%E4%B8%AD%E6%B6%88%E6%81%AF%E5%8F%AF%E8%83%BD%E6%9C%89%E7%9A%84%E5%87%A0%E7%A7%8D%E7%8A%B6%E6%80%81"><span class="nav-number">2.4.1.</span> <span class="nav-text"> RabbitMQ中消息可能有的几种状态?</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Fantasy-ke"
+      src="/uploads/avatar.png">
+  <p class="site-author-name" itemprop="name">Fantasy-ke</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhbnRhc3kta2U=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;fantasy-ke"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly94LmNvbS9BX0RyZWFtZXJfSGFyZA==" title="Twitter → https:&#x2F;&#x2F;x.com&#x2F;A_Dreamer_Hard"><i class="fab fa-twitter fa-fw"></i>Twitter</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly93d3cueW91dHViZS5jb20vQCVFNSU5MSVBOCVFNiVBMiVBNi16OWk=" title="YouTube → https:&#x2F;&#x2F;www.youtube.com&#x2F;@%E5%91%A8%E6%A2%A6-z9i"><i class="fab fa-youtube fa-fw"></i>YouTube</span>
+      </span>
+  </div>
+<div class="cc-license animated" itemprop="sponsor">
+  <a href="https://www.netlify.com" class="cc-opacity" title="Deploy with Netlify → https://www.netlify.com" target="_blank"><img width="80" src="https://www.netlify.com/img/global/badges/netlify-dark.svg" alt="Netlify"></a>
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.css">
+<div id="aplayer" style="position:relative;left;0;bottom:0;"></div>
+<script src="https://cdn.jsdelivr.net/npm/aplayer@1.10.1/dist/APlayer.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/color-thief-don@2.0.2/src/color-thief.js"></script>
+<script>
+  const ap = new APlayer({
+    container: document.getElementById('aplayer'),
+    autoplay: false, //自动播放
+    listFolded: true, //播放列表默认折叠
+    listMaxHeight: 90, //播放列表最大高度
+    order: 'list', //音频循环顺序, 可选值: 'list', 'random'
+    loop: 'all', //音频循环播放, 可选值: 'all', 'one', 'none'
+    theme: '#e9e9e9', //切换音频时的主题色，优先级低于audio.theme
+    preload: 'none', //音频预加载，可选值: 'none', 'metadata', 'auto'
+    mutex: true, //互斥，阻止多个播放器同时播放，当前播放器播放时暂停其他播放器
+    lrcType: 3, //歌词格式，可选值：3（LRC文件歌词格式），1（JS字符串歌词格式）
+    volume: 0.7, //默认音量，请注意播放器会记忆用户设置，用户手动设置音量后默认音量即失效
+    fixed: false, //吸底模式（fixed:true），迷你模式（mini:true），普通模式（注释此行或者设置fixed:false）
+    audio: [{
+        name: '平凡之路',
+        artist: '朴树',
+        lrc: '/downloads/lrc/平凡之路-朴树.lrc',
+        cover: 'http://p2.music.126.net/W_5XiCv3rGS1-J7EXpHSCQ==/18885211718782327.jpg?param=300x300',
+        url: 'http://ws.stream.qqmusic.qq.com/C4000007nRJ74eQsF6.m4a?guid=942726817&vkey=64755357C5716983BEECE2981FEC3954F0DD03E7630EFF769D9C40C31F50D53E7D260CB63E22CE8F954B1144083716A1BABFC2093F8F1C14&uin=&fromtag=120032'
+      },
+      {
+        name: '后会无期',
+        artist: '徐良,汪苏泷',
+        lrc: '/downloads/lrc/后会无期-G.E.M.邓紫棋.lrc',
+        cover: 'http://p1.music.126.net/vpvPajo3kn88nHc7jUjeWQ==/5974746185758035.jpg?param=300x300',
+        url: 'http://ws.stream.qqmusic.qq.com/C400004ECnYg0QNchK.m4a?guid=893251117&vkey=D9DCBB8C4A4CAF8550E97A2A574DE1231DFDD8BC0989CC724742C7B9831C4108E0A805A46E0F2B2A556228467C146B9C312E3E8B498614C7&uin=&fromtag=120032'
+      }
+    ]
+  });
+
+  // 实现切换音频时，根据音频的封面图片自适应主题色
+  const colorThief = new ColorThief();
+  const setTheme = (index) => {
+    if (!ap.list.audios[index].theme) {
+      colorThief.getColorAsync(ap.list.audios[index].cover, function(color) {
+        ap.theme(`rgb(${color[0]}, ${color[1]}, ${color[2]})`, index);
+      });
+    }
+  };
+  setTheme(ap.list.index);
+  ap.on('listswitch', (data) => {
+    setTheme(data.index);
+  });
+</script>
+
+
+
+        </div>
+      </div>
+    </div>
+
+    
+    <div class="sidebar-inner sidebar-blogroll">
+      <div class="links-of-blogroll animated">
+        <div class="links-of-blogroll-title"><i class="fa fa-globe fa-fw"></i>
+          Links
+        </div>
+        <ul class="links-of-blogroll-list">
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9mYW50YXN5LWtlLmdpdGh1Yi5pbw==" title="https:&#x2F;&#x2F;fantasy-ke.github.io">SunBlog</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9mYW50YXN5LWtlLmdpdGh1Yi5pbw==" title="https:&#x2F;&#x2F;fantasy-ke.github.io">做梦的努力者</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ZhbnRhc3ktS2U=" title="https:&#x2F;&#x2F;github.com&#x2F;Fantasy-Ke">github</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9naXRlZS5jb20vZmFudGFzeV9rZQ==" title="https:&#x2F;&#x2F;gitee.com&#x2F;fantasy_ke">gitee</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vZmFudGFzeS1rZQ==" title="https:&#x2F;&#x2F;www.cnblogs.com&#x2F;fantasy-ke">我的园子</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9hYnAuaW8v" title="https:&#x2F;&#x2F;abp.io&#x2F;">abp</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9hYnAuaW8vZG9jcy9sYXRlc3Qv" title="https:&#x2F;&#x2F;abp.io&#x2F;docs&#x2F;latest&#x2F;">abp doc</span>
+            </li>
+            <li class="links-of-blogroll-item">
+              <span class="exturl" data-url="aHR0cHM6Ly9ibG9ncy5tYXNhc3RhY2suY29tLw==" title="https:&#x2F;&#x2F;blogs.masastack.com&#x2F;">masa blog</span>
+            </li>
+        </ul>
+      </div>
+    </div>
+        <div class="pjax">
+        <div class="sidebar-inner sidebar-post-related">
+          <div class="animated">
+              <div class="links-of-blogroll-title"><i class="fa fa-signs-post fa-fw"></i>
+    Related Posts
+  </div>
+  <ul class="popular-posts">
+    <li class="popular-posts-item">
+      <a class="popular-posts-link" href="/posts/33842/" rel="bookmark">
+        <time class="popular-posts-time">2023-05-26</time>
+        <br>
+      RabbitMQ基础
+      </a>
+    </li>
+  </ul>
+
+          </div>
+        </div>
+        </div>
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://blog.fantasyke.cn/posts/25184/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.png">
+      <meta itemprop="name" content="Fantasy-ke">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=".NET Core中RabbitMQ初识 | Fantasy'Ke Blog">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          .NET Core中RabbitMQ初识
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2023-10-11 09:40:02" itemprop="dateCreated datePublished" datetime="2023-10-11T09:40:02+08:00">2023-10-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2024-12-17 14:36:35" itemprop="dateModified" datetime="2024-12-17T14:36:35+08:00">2024-12-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/" itemprop="url" rel="index"><span itemprop="name">杂七杂八的砖</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">Views: </span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="Word count in article">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">Word count in article: </span>
+      <span>4.2k</span>
+    </span>
+    <span class="post-meta-item" title="Reading time">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">Reading time &asymp;</span>
+      <span>15 mins.</span>
+    </span>
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="前提"><a class="markdownIt-Anchor" href="#前提"></a> 前提</h2>
+<p>前段时间上班无事，上网冲浪看到了消息队列RabbitMQ，就想着学习一下，网上看了点资料在哔哩哔哩上看的到codeman讲的一个rabbitmq的视频，就跟着仔细学习一下，敲一下代码。视频地址： <a href="%E3%80%90%E3%80%902021%E6%9C%80%E6%96%B0.NET/C#%E3%80%91RabbitMQ%E4%BB%8E%E9%9B%B6%E5%88%B0%E9%AB%98%E5%8F%AF%E7%94%A8%E9%9B%86%E7%BE%A4%E3%80%91https://www.bilibili.com/video/BV1GU4y1w7Yq?p=2&amp;vd_source=a41abea4b949dd1bf9e656c08fefdd9f">rabbitmq视频</a>。</p>
+<h2 id="rabbitmq介绍"><a class="markdownIt-Anchor" href="#rabbitmq介绍"></a> RabbitMq介绍</h2>
+<h3 id="什么是消息队列"><a class="markdownIt-Anchor" href="#什么是消息队列"></a> 什么是消息队列</h3>
+<p>MQ全称为Message Queue，即消息队列。“消息队列”是在消息的传输过程中保存消息的容器。它是典型的：生产者、消费者模型。生产者不断向消息队列中生产消息，消费者不断的从队列中获取消息。因为消息的生产和消费都是异步的，而且只关心消息的发送和接收，没有业务逻辑的侵入，这样就实现了生产者和消费者的解耦。</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.491aql1sz8.webp" alt="image.png" /></p>
+<h3 id="应用场景"><a class="markdownIt-Anchor" href="#应用场景"></a> 应用场景</h3>
+<h4 id="削峰填谷"><a class="markdownIt-Anchor" href="#削峰填谷"></a> 削峰填谷</h4>
+<p>在一个时间段很多用户同时进行请求我们的A系统，我的MQ容器就可以用来存储请求按照每秒多少的请求进行发送，减轻服务器的压力。</p>
+<p>​	<img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.32hzhzd8o3.webp" alt="image.png" /></p>
+<ul>
+<li>
+<p>使用了MQ之后，限制消息消费的速度为3000，这样一来，高峰就被“削”掉了，但是因为消息积压，在高峰期过后一段时间内，消费消息的速度还是会维持在3000，直到消费完挤压的消息，这就叫做“填谷”。</p>
+</li>
+<li>
+<p>使用MQ后，可以提供系统稳定性。</p>
+</li>
+</ul>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.5c101gy74i.webp" alt="image.png" /></p>
+<h4 id="异步提速"><a class="markdownIt-Anchor" href="#异步提速"></a> 异步提速</h4>
+<ul>
+<li>
+<p>在不使用MQ的情况下我们正常用户通过订单系统进行下单，我们需要900多ms，这就会出现用户的体验不好。</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8hgi0estjq.webp" alt="image.png" /></p>
+</li>
+<li>
+<p>在使用MQ的情况出现了总耗时只要25ms就给到了用户回应</p>
+<p>这样提升了用户体验感</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.3uuuzpukf3.webp" alt="image.png" /></p>
+</li>
+</ul>
+<p>所有的问题当你解决一个问题就会出现另外的问题，外部依赖多系统的稳定性就越差，MQ但凡挂了，系统就会出问题，后面就会使用mq集群来解决这一问题。</p>
+<h3 id="消息模型"><a class="markdownIt-Anchor" href="#消息模型"></a> 消息模型</h3>
+<h4 id="点对点模式"><a class="markdownIt-Anchor" href="#点对点模式"></a> 点对点模式</h4>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.2rv5otz41x.webp" alt="image.png" /></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.3uuuzpv44v.webp" alt="image.png" /></p>
+<p>在上图的模型中，有以下概念：</p>
+<ul>
+<li>Producer：生产者，也就是要发送消息的程序</li>
+<li>Consumer：消费者：消息的接受者，会一直等待消息到来。</li>
+<li>Queue：消息队列。可以缓存消息；生产者向其中投递消息，消费者从其中取出消息。</li>
+<li>点对点模式只会有一个消费者进行消费</li>
+</ul>
+<h5 id="代码附上"><a class="markdownIt-Anchor" href="#代码附上"></a> 代码附上</h5>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.pfd0s1k4d.webp" alt="image.png" /></p>
+<p>新增两个项目一个生产者 Z.RabbitMq.Producer，一个消费者Z.RabbitMQ.Consumer01</p>
+<ol>
+<li>项目 Z.RabbitMq.Producer新增<code>HelloProducer</code>类</li>
+</ol>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HelloProducer</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">HelloWorldShow</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> factory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">            factory.HostName = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">            factory.Port = <span class="number">5672</span>;</span><br><span class="line">            factory.UserName = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">            factory.Password = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">            factory.VirtualHost = <span class="string">&quot;my_vhost&quot;</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 获取TCP 长连接</span></span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> connection = factory.CreateConnection())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 创建通信“通道”,相当于TCP中的虚拟连接</span></span><br><span class="line">                <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * 创建队列，声明并创建一个队列，如果队列已存在，则使用这个队列</span></span><br><span class="line"><span class="comment">                     * 第一个参数：队列名称ID</span></span><br><span class="line"><span class="comment">                     * 第二个参数：是否持久化，false对应不持久化数据，MQ停掉数据就会丢失</span></span><br><span class="line"><span class="comment">                     * 第三个参数：是否队列私有化，false则代表所有的消费者都可以访问，true代表只有第一次拥有它的消费者才能一直使用</span></span><br><span class="line"><span class="comment">                     * 第四个：是否自动删除，false代表连接停掉后不自动删除这个队列</span></span><br><span class="line"><span class="comment">                     * 其他额外参数为null</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                    channel.QueueDeclare(RabbitConstant.QUEUE_HELLO_WORLD, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                    Console.ForegroundColor = ConsoleColor.Red;</span><br><span class="line">                    <span class="built_in">string</span> message = <span class="string">&quot;hello CodeMan 666&quot;</span>;</span><br><span class="line">                    <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(message);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * exchange:交换机，暂时用不到，在进行发布订阅时才会用到</span></span><br><span class="line"><span class="comment">                     * 路由key</span></span><br><span class="line"><span class="comment">                     * 额外的设置属性</span></span><br><span class="line"><span class="comment">                     * 最后一个参数是要传递的消息字节数组</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                    channel.BasicPublish(<span class="string">&quot;&quot;</span>, RabbitConstant.QUEUE_HELLO_WORLD, <span class="literal">null</span>, body);</span><br><span class="line">                    Console.WriteLine(<span class="string">$&quot;producer消息：<span class="subst">&#123;message&#125;</span>已发送&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>项目 Z.RabbitMQ.Consumer01新增<code>HelloConsumer</code>类</li>
+</ol>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HelloConsumer</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">HelloWorldShow</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> factory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        factory.HostName = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">        factory.Port = <span class="number">5672</span>;<span class="comment">//5672是RabbitMQ默认的端口号</span></span><br><span class="line">        factory.UserName = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">        factory.Password = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">        factory.VirtualHost = <span class="string">&quot;my_vhost&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = factory.CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                * 创建队列，声明并创建一个队列，如果队列已存在，则使用这个队列</span></span><br><span class="line"><span class="comment">                * 第一个参数：队列名称ID</span></span><br><span class="line"><span class="comment">                * 第二个参数：是否持久化，false对应不持久化数据，MQ停掉数据就会丢失</span></span><br><span class="line"><span class="comment">                * 第三个参数：是否队列私有化，false则代表所有的消费者都可以访问，true代表只有第一次拥有它的消费者才能一直使用</span></span><br><span class="line"><span class="comment">                * 第四个：是否自动删除，false代表连接停掉后不自动删除这个队列</span></span><br><span class="line"><span class="comment">                * 其他额外参数为null</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="comment">//RabbitConstant.QUEUE_HELLO_WORLD 对应的生产者一样名称 &quot;helloworld.queue&quot;</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_HELLO_WORLD, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                Console.ForegroundColor = ConsoleColor.Cyan;</span><br><span class="line"></span><br><span class="line">                EventingBasicConsumer consumers = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line">                <span class="comment">// 触发事件</span></span><br><span class="line">                consumers.Received += (model, ea) =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">var</span> body = ea.Body.ToArray();</span><br><span class="line">                    <span class="keyword">var</span> message = Encoding.UTF8.GetString(body);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">// false只是确认签收当前的消息，设置为true的时候则代表签收该消费者所有未签收的消息</span></span><br><span class="line">                    channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                    Console.WriteLine(<span class="string">$&quot;Consumer01接收消息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                &#125;;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                * 从MQ服务器中获取数据</span></span><br><span class="line"><span class="comment">                * 创建一个消息消费者</span></span><br><span class="line"><span class="comment">                * 第一个参数：队列名</span></span><br><span class="line"><span class="comment">                * 第二个参数：是否自动确认收到消息，false代表手动确认消息，这是MQ推荐的做法</span></span><br><span class="line"><span class="comment">                * 第三个参数：要传入的IBasicConsumer接口</span></span><br><span class="line"><span class="comment">                *</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="comment">//RabbitConstant.QUEUE_HELLO_WORLD ==  helloworld.queue</span></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_HELLO_WORLD, <span class="literal">false</span>, consumers);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="work消息模型"><a class="markdownIt-Anchor" href="#work消息模型"></a> work消息模型</h4>
+<p>工作队列或者竞争消费者模式</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8ada4z9ddr.png" alt="image.png" /></p>
+<p>work queues与入门程序相比，多了一个消费端，两个消费端共同消费同一个队列中的消息，但是一个消息只能被一个消费者获取。</p>
+<p>接下来我们来模拟这个流程：</p>
+<p>P：生产者：任务的发布者</p>
+<p>C1：消费者1：领取任务并且完成任务，假设完成速度较慢（模拟耗时）</p>
+<p>C2：消费者2：领取任务并且完成任务，假设完成速度较快</p>
+<h5 id="代码附上-2"><a class="markdownIt-Anchor" href="#代码附上-2"></a> 代码附上</h5>
+<p>新增一个工具类用来获取rabbitmq的连接信息</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RabbitUtils</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ConnectionFactory <span class="title">GetConnection</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> factory = <span class="keyword">new</span> ConnectionFactory();</span><br><span class="line">        factory.HostName = <span class="string">&quot;127.0.0.1&quot;</span>;</span><br><span class="line">        factory.Port = <span class="number">5672</span>;<span class="comment">//5672是RabbitMQ默认的端口号</span></span><br><span class="line">        factory.UserName = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">        factory.Password = <span class="string">&quot;admin&quot;</span>;</span><br><span class="line">        factory.VirtualHost = <span class="string">&quot;my_vhost&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span> factory;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>
+<p>消费者1(C1)在刚刚的 Z.RabbitMQ.Consumer01新增<code>SmsReceive</code>类</p>
+<p>在<code>Program.cs</code>中的main函数中进行调用 <code>SmsReceive.Sender();</code></p>
+<p>消费者1 延迟30ms接受到信息</p>
+  <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SmsReceive</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Sender</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//使用工具类创建连接</span></span><br><span class="line">        <span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> channel = connection.CreateModel();</span><br><span class="line"></span><br><span class="line">        channel.QueueDeclare(RabbitConstant.QUEUE_SMS, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">        <span class="comment">// 如果不写basicQos(1)，则自动MQ会将所有请求平均发送给所有消费者</span></span><br><span class="line">        <span class="comment">// basicQos，MQ不再对消费者一次发送多个请求，而是消费者处理完一个消息后(确认后)，在从队列中获取一个新的</span></span><br><span class="line">        channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">        consumer.Received += (model, ea) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> body = ea.Body.ToArray();</span><br><span class="line">            <span class="keyword">var</span> message = Encoding.UTF8.GetString(body);</span><br><span class="line">            Thread.Sleep(<span class="number">30</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;SmsSender-发送短信成功：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">            channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        channel.BasicConsume(RabbitConstant.QUEUE_SMS, <span class="literal">false</span>, consumer);</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">        Console.Read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>消费者2(C2)在刚刚的 Z.RabbitMQ.Consumer02新增<code>SmsReceive</code>类</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.83a29jni96.png" alt="image.png" /></p>
+<p>消费者1 延迟60ms接受到信息</p>
+  <figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SmsReceive</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Sender</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection();</span><br><span class="line">        <span class="keyword">var</span> channel = connection.CreateModel();</span><br><span class="line"></span><br><span class="line">        channel.QueueDeclare(RabbitConstant.QUEUE_SMS, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">        <span class="comment">// 如果不写basicQos(1)，则自动MQ会将所有请求平均发送给所有消费者</span></span><br><span class="line">        <span class="comment">// basicQos，MQ不再对消费者一次发送多个请求，而是消费者处理完一个消息后(确认后)，在从队列中获取一个新的</span></span><br><span class="line">        channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);<span class="comment">//处理完一个取一个</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">        consumer.Received += (model, ea) =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> body = ea.Body.ToArray();</span><br><span class="line">            <span class="keyword">var</span> message = Encoding.UTF8.GetString(body);</span><br><span class="line">            Thread.Sleep(<span class="number">60</span>);</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;SmsSender-发送短信成功：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">            channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        channel.BasicConsume(RabbitConstant.QUEUE_SMS, <span class="literal">false</span>, consumer);</span><br><span class="line">        Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">        Console.Read();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>生产者Z.RabbitMq.Producer中创建SmsSender类在main函数进行调用</p>
+<ul>
+<li>发送100条车票订阅的消息</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">SmsSender</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Sender</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_SMS, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="keyword">for</span> (<span class="built_in">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100</span>; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    Sms sms = <span class="keyword">new</span> Sms(<span class="string">&quot;乘客&quot;</span> + i, <span class="string">&quot;139000000&quot;</span> + i, <span class="string">&quot;您的车票已预定成功&quot;</span>);</span><br><span class="line">                    <span class="built_in">string</span> jsonSms = JsonConvert.SerializeObject(sms);</span><br><span class="line">                    <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(jsonSms);</span><br><span class="line">                    channel.BasicPublish(<span class="string">&quot;&quot;</span>, RabbitConstant.QUEUE_SMS, <span class="literal">null</span>, body);</span><br><span class="line">                    Console.WriteLine(<span class="string">$&quot;正在发送内容：<span class="subst">&#123;jsonSms&#125;</span>&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;发送数据成功&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>运行结构如下</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8z6jozxf4q.png" alt="image.png" /></p>
+<h5 id="能者多劳"><a class="markdownIt-Anchor" href="#能者多劳"></a> 能者多劳</h5>
+<ul>
+<li>消费者1比消费者2的效率要快，一次任务的耗时较短</li>
+<li>消费者2大量时间处于空闲状态，消费者1一直忙碌</li>
+</ul>
+<p>通过<code>channel.BasicAck(ea.DeliveryTag, false);</code>来完成能者多劳的效果，在完成上一次请求之后再去取下一条消息，这就会出现服务器快的消费的更多，慢的消费的更少。</p>
+<h4 id="发布订阅模式"><a class="markdownIt-Anchor" href="#发布订阅模式"></a> 发布订阅模式</h4>
+<p>Publish/subscribe（交换机类型：Fanout，也称为广播 ）</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.7zqgbtuw5z.png" alt="image.png" /></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.2vermjv571.png" alt="image.png" /></p>
+<p>和前面两种模式不同：</p>
+<ul>
+<li>声明Exchange，不再声明Queue</li>
+<li>发送消息到Exchange，不再发送到Queue,通过exchange发送到queue上</li>
+</ul>
+<h5 id="消费者1收到的天气"><a class="markdownIt-Anchor" href="#消费者1收到的天气"></a> 消费者1收到的天气</h5>
+<p>项目<code>.RabbitMq.Consumer01</code> 创建<code>WeatherFanout</code>使用exchange(交换机)</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherFanout</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER, ExchangeType.Fanout);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_BAIDU, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                         * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                         * 参数1：队列名</span></span><br><span class="line"><span class="comment">                         * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                         * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                         */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER, <span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;百度收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_BAIDU, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者2收到的天气"><a class="markdownIt-Anchor" href="#消费者2收到的天气"></a> 消费者2收到的天气</h5>
+<p>项目<code>.RabbitMq.Consumer02</code> 创建<code>WeatherFanout</code>使用exchange(交换机)</p>
+<p>代码与消费者01一样</p>
+<h5 id="生产者发送天气"><a class="markdownIt-Anchor" href="#生产者发送天气"></a> 生产者发送天气</h5>
+<p>生产者把消息推送到交换机上</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherFanout</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="built_in">string</span> message = <span class="string">&quot;20度&quot;</span>;</span><br><span class="line">                <span class="keyword">var</span> body = Encoding.UTF8.GetBytes(message);</span><br><span class="line">                channel.BasicPublish(RabbitConstant.EXCHANGE_WEATHER, <span class="string">&quot;&quot;</span>, <span class="literal">null</span>, body);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;天气信息发送成功！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后得到效果</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.2krxteg6at.png" alt="image.png" /></p>
+<h4 id="routing-路由模型"><a class="markdownIt-Anchor" href="#routing-路由模型"></a> Routing 路由模型</h4>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.1sf2bo02ow.png" alt="image.png" /></p>
+<p>P：生产者，向Exchange发送消息，发送消息时，会指定一个routing key。</p>
+<p>X：Exchange（交换机），接收生产者的消息，然后把消息递交给 与routing key完全匹配的队列</p>
+<p>C1：消费者，其所在队列指定了需要routing key 为 error 的消息</p>
+<p>C2：消费者，其所在队列指定了需要routing key 为 info、error、warning 的消息</p>
+<ul>
+<li>
+<p>队列与交换机的绑定，不能是任意绑定，而是要指定一个RoutingKey</p>
+</li>
+<li>
+<p>消息的发送方在向Exchange发送消息时，也必须指定消息的RoutingKey</p>
+</li>
+<li>
+<p>Exchange不再把消息交给每一个绑定的队列，而是根据消息的RoutingKey进行判断，只有队列的RoutingKey与消息的RoutingKey完全一致，才会接收消息</p>
+</li>
+</ul>
+<h5 id="生产者"><a class="markdownIt-Anchor" href="#生产者"></a> 生产者</h5>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherDirect</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; area = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;();</span><br><span class="line">        area.Add(<span class="string">&quot;china.hunan.changsha.20210525&quot;</span>, <span class="string">&quot;中国湖南长沙20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>, <span class="string">&quot;中国湖北武汉20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.xiangyang.20210525&quot;</span>, <span class="string">&quot;中国湖北襄阳20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;us.cal.lsj.20210525&quot;</span>, <span class="string">&quot;美国加州洛杉矶20210525天气数据&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> area)</span><br><span class="line">                &#123;</span><br><span class="line">                    channel.BasicPublish(RabbitConstant.EXCHANGE_WEATHER_ROUTING, item.Key,</span><br><span class="line">                                         <span class="literal">null</span>, Encoding.UTF8.GetBytes(item.Value));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Console.WriteLine(<span class="string">&quot;气象信息发送成功！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者1"><a class="markdownIt-Anchor" href="#消费者1"></a> 消费者1</h5>
+<p>接受百度路由的路由消息</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherDirect</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_ROUTING, ExchangeType.Direct);</span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_BAIDU, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                    * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                    * 参数1：队列名</span></span><br><span class="line"><span class="comment">                    * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                    * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                    */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hunan.changsha.20210525&quot;</span>);</span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;百度收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_BAIDU, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者2"><a class="markdownIt-Anchor" href="#消费者2"></a> 消费者2</h5>
+<p>接受新浪的路由信息</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherDirect</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_ROUTING, ExchangeType.Direct);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_SINA, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                     * 参数1：队列名</span></span><br><span class="line"><span class="comment">                     * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                     * 参数3：路由Key</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hubei.xiangyang.20210525&quot;</span>);</span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;us.cal.lsj.20210525&quot;</span>);</span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_ROUTING, <span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;新浪收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_SINA, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="最后得到的效果"><a class="markdownIt-Anchor" href="#最后得到的效果"></a> 最后得到的效果</h5>
+<ul>
+<li>新浪接收对应新浪的routingkey的信息</li>
+<li>百度接收对应百度的routingkey的信息</li>
+</ul>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.26li2j8o2i.png" alt="image.png" /></p>
+<h4 id="topics-通配符模式"><a class="markdownIt-Anchor" href="#topics-通配符模式"></a> Topics 通配符模式</h4>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.8s3btkcx59.png" alt="image.png" /></p>
+<h5 id="routingkey支持通配符匹配格式"><a class="markdownIt-Anchor" href="#routingkey支持通配符匹配格式"></a> routingkey支持通配符匹配格式</h5>
+<ul>
+<li>通配符格式
+<ul>
+<li>Topic类型与Direct相比，都是可以根据RoutingKey把消息路由到不同的队列。只不过</li>
+<li>Topic类型Exchange可以让队列在绑定RoutingKey的时候使用通配符</li>
+<li>RoutingKey一般都是由一个或多个单词组成，多个单词之间以“.”分隔，例如:item.insert</li>
+<li>通配符规则:#匹配一个或多个词，*恰好匹配一个词，例如item.#能够匹配item.insert.user或者item.insert，item.只能匹配item.insert或者item.user</li>
+</ul>
+</li>
+</ul>
+<h5 id="生产者-2"><a class="markdownIt-Anchor" href="#生产者-2"></a> 生产者</h5>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherTopic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt; area = <span class="keyword">new</span> Dictionary&lt;<span class="built_in">string</span>, <span class="built_in">string</span>&gt;();</span><br><span class="line">        area.Add(<span class="string">&quot;china.hunan.changsha.20210525&quot;</span>, <span class="string">&quot;中国湖南长沙20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.wuhan.20210525&quot;</span>, <span class="string">&quot;中国湖北武汉20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;china.hubei.xiangyang.20210525&quot;</span>, <span class="string">&quot;中国湖北襄阳20210525天气数据&quot;</span>);</span><br><span class="line">        area.Add(<span class="string">&quot;us.cal.lsj.20210525&quot;</span>, <span class="string">&quot;美国加州洛杉矶20210525天气数据&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> area)</span><br><span class="line">                &#123;</span><br><span class="line">                    channel.BasicPublish(RabbitConstant.EXCHANGE_WEATHER_TOPIC, item.Key,</span><br><span class="line">                                         <span class="literal">null</span>, Encoding.UTF8.GetBytes(item.Value));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                Console.WriteLine(<span class="string">&quot;气象信息发送成功！&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者1-2"><a class="markdownIt-Anchor" href="#消费者1-2"></a> 消费者1</h5>
+<p>获取交换机中通配符为<code>china.#</code>的信息</p>
+<ul>
+<li>(“china.hunan.changsha.20210525”, “中国湖南长沙20210525天气数据”);</li>
+<li>(“china.hubei.wuhan.20210525”, “中国湖北武汉20210525天气数据”);</li>
+<li>(“china.hubei.xiangyang.20210525”, “中国湖北襄阳20210525天气数据”);</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherTopic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_TOPIC, ExchangeType.Topic);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_BAIDU, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                     * 参数1：队列名</span></span><br><span class="line"><span class="comment">                     * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                     * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_BAIDU, RabbitConstant.EXCHANGE_WEATHER_TOPIC, <span class="string">&quot;china.#&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;百度收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_BAIDU, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="消费者2-2"><a class="markdownIt-Anchor" href="#消费者2-2"></a> 消费者2</h5>
+<p>获取交换机中通配符为<code>china.hubei.*.20210525</code>的信息</p>
+<ul>
+<li>(“china.hubei.wuhan.20210525”, “中国湖北武汉20210525天气数据”)</li>
+<li>(“china.hubei.xiangyang.20210525”, “中国湖北襄阳20210525天气数据”)</li>
+</ul>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">WeatherTopic</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Weather</span>()</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">using</span> (<span class="keyword">var</span> connection = RabbitUtils.GetConnection().CreateConnection())</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> channel = connection.CreateModel())</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * 生产者发送消息</span></span><br><span class="line"><span class="comment">                     * 队列名称</span></span><br><span class="line"><span class="comment">                     * 交换机名称</span></span><br><span class="line"><span class="comment">                     * 路由key</span></span><br><span class="line"><span class="comment">                     *</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.ExchangeDeclare(RabbitConstant.EXCHANGE_WEATHER_TOPIC, ExchangeType.Topic);</span><br><span class="line">                <span class="comment">// 声明队列信息</span></span><br><span class="line">                channel.QueueDeclare(RabbitConstant.QUEUE_SINA, <span class="literal">true</span>, <span class="literal">false</span>, <span class="literal">false</span>, <span class="literal">null</span>);</span><br><span class="line">                <span class="comment">/*</span></span><br><span class="line"><span class="comment">                     * queueBind 用于将队列与交换机绑定</span></span><br><span class="line"><span class="comment">                     * 参数1：队列名</span></span><br><span class="line"><span class="comment">                     * 参数2：交换机名</span></span><br><span class="line"><span class="comment">                     * 参数3：路由Key(暂时用不到)</span></span><br><span class="line"><span class="comment">                     */</span></span><br><span class="line">                channel.QueueBind(RabbitConstant.QUEUE_SINA, RabbitConstant.EXCHANGE_WEATHER_TOPIC, <span class="string">&quot;china.hubei.*.20210525&quot;</span>);</span><br><span class="line"></span><br><span class="line">                channel.BasicQos(<span class="number">0</span>, <span class="number">1</span>, <span class="literal">false</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> consumer = <span class="keyword">new</span> EventingBasicConsumer(channel);</span><br><span class="line"></span><br><span class="line">                consumer.Received += ((model, ea) =&gt;</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="keyword">var</span> message = Encoding.UTF8.GetString(ea.Body.ToArray());</span><br><span class="line">                                          Console.WriteLine(<span class="string">$&quot;新浪收到的气象信息：<span class="subst">&#123;message&#125;</span>&quot;</span>);</span><br><span class="line">                                          channel.BasicAck(ea.DeliveryTag, <span class="literal">false</span>);</span><br><span class="line">                                      &#125;);</span><br><span class="line"></span><br><span class="line">                channel.BasicConsume(RabbitConstant.QUEUE_SINA, <span class="literal">false</span>, consumer);</span><br><span class="line">                Console.WriteLine(<span class="string">&quot;Press [Enter] to exit&quot;</span>);</span><br><span class="line">                Console.Read();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="最后得到的效果-2"><a class="markdownIt-Anchor" href="#最后得到的效果-2"></a> 最后得到的效果</h5>
+<ul>
+<li>百度获取<code>china.#</code>的信息</li>
+<li>新浪获取<code>china.hubei.*.20210525</code>的信息</li>
+</ul>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.4n7qhgg4iw.png" alt="image.png" /></p>
+<h4 id="rpc"><a class="markdownIt-Anchor" href="#rpc"></a> RPC</h4>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/rabbitMQ/image.6ikba2srll.png" alt="image.png" /></p>
+<h5 id="基本概念"><a class="markdownIt-Anchor" href="#基本概念"></a> 基本概念：</h5>
+<ul>
+<li>
+<p>Callback queue 回调队列，客户端向服务器发送请求，服务器端处理请求后，将其处理结果保存在一个存储体中。而客户端为了获得处理结果，那么客户在向服务器发送请求时，同时发送一个回调队列地址reply_to。</p>
+</li>
+<li>
+<p>Correlation id 关联标识，客户端可能会发送多个请求给服务器，当服务器处理完后，客户端无法辨别在回调队列中的响应具体和那个请求时对应的。为了处理这种情况，客户端在发送每个请求时，同时会附带一个独有correlation_id属性，这样客户端在回调队列中根据correlation_id字段的值就可以分辨此响应属于哪个请求。</p>
+</li>
+</ul>
+<h5 id="流程说明"><a class="markdownIt-Anchor" href="#流程说明"></a> 流程说明：</h5>
+<ul>
+<li>当客户端启动的时候，它创建一个匿名独享的回调队列。</li>
+<li>在 RPC 请求中，客户端发送带有两个属性的消息：一个是设置回调队列的 reply_to 属性，另一个是设置唯一值的 correlation_id 属性。</li>
+<li>将请求发送到一个 rpc_queue 队列中。</li>
+<li>服务器等待请求发送到这个队列中来。当请求出现的时候，它执行他的工作并且将带有执行结果的消息发送给 reply_to 字段指定的队列。</li>
+<li>客户端等待回调队列里的数据。当有消息出现的时候，它会检查 correlation_id 属性。如果此属性的值与请求匹配，将它返回给应用</li>
+</ul>
+<h3 id="分享几题面试题"><a class="markdownIt-Anchor" href="#分享几题面试题"></a> 分享几题面试题</h3>
+<h4 id="rabbitmq中消息可能有的几种状态"><a class="markdownIt-Anchor" href="#rabbitmq中消息可能有的几种状态"></a> RabbitMQ中消息可能有的几种状态?</h4>
+<ol>
+<li>
+<p>alpha: 消息内容(包括消息体、属性和 headers) 和消息索引都存储在内存中 。</p>
+<ol>
+<li>beta: 消息内容保存在磁盘中，消息索引保存在内存中。</li>
+<li>gamma: 消息内容保存在磁盘中，消息索引在磁盘和内存中都有 。</li>
+<li>delta: 消息内容和索引都在磁盘中 。</li>
+</ol>
+</li>
+<li>
+<p>死信队列？</p>
+<p>DLX，全称为 Dead-Letter-Exchange，死信交换器，死信邮箱。当消息在一个队列中变成死信 (dead  message) 之后，它能被重新被发送到另一个交换器中，这个交换器就是 DLX，绑定 DLX 的队列就称之 为死信队列。</p>
+</li>
+<li>
+<p>导致的死信的几种原因？</p>
+<ol>
+<li>消息被拒（Basic.Reject /Basic.Nack) 且 requeue = false。</li>
+<li>消息TTL过期。</li>
+<li>队列满了</li>
+</ol>
+</li>
+</ol>
+<blockquote>
+<p>到这里就结束，大家如果需要看视频学习就是点最上面的链接就行了</p>
+<p>源码：<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ZhbnRhc3ktS2UvWi5SYWJiaXRNUS1EZW1v">github<i class="fa fa-external-link-alt"></i></span></p>
+</blockquote>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+
+
+
+
+
+
+<div class="license">
+  <div class="license-title">.NET Core中RabbitMQ初识</div>
+  <div class="license-link">
+    <a href="https://blog.fantasyke.cn/posts/25184/">https://blog.fantasyke.cn/posts/25184/</a>
+  </div>
+  <div class="license-meta">
+    <div class="license-meta-item">
+      <div class="license-meta-title">本文作者</div>
+      <div class="license-meta-text">
+          Fantasy-ke
+      </div>
+    </div>
+      <div class="license-meta-item">
+        <div class="license-meta-title">发布于</div>
+        <div class="license-meta-text">
+          2023-10-11
+        </div>
+      </div>
+      <div class="license-meta-item">
+        <div class="license-meta-title">更新于</div>
+        <div class="license-meta-text">
+          2024-12-17
+        </div>
+      </div>
+    <div class="license-meta-item">
+      <div class="license-meta-title">许可协议</div>
+      <div class="license-meta-text">
+          禁止转载引用
+      </div>
+    </div>
+  </div>
+  <div class="license-statement">
+      如需转载或引用本文，请先获得作者授权！
+  </div>
+</div>
+          <div class="reward-container">
+  <div>Buy me a coffee</div>
+  <button>
+    Donate
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.png" alt="Fantasy-ke WeChat Pay">
+        <span>WeChat Pay</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="followme">
+  <span>Welcome to my other publishing channels</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+          <a target="_blank" class="social-link" href="https://github.com/fantasy-ke">
+            <span class="icon">
+              <i class="fab fa-github"></i>
+            </span>
+
+            <span class="label">GitHub</span>
+          </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/" rel="tag"><i class="fa fa-tag"></i> 消息队列</a>
+              <a href="/tags/RabbitMQ/" rel="tag"><i class="fa fa-tag"></i> RabbitMQ</a>
+              <a href="/tags/NET-Core/" rel="tag"><i class="fa fa-tag"></i> .NET Core</a>
+          </div>
+
+        
+  <div class="social-like a2a_kit a2a_kit_size_32 a2a_default_style">
+    <a class="a2a_dd" target="_blank" rel="noopener" href="https://www.addtoany.com/share"></a>
+      <a class="a2a_button_facebook"></a>
+      <a class="a2a_button_twitter"></a>
+      <a class="a2a_button_telegram"></a>
+      <a class="a2a_button_wechat"></a>
+  </div>
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/posts/54715/" rel="prev" title=".NET 实现JWT登录认证">
+                  <i class="fa fa-angle-left"></i> .NET 实现JWT登录认证
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/posts/17094/" rel="next" title=".NET Core使用Cap">
+                  .NET Core使用Cap <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments gitalk-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 2021 – 
+    <span itemprop="copyrightYear">2024</span>
+    <span class="with-love">
+      <i class="fa fa-solid fa-t-rex"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">Fantasy-ke</span>
+  </div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+      <span>Word count total: </span>
+    <span title="Word count total">71k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span>Reading time total &asymp;</span>
+    <span title="Reading time total">4:17</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div> 
+<script src="https://cdn.jsdelivr.net/npm/moment@2.22.2/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment-precise-range-plugin@1.3.0/moment-precise-range.min.js"></script>
+<script>
+  var now = new Date();
+  function timer() {
+    var grt= new Date("03/12/2022 13:14:21");//此处修改你的建站时间或者网站上线时间
+    now.setTime(now.getTime()+250);
+    days = (now - grt ) / 1000 / 60 / 60 / 24; dnum = Math.floor(days);
+    hours = (now - grt ) / 1000 / 60 / 60 - (24 * dnum); hnum = Math.floor(hours);
+    if(String(hnum).length ==1 ){hnum = "0" + hnum;} minutes = (now - grt ) / 1000 /60 - (24 * 60 * dnum) - (60 * hnum);
+    mnum = Math.floor(minutes); if(String(mnum).length ==1 ){mnum = "0" + mnum;}
+    seconds = (now - grt ) / 1000 - (24 * 60 * 60 * dnum) - (60 * 60 * hnum) - (60 * mnum);
+    snum = Math.round(seconds); if(String(snum).length ==1 ){snum = "0" + snum;}
+    var ages = `${dnum}天${hnum}小时${mnum}分${snum}秒`;
+    div.innerHTML = `本站已安全运行 ${ages} 🐶`;
+  }
+  var div = document.createElement("div");
+  //插入到copyright之后
+  var copyright = document.querySelector(".busuanzi-count");
+  document.querySelector(".footer-inner").insertBefore(div, copyright.nextSibling);
+  timer();
+  setInterval("timer()",1000)
+</script>
+
+
+<div class="footer-menu">
+    <a style="color: chocolate;" href="/tags/">文章标签</a> · <a style="color: chocolate;"  href="/policy/">网站政策</a> · <a style="color: chocolate;"  href="/photos/">文章相册</a>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <div class="reading-progress-bar"></div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+  <span class="exturl github-corner" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhbnRhc3kta2U=" title="Follow me on GitHub" aria-label="Follow me on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></span>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/next-theme-pjax/0.6.0/pjax.min.js" integrity="sha256-vxLn1tSKWD4dqbMRyv940UYw4sXgMtYcK6reefzZrao=" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/fancyapps-ui/5.0.31/fancybox/fancybox.umd.js" integrity="sha256-a+H7FYzJv6oU2hfsfDGM2Ohw/cR9v+hPfxHCLdmCrE8=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/sidebar.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script><script src="/js/pjax.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hexo-generator-searchdb/1.4.1/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+  <script src="/js/third-party/fancybox.js"></script>
+
+
+  <script src="/js/third-party/addtoany.js"></script>
+
+  
+  <script data-pjax async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.css" integrity="sha256-AJnUHL7dBv6PGaeyPQJcgQPDjt/Hn/PvYZde1iqfp8U=" crossorigin="anonymous">
+
+<script class="next-config" data-name="gitalk" type="application/json">{"enable":true,"github_id":"fantasy-ke","repo":"fantasy-ke.github.io","client_id":"Ov23li8eCFrhnzfiGx5T","client_secret":"ce23581c2059392ebd00afd08d5ba43f767fd1b1","admin_user":"fantasy-ke","distraction_free_mode":true,"proxy":"https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token","language":"zh-CN","labels":"gitalk","js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/gitalk/1.8.0/gitalk.min.js","integrity":"sha256-MVK9MGD/XJaGyIghSVrONSnoXoGh3IFxLw0zfvzpxR4="},"path_md5":"a51ddfa4a4df609853b18442bc08595b"}</script>
+<script src="/js/third-party/comments/gitalk.js"></script>
+
+
+<script src="/js/minigrid.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script data-pjax type="text/javascript">
+var album = document.querySelector(".album");
+if (album) {
+  // 相册列表 JSON 数据
+  var imgDataPath = album.getAttribute('json-src');
+  // 照片存储路径
+  var imgPath = album.getAttribute('photo-src');
+  // 最多显示数量
+  var imgMaxNum = 50;
+  // 获取窗口大小以决定图片宽度
+  var windowWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  var imageWidth;
+
+  if (windowWidth < 768) {
+    imageWidth = 145; // 移动端图片宽度
+  } else {
+    imageWidth = 235;
+  }
+
+  // 生成相册
+  var linkDataPath = imgDataPath;
+  var photo = {
+    page: 1,
+    offset: imgMaxNum,
+    init: function () {
+      var that = this;
+      $.getJSON(linkDataPath, function (data) {
+          that.render(that.page, data);
+      });
+    },
+    render: function (page, data) {
+      var begin = (page - 1) * this.offset;
+      var end = page * this.offset;
+      if (begin >= data.length) return;
+      var imgNameWithPattern, imgName, imageSize, imageX, imageY, li = "";
+      for (var i = begin; i < end && i < data.length; i++) {
+        imgNameWithPattern = data[i].path;
+        imgName = data[i].name;
+        imageSize = data[i].size;
+        li += '<div class="card" style="width:' + imageWidth + 'px" >';
+        li += '<div class="album-photo" style="height:' + imageWidth + 'px" >';
+        li += '<a class="fancybox fancybox.image" href="' + imgPath + imgNameWithPattern + '" itemscope="" itemtype="http://schema.org/ImageObject" itemprop="url" data-fancybox="group" rel="group" data-caption="' + imgName + '" title="' +  imgName + '">';
+        li += '<img data-src="' + imgPath + imgNameWithPattern + '" src="' + imgPath + imgNameWithPattern + '" alt="' +  imgName + '" data-loaded="true">';
+        li += '</a>';
+        li += '</div>';
+        li += '</div>';
+      }
+      album.insertAdjacentHTML('beforeend', li);
+      this.minigrid();
+    },
+    minigrid: function () {
+      var grid = new Minigrid({
+        container: '.album',
+        item: '.card',
+        gutter: 12
+      });
+      grid.mount();
+      window.addEventListener('resize', function () {
+        grid.mount();
+      });
+    }
+  };
+  photo.init();
+}
+</script>
+<script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/hijiki.model.json"},"display":{"position":"right","width":170,"height":330},"mobile":{"show":true},"react":{"opacity":0.7},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
