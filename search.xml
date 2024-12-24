@@ -3188,7 +3188,7 @@ SubController.cs中新增Group参数
       </tags>
   </entry>
   <entry>
-    <title>在.NET Core中使用异步多线程</title>
+    <title>在.NET Core中使用异步多线程消费</title>
     <url>/posts/1077/</url>
     <content><![CDATA[<h2 id="一-引言"><a class="markdownIt-Anchor" href="#一-引言"></a> 一、引言</h2>
 <p>处理大量数据是一个常见的需求，传统的同步处理方式往往效率低下，尤其是在数据量非常大的情况下。本篇将介绍一种高效的多线程异步处理大数据量的方法，通过边处理边消费的方式，极大地提高了处理效率，并且减少了内存开销。这种解决方案只是实现这一需求的一种实践，并不排除还有其他方式可以实现。如果您有任何问题或建议，欢迎在评论区留言讨论。</p>

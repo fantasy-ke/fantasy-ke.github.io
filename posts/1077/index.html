@@ -25,13 +25,13 @@
 
     <meta name="description" content="引言处理大量数据是一个常见的需求，传统的同步处理方式往往效率低下，尤其是在数据量非常大的情况下。本篇将介绍一种高效的多线程异步处理大数据量的方法，通过边处理边消费的方式，极大地提高了处理效率，并且减少了内存开销。这种解决方案只是实现这一需求的一种实践，并不排除还有其他方式可以实现。如果您有任何问题或建议，欢迎在评论区留言讨论。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在.NET Core中使用异步多线程">
+<meta property="og:title" content="在.NET Core中使用异步多线程消费">
 <meta property="og:url" content="https://blog.fantasyke.cn/posts/1077/index.html">
 <meta property="og:site_name" content="Fantasy&#39;Ke Blog">
 <meta property="og:description" content="引言处理大量数据是一个常见的需求，传统的同步处理方式往往效率低下，尤其是在数据量非常大的情况下。本篇将介绍一种高效的多线程异步处理大数据量的方法，通过边处理边消费的方式，极大地提高了处理效率，并且减少了内存开销。这种解决方案只是实现这一需求的一种实践，并不排除还有其他方式可以实现。如果您有任何问题或建议，欢迎在评论区留言讨论。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2024-12-24T01:40:02.000Z">
-<meta property="article:modified_time" content="2024-12-24T03:21:38.366Z">
+<meta property="article:modified_time" content="2024-12-24T06:03:36.261Z">
 <meta property="article:author" content="Fantasy-ke">
 <meta property="article:tag" content="C#">
 <meta name="twitter:card" content="summary">
@@ -40,10 +40,10 @@
 <link rel="canonical" href="https://blog.fantasyke.cn/posts/1077/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.fantasyke.cn/posts/1077/","path":"posts/1077/","title":"在.NET Core中使用异步多线程"}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"https://blog.fantasyke.cn/posts/1077/","path":"posts/1077/","title":"在.NET Core中使用异步多线程消费"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>在.NET Core中使用异步多线程 | Fantasy'Ke Blog</title>
+<title>在.NET Core中使用异步多线程消费 | Fantasy'Ke Blog</title>
   
 
 
@@ -327,12 +327,12 @@
     </span>
 
     <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="在.NET Core中使用异步多线程 | Fantasy'Ke Blog">
+      <meta itemprop="name" content="在.NET Core中使用异步多线程消费 | Fantasy'Ke Blog">
       <meta itemprop="description" content="">
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          在.NET Core中使用异步多线程
+          在.NET Core中使用异步多线程消费
         </h1>
 
         <div class="post-meta-container">
@@ -344,7 +344,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2024-12-24 09:40:02 / Modified: 11:21:38" itemprop="dateCreated datePublished" datetime="2024-12-24T09:40:02+08:00">2024-12-24</time>
+      <time title="Created: 2024-12-24 09:40:02 / Modified: 14:03:36" itemprop="dateCreated datePublished" datetime="2024-12-24T09:40:02+08:00">2024-12-24</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -448,7 +448,7 @@
 
 
 <div class="license">
-  <div class="license-title">在.NET Core中使用异步多线程</div>
+  <div class="license-title">在.NET Core中使用异步多线程消费</div>
   <div class="license-link">
     <a href="https://blog.fantasyke.cn/posts/1077/">https://blog.fantasyke.cn/posts/1077/</a>
   </div>

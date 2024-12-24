@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.fantasyke.cn/posts/1077/</loc>
+    
+    <lastmod>2024-12-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.fantasyke.cn/images/picX/redis/redis_info.json</loc>
     
     <lastmod>2024-12-24</lastmod>
@@ -30,15 +39,6 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/images/picX/docker/docker_info.json</loc>
-    
-    <lastmod>2024-12-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/posts/1077/</loc>
     
     <lastmod>2024-12-24</lastmod>
     
