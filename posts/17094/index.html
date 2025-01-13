@@ -199,29 +199,39 @@
     container: document.getElementById('aplayer'),
     autoplay: false, //自动播放
     listFolded: true, //播放列表默认折叠
-    listMaxHeight: 90, //播放列表最大高度
+    listMaxHeight: 90, //播放列表最大高度 
     order: 'list', //音频循环顺序, 可选值: 'list', 'random'
     loop: 'all', //音频循环播放, 可选值: 'all', 'one', 'none'
     theme: '#e9e9e9', //切换音频时的主题色，优先级低于audio.theme
-    preload: 'none', //音频预加载，可选值: 'none', 'metadata', 'auto'
+    preload: 'auto', //音频预加载，可选值: 'none', 'metadata', 'auto'
     mutex: true, //互斥，阻止多个播放器同时播放，当前播放器播放时暂停其他播放器
-    lrcType: 3, //歌词格式，可选值：3（LRC文件歌词格式），1（JS字符串歌词格式）
+    lrcType: 0, //歌词格式，可选值：3（LRC文件歌词格式），1（JS字符串歌词格式）
     volume: 0.7, //默认音量，请注意播放器会记忆用户设置，用户手动设置音量后默认音量即失效
     fixed: false, //吸底模式（fixed:true），迷你模式（mini:true），普通模式（注释此行或者设置fixed:false）
     audio: [{
-        name: '平凡之路',
-        artist: '朴树',
-        lrc: '/downloads/lrc/平凡之路-朴树.lrc',
-        cover: 'http://p2.music.126.net/W_5XiCv3rGS1-J7EXpHSCQ==/18885211718782327.jpg?param=300x300',
-        url: 'http://ws.stream.qqmusic.qq.com/C4000007nRJ74eQsF6.m4a?guid=942726817&vkey=64755357C5716983BEECE2981FEC3954F0DD03E7630EFF769D9C40C31F50D53E7D260CB63E22CE8F954B1144083716A1BABFC2093F8F1C14&uin=&fromtag=120032'
+        name: '于是',
+        artist: '郑润泽',
+        cover: 'https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg?param=300x300',
+        url: 'http://m801.music.126.net/20250113172856/8108be9a69c4879f1a79d3bf56ddc806/jdymusic/obj/wo3DlMOGwrbDjj7DisKw/28481678614/2094/46e7/24de/730c852430e4dbf18323701b1e5a49b6.mp3?vuutv=cxje9K8M87L8unBbTQjdA6uVmrV4fukFmqzNSGFgNU12u709BnfMXLfwiOPKg1E2fM+IIm43Q9x6/JWCXUQeoCbP3LZyykV71CzzFFLwEGASvaJswpiCwVmEJCkUzWVb4MZKedtnMF+PViazrRTVB8GG4CLoU1wSXBTJVT4F3ME=',
       },
       {
         name: '后会无期',
-        artist: '徐良,汪苏泷',
-        lrc: '/downloads/lrc/后会无期-G.E.M.邓紫棋.lrc',
-        cover: 'http://p1.music.126.net/vpvPajo3kn88nHc7jUjeWQ==/5974746185758035.jpg?param=300x300',
-        url: 'http://ws.stream.qqmusic.qq.com/C400004ECnYg0QNchK.m4a?guid=893251117&vkey=D9DCBB8C4A4CAF8550E97A2A574DE1231DFDD8BC0989CC724742C7B9831C4108E0A805A46E0F2B2A556228467C146B9C312E3E8B498614C7&uin=&fromtag=120032'
-      }
+        artist: '关贺',
+        cover: 'https://p1.music.126.net/6y-UleORITEDbvrOLV0Q8A==/5639395138885805.jpg?param=300x300',
+        url: 'http://m801.music.126.net/20250113173541/2183fba2291f0dea01667e1e4ea4b3fd/jdymusic/obj/w5zDlMODwrDDiGjCn8Ky/1510576644/c24e/4478/0fe7/6348850323c1fc5a9249754458f64f3b.mp3?vuutv=eDItsKCzgOPhJBO/qZ8F8Vm7smW+xB+X/nmpXSV3Fa/7asN7uT9jYiqz+2jBRo2ufAb2LeoBBUX67LmyQi81wzEZj1zsdBHCQYl2vVfkmzOmfST5OCYSo8ry2DYRWQBMYZUZRPRHruhQEjKy5UQpMFWRluUk7vBja0u0I7CK3YE='
+      },
+       {
+         name: 'スパークル（火花）——《你的名字。》插曲',
+         artist: 'ゆう十',
+         url: 'http://music.163.com/song/media/outer/url?id=1984045303.mp3',
+         cover: 'http://p2.music.126.net/SiTInUUumsPdSdndv1MCyw==/109951167903888878.jpg?param=130x130',
+       },
+       {
+         name: 'Friend',
+         artist: 'Kozoro',
+         url: 'http://music.163.com/song/media/outer/url?id=33004707.mp3',
+         cover: 'http://p2.music.126.net/FR7zKYB8ujNRoWQuGCHbGg==/109951163288692527.jpg?param=130x130',
+       },
     ]
   });
 
@@ -606,7 +616,7 @@ SubController.cs中新增Group参数
 
   <div class="copyright">
     &copy; 2021 – 
-    <span itemprop="copyrightYear">2024</span>
+    <span itemprop="copyrightYear">2025</span>
     <span class="with-love">
       <i class="fa fa-solid fa-t-rex"></i>
     </span>
