@@ -262,9 +262,9 @@
     <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
-    <category term=".NET Core" scheme="https://blog.fantasyke.cn/tags/NET-Core/"/>
-    
     <category term="JWT" scheme="https://blog.fantasyke.cn/tags/JWT/"/>
+    
+    <category term=".NET Core" scheme="https://blog.fantasyke.cn/tags/NET-Core/"/>
     
   </entry>
   
@@ -285,11 +285,11 @@
     <category term="杂七杂八的砖" scheme="https://blog.fantasyke.cn/categories/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB%E7%9A%84%E7%A0%96/"/>
     
     
+    <category term=".NET Core" scheme="https://blog.fantasyke.cn/tags/NET-Core/"/>
+    
     <category term="消息队列" scheme="https://blog.fantasyke.cn/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/"/>
     
     <category term="RabbitMQ" scheme="https://blog.fantasyke.cn/tags/RabbitMQ/"/>
-    
-    <category term=".NET Core" scheme="https://blog.fantasyke.cn/tags/NET-Core/"/>
     
   </entry>
   

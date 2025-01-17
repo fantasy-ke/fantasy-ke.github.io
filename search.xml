@@ -1075,233 +1075,6 @@ docker-engine
       </tags>
   </entry>
   <entry>
-    <title>4.Docker镜像原理</title>
-    <url>/posts/23547/</url>
-    <content><![CDATA[<h1 id="docker镜像原理"><a class="markdownIt-Anchor" href="#docker镜像原理"></a> Docker镜像原理</h1>
-<h1 id="docker-10-镜像原理"><a class="markdownIt-Anchor" href="#docker-10-镜像原理"></a> Docker 10 镜像原理</h1>
-<h2 id="联合文件系统"><a class="markdownIt-Anchor" href="#联合文件系统"></a> 联合文件系统</h2>
-<p><strong>联合文件系统</strong>（UnionFS）是 Docker 的核心，也是 Docker 得以极致精简的保证。</p>
-<p>以拉取 redis 镜像为例</p>
-<blockquote>
-<p>先拉取最新版镜像</p>
-</blockquote>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@sail ~]# docker pull redis</span><br><span class="line">Using default tag: latest <span class="comment"># 默认最新版标签</span></span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Pull complete <span class="comment"># 分层下载，docker image的核心：联合文件系统</span></span><br><span class="line">37c4354629da: Pull complete </span><br><span class="line">b065b1b1fa0f: Pull complete </span><br><span class="line">6954d19bb2e5: Pull complete </span><br><span class="line">6333f8baaf7c: Pull complete </span><br><span class="line">f9772c8a44e7: Pull complete </span><br><span class="line">Digest: sha256:2f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796 <span class="comment">#防伪签名</span></span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">docker.io/library/redis:latest <span class="comment"># 真实地址，docker pull redis 等价于 docker pull docker.io/library/redis:latest</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>再拉取指定版镜像</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker pull redis</span></span><br><span class="line"><span class="keyword">Using</span> default tag: latest # 默认最新版标签</span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Pull complete <span class="comment"># 分层下载，docker image的核心：联合文件系统</span></span><br><span class="line"><span class="number">37</span>c4354629da: Pull complete </span><br><span class="line">b065b1b1fa0f: Pull complete </span><br><span class="line"><span class="number">6954</span>d19bb2e5: Pull complete </span><br><span class="line"><span class="number">6333</span>f8baaf7c: Pull complete </span><br><span class="line">f9772c8a44e7: Pull complete </span><br><span class="line">Digest: sha256:<span class="number">2</span>f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796 <span class="comment">#防伪签名</span></span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">docker.io/library/redis:latest <span class="comment"># 真实地址，docker pull redis 等价于 docker pull docker.io/library/redis:latest</span></span><br></pre></td></tr></table></figure>
-<p>由此可见，redis 镜像一共 6 层，由于之前拉取了默认的最新版 <strong>redis</strong> 镜像，再拉取 <strong>redis:5.0</strong> 时，有 3 层是可以复用的，所以只下载了不能复用的 3 层。</p>
-<blockquote>
-<p>这样既能提高下载速度，也能极大节省磁盘占用和资源消耗。</p>
-</blockquote>
-<h2 id="分层镜像"><a class="markdownIt-Anchor" href="#分层镜像"></a> 分层镜像</h2>
-<p>Docker 使用联合文件系统对镜像做了分层，如下图所示：</p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.6ikbd541xb.webp" alt="image.png" /></p>
-<ul>
-<li><strong>bootfs</strong>（boot file system）：启动文件系统。</li>
-<li><strong>rootfs</strong>：root file system：基础文件系统。</li>
-</ul>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.wikza2x40.webp" alt="image.png" /></p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.5xanqu9x5u.webp" alt="image.png" /></p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.13lsuppeor.webp" alt="image.png" /></p>
-<p>Docker 镜像都是<strong>只读</strong>的，当容器启动时，一个新的可写层被加到镜像的顶部。</p>
-<p>这一层就是我们通常说的<strong>容器层</strong>，容器层之下的都叫<strong>镜像层</strong>。</p>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.99tdl7qwni.webp" alt="image.png" /></p>
-<p>我们自己也是可以制作镜像并提交的，使用 <code>docker commit</code> 命令。</p>
-<h1 id="docker自定义镜像"><a class="markdownIt-Anchor" href="#docker自定义镜像"></a> Docker自定义镜像</h1>
-<h2 id="提交镜像"><a class="markdownIt-Anchor" href="#提交镜像"></a> 提交镜像</h2>
-<h3 id="docker-commit"><a class="markdownIt-Anchor" href="#docker-commit"></a> docker commit</h3>
-<blockquote>
-<p>语法</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker commit [参数] 容器 [仓库[:标签]]</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li><code>a</code>：作者信息。一般为 <strong>作者名字&lt;邮箱&gt;</strong>。</li>
-<li><code>c</code>：将 <strong>Dockerfile</strong> 指令应用于创建的映像。</li>
-<li><code>m</code>：注释信息。</li>
-<li><code>p</code>：提交期间暂停容器（默认）。</li>
-</ul>
-<blockquote>
-<p>将这个容器创建为一个自定义的镜像并提交到仓库中。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker commit -a=&quot;sail&lt;yifansailing@163.com&gt;&quot; -m=&quot;diy tomcat by sail&quot; fe247e0ef80d tomcat4sail:1.0</span></span><br><span class="line">sha256:<span class="number">187</span>a99503046ef1a4316221d174add0fbc92391ac534fb1926e535474491f9d2</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY            TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">tomcat4sail           <span class="number">1.0</span>       <span class="number">187</span>a99503046   <span class="number">5</span> seconds ago   <span class="number">684</span>MB</span><br><span class="line">tomcat                latest    <span class="number">24207</span>ccc9cce   <span class="number">4</span> days ago      <span class="number">680</span>MB</span><br></pre></td></tr></table></figure>
-<p>可以看到，我们自定义的镜像已经在本地镜像库中了。</p>
-<h2 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h2>
-<blockquote>
-<p>停止原有容器。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker stop fe247e0ef80d</span></span><br><span class="line">fe247e0ef80d</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>启动自定义镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d -p 8080:8080 --name=&quot;tomcat4sail&quot; 187a99503046</span></span><br><span class="line"><span class="number">602</span>c3c576c1b6d13aa0d2508490220d479eaf8c52c9cfe116029c67437fac61b</span><br></pre></td></tr></table></figure>
-<p>由于自定义的镜像还没有提交到远程库，所以这里只能使用镜像 ID 启动。</p>
-<p>如果使用镜像名启动，会从远程库中进行搜索，由于我们还没有提交，会因为搜索不到报错。</p>
-<blockquote>
-<p>访问测试</p>
-</blockquote>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.9kg7ed6b7w.webp" alt="image.png" /></p>
-<p>这里我们并没有改变容器中 <strong>webapps</strong> 下的内容，但依然可以直接访问，说明我们自定义的镜像是生效了的。</p>
-<h1 id="docker数据卷-挂载"><a class="markdownIt-Anchor" href="#docker数据卷-挂载"></a> Docker数据卷 挂载</h1>
-<h2 id="由来"><a class="markdownIt-Anchor" href="#由来"></a> 由来</h2>
-<p>Docker 是将应用和环境打包成一个镜像。</p>
-<p>这样，数据就不应该保存在容器中，否则容器删除，数据就会丢失，有着非常大的风险。</p>
-<p>为此，容器和主机之间需要有一个数据共享技术，使得在 Docker 容器中产生的数据能够同步到本地。</p>
-<p>这就是<strong>数据卷</strong>技术。其本质上是一个<strong>目录挂载</strong>，将容器内的目录挂载到主机上。</p>
-<h2 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h2>
-<h3 id="命令方式"><a class="markdownIt-Anchor" href="#命令方式"></a> 命令方式</h3>
-<blockquote>
-<p>语法</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">-v</span> 主机目录:容器目录</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看主机 /home 目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># ls /homeadmin  f2  f3  sail  test.java</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>以交互模式启动 centos 镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -it -v /home/ceshi:/home centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>新开一个窗口查看容器详情。</p>
-</blockquote>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7i0eqb7w9y.webp" alt="image.png" /></p>
-<p><strong>Mounts</strong> 下的 <strong>Source</strong> 即为设置的主机目录、<strong>Destination</strong> 即为设置的容器目录，他们已经绑定在了一起。</p>
-<blockquote>
-<p>在主机中查看 /home。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  ceshi  f2  f3  sail  test.java</span><br></pre></td></tr></table></figure>
-<p>主机上的 <code>/home</code> 下已经有了 <code>ceshi</code> 目录。说明容器一经启动，就会在主机生成对应的挂载目录。</p>
-<blockquote>
-<p>在容器中的 /home 下新建一个文件。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看主机的 ceshi 目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># cd ceshi</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br></pre></td></tr></table></figure>
-<p>此时主机中的 <code>ceshi</code> 目录下也有了这个文件。</p>
-<blockquote>
-<p>关闭容器。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># exit</span></span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>修改主机中 /home/ceshi/test.java 文件的内容。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># vim test.java</span></span><br><span class="line"><span class="comment"># 此处编辑文件过程省略</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># cat test.java</span></span><br><span class="line">hello sail</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>重启容器。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker start ec95646b1a4c</span></span><br><span class="line">ec95646b1a4c</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE          COMMAND             CREATED          STATUS         PORTS                    NAMES</span><br><span class="line">ec95646b1a4c   centos         <span class="string">&quot;/bin/bash&quot;</span>         <span class="number">19</span> minutes ago   Up <span class="number">5</span> seconds                            charming_cartwright</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看 /home 下的文件。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker exec -it ec95646b1a4c /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># cat test.java</span></span><br><span class="line">hello sail</span><br></pre></td></tr></table></figure>
-<p>此时容器中的文件也更改了。</p>
-<blockquote>
-<p>由此可见，数据卷技术实现的是双向同步。</p>
-</blockquote>
-<h3 id="权限设置"><a class="markdownIt-Anchor" href="#权限设置"></a> 权限设置</h3>
-<p>在使用命令方式设置卷时，还可以指定权限，以此保证数据安全。</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li><code>ro</code>(readonly)：只读。</li>
-<li><code>rw</code>(readwrite)：可读可写。</li>
-</ul>
-<blockquote>
-<p>以数据卷只读权限启动镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:ro centos /bin/bash</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>新建文件测试。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="number">02</span><span class="type">ef70c94920</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">touch: cannot touch <span class="string">&#x27;test.java&#x27;</span>: <span class="built_in">Read-only</span> file system</span><br></pre></td></tr></table></figure>
-<p>容器内部该目录是没有写入权限的。</p>
-<blockquote>
-<p>以数据卷可读可写的权限启动镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:rw centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">apache<span class="literal">-tomcat-9</span>.<span class="number">0.55</span>.tar.gz  jdk<span class="literal">-8u301-linux-x64</span>.rpm  test.java</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>新建文件测试。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:rw centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">apache<span class="literal">-tomcat-9</span>.<span class="number">0.55</span>.tar.gz  jdk<span class="literal">-8u301-linux-x64</span>.rpm  test.java</span><br></pre></td></tr></table></figure>
-<p>容器内部该目录写入是没有问题的。</p>
-<blockquote>
-<p>前面我们没有指定权限也可以写入，由此可见，数据卷默认是具有读写权限的。</p>
-</blockquote>
-<h2 id="具名挂载"><a class="markdownIt-Anchor" href="#具名挂载"></a> 具名挂载</h2>
-<blockquote>
-<p>启动镜像时只定义主机卷名称，不指定挂载目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v my-centos:/home centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">3</span><span class="type">cf74e9e6973</span> /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看目前挂载的卷。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用 Ctrl + P + Q 不退出容器的情况下回到主机目录。</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume ls</span></span><br><span class="line">DRIVER    VOLUME NAME</span><br><span class="line">local     my<span class="literal">-centos</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看卷的详情。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume inspect my-centos</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;CreatedAt&quot;</span>: <span class="string">&quot;2021-12-20T16:55:35+08:00&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Driver&quot;</span>: <span class="string">&quot;local&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Labels&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Mountpoint&quot;</span>: <span class="string">&quot;/var/lib/docker/volumes/my-centos/_data&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Name&quot;</span>: <span class="string">&quot;my-centos&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Options&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Scope&quot;</span>: <span class="string">&quot;local&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>卷挂载在 <code>/var/lib/docker/volumes/卷名/_data</code> 目录下。</p>
-<p>在没有指定主机挂载目录的情况下，会默认挂载到该目录。</p>
-<blockquote>
-<p>由于指定了卷名，所以这种方式称为具名挂载。</p>
-</blockquote>
-<h2 id="匿名挂载"><a class="markdownIt-Anchor" href="#匿名挂载"></a> 匿名挂载</h2>
-<blockquote>
-<p>启动镜像时只指定容器目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home centos /bin/bash</span></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看目前挂载的卷。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume ls</span></span><br><span class="line">DRIVER    VOLUME NAME</span><br><span class="line">local     <span class="number">159830</span>cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>查看卷的详情。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume inspect 159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;CreatedAt&quot;</span>: <span class="string">&quot;2021-12-20T17:05:23+08:00&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Driver&quot;</span>: <span class="string">&quot;local&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Labels&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Mountpoint&quot;</span>: <span class="string">&quot;/var/lib/docker/volumes/159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940/_data&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Name&quot;</span>: <span class="string">&quot;159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Options&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Scope&quot;</span>: <span class="string">&quot;local&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-<p>卷也是挂载在 <code>/var/lib/docker/volumes/xxx/_data</code> 目录下。</p>
-<p>在没有指定主机挂载目录的情况下，会默认挂载到该目录。</p>
-<blockquote>
-<p>由于没有指定卷名，所以这种方式称为匿名挂载。</p>
-</blockquote>
-<p>只有指定主机目录的情况下会挂载到指定目录，否则都会挂载到默认目录。</p>
-<h2 id="实战"><a class="markdownIt-Anchor" href="#实战"></a> 实战</h2>
-<h3 id="mysql数据同步"><a class="markdownIt-Anchor" href="#mysql数据同步"></a> mysql数据同步</h3>
-<p>数据库中的数据极为重要，必须同步到主机，否则将会有非常大的数据丢失风险。</p>
-<p>这里以 mysql 镜像为例演示数据同步的过程。</p>
-<blockquote>
-<p>启动 mysql 镜像。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql01 mysql:5.7</span></span><br><span class="line">Unable to find image <span class="string">&#x27;mysql:5.7&#x27;</span> locally</span><br><span class="line"><span class="number">5.7</span>: Pulling from library/mysql</span><br><span class="line">ffbb094f4f9e: Pull complete </span><br><span class="line"><span class="number">6</span>c1cb25f7525: Pull complete </span><br><span class="line">Digest: sha256:d1cc87a3bd5dc07defc837bc9084f748a130606ff41923f46dec1986e0dc828d</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> mysql:<span class="number">5.7</span></span><br><span class="line">a016e564d977550e475474556cfd033fb1c731002381bc9f9544c63fccb7f60c</span><br></pre></td></tr></table></figure>
-<p>其中 <code>-e</code> 为环境配置。安装启动 mysql 需要配置密码。</p>
-<blockquote>
-<p>使用docker inspect查看挂载情况。</p>
-</blockquote>
-<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7ax6uvlxds.webp" alt="image.png" /></p>
-<p>已经生成了两个目录的挂载。</p>
-<blockquote>
-<p>查看主机同步的目录。</p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  ceshi  f2  f3  mysql  sail  test.java</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># cd mysql</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># ls</span></span><br><span class="line">conf  <span class="keyword">data</span></span><br></pre></td></tr></table></figure>
-<p>主机已经同步了容器挂载的目录。</p>
-<blockquote>
-<p>使用数据库管理工具连接测试（这里使用 IDEA 自带的数据库工具）。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>DevOps</category>
-      </categories>
-      <tags>
-        <tag>Docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>5.Dockerfile</title>
     <url>/posts/11767/</url>
     <content><![CDATA[<h1 id="dockerfile"><a class="markdownIt-Anchor" href="#dockerfile"></a> Dockerfile</h1>
@@ -2303,6 +2076,322 @@ docker-engine
       </tags>
   </entry>
   <entry>
+    <title>4.Docker镜像原理</title>
+    <url>/posts/23547/</url>
+    <content><![CDATA[<h1 id="docker镜像原理"><a class="markdownIt-Anchor" href="#docker镜像原理"></a> Docker镜像原理</h1>
+<h1 id="docker-10-镜像原理"><a class="markdownIt-Anchor" href="#docker-10-镜像原理"></a> Docker 10 镜像原理</h1>
+<h2 id="联合文件系统"><a class="markdownIt-Anchor" href="#联合文件系统"></a> 联合文件系统</h2>
+<p><strong>联合文件系统</strong>（UnionFS）是 Docker 的核心，也是 Docker 得以极致精简的保证。</p>
+<p>以拉取 redis 镜像为例</p>
+<blockquote>
+<p>先拉取最新版镜像</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">[root@sail ~]# docker pull redis</span><br><span class="line">Using default tag: latest <span class="comment"># 默认最新版标签</span></span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Pull complete <span class="comment"># 分层下载，docker image的核心：联合文件系统</span></span><br><span class="line">37c4354629da: Pull complete </span><br><span class="line">b065b1b1fa0f: Pull complete </span><br><span class="line">6954d19bb2e5: Pull complete </span><br><span class="line">6333f8baaf7c: Pull complete </span><br><span class="line">f9772c8a44e7: Pull complete </span><br><span class="line">Digest: sha256:2f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796 <span class="comment">#防伪签名</span></span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">docker.io/library/redis:latest <span class="comment"># 真实地址，docker pull redis 等价于 docker pull docker.io/library/redis:latest</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>再拉取指定版镜像</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker pull redis</span></span><br><span class="line"><span class="keyword">Using</span> default tag: latest # 默认最新版标签</span><br><span class="line">latest: Pulling from library/redis</span><br><span class="line">e5ae68f74026: Pull complete <span class="comment"># 分层下载，docker image的核心：联合文件系统</span></span><br><span class="line"><span class="number">37</span>c4354629da: Pull complete </span><br><span class="line">b065b1b1fa0f: Pull complete </span><br><span class="line"><span class="number">6954</span>d19bb2e5: Pull complete </span><br><span class="line"><span class="number">6333</span>f8baaf7c: Pull complete </span><br><span class="line">f9772c8a44e7: Pull complete </span><br><span class="line">Digest: sha256:<span class="number">2</span>f502d27c3e9b54295f1c591b3970340d02f8a5824402c8179dcd20d4076b796 <span class="comment">#防伪签名</span></span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> redis:latest</span><br><span class="line">docker.io/library/redis:latest <span class="comment"># 真实地址，docker pull redis 等价于 docker pull docker.io/library/redis:latest</span></span><br></pre></td></tr></table></figure>
+<p>由此可见，redis 镜像一共 6 层，由于之前拉取了默认的最新版 <strong>redis</strong> 镜像，再拉取 <strong>redis:5.0</strong> 时，有 3 层是可以复用的，所以只下载了不能复用的 3 层。</p>
+<blockquote>
+<p>这样既能提高下载速度，也能极大节省磁盘占用和资源消耗。</p>
+</blockquote>
+<h2 id="分层镜像"><a class="markdownIt-Anchor" href="#分层镜像"></a> 分层镜像</h2>
+<p>Docker 使用联合文件系统对镜像做了分层，如下图所示：</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.6ikbd541xb.webp" alt="image.png" /></p>
+<ul>
+<li><strong>bootfs</strong>（boot file system）：启动文件系统。</li>
+<li><strong>rootfs</strong>：root file system：基础文件系统。</li>
+</ul>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.wikza2x40.webp" alt="image.png" /></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.5xanqu9x5u.webp" alt="image.png" /></p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.13lsuppeor.webp" alt="image.png" /></p>
+<p>Docker 镜像都是<strong>只读</strong>的，当容器启动时，一个新的可写层被加到镜像的顶部。</p>
+<p>这一层就是我们通常说的<strong>容器层</strong>，容器层之下的都叫<strong>镜像层</strong>。</p>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.99tdl7qwni.webp" alt="image.png" /></p>
+<p>我们自己也是可以制作镜像并提交的，使用 <code>docker commit</code> 命令。</p>
+<h1 id="docker自定义镜像"><a class="markdownIt-Anchor" href="#docker自定义镜像"></a> Docker自定义镜像</h1>
+<h2 id="提交镜像"><a class="markdownIt-Anchor" href="#提交镜像"></a> 提交镜像</h2>
+<h3 id="docker-commit"><a class="markdownIt-Anchor" href="#docker-commit"></a> docker commit</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker commit [参数] 容器 [仓库[:标签]]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>a</code>：作者信息。一般为 <strong>作者名字&lt;邮箱&gt;</strong>。</li>
+<li><code>c</code>：将 <strong>Dockerfile</strong> 指令应用于创建的映像。</li>
+<li><code>m</code>：注释信息。</li>
+<li><code>p</code>：提交期间暂停容器（默认）。</li>
+</ul>
+<blockquote>
+<p>将这个容器创建为一个自定义的镜像并提交到仓库中。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker commit -a=&quot;sail&lt;yifansailing@163.com&gt;&quot; -m=&quot;diy tomcat by sail&quot; fe247e0ef80d tomcat4sail:1.0</span></span><br><span class="line">sha256:<span class="number">187</span>a99503046ef1a4316221d174add0fbc92391ac534fb1926e535474491f9d2</span><br><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker images</span></span><br><span class="line">REPOSITORY            TAG       IMAGE ID       CREATED         SIZE</span><br><span class="line">tomcat4sail           <span class="number">1.0</span>       <span class="number">187</span>a99503046   <span class="number">5</span> seconds ago   <span class="number">684</span>MB</span><br><span class="line">tomcat                latest    <span class="number">24207</span>ccc9cce   <span class="number">4</span> days ago      <span class="number">680</span>MB</span><br></pre></td></tr></table></figure>
+<p>可以看到，我们自定义的镜像已经在本地镜像库中了。</p>
+<h2 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h2>
+<blockquote>
+<p>停止原有容器。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker stop fe247e0ef80d</span></span><br><span class="line">fe247e0ef80d</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>启动自定义镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d -p 8080:8080 --name=&quot;tomcat4sail&quot; 187a99503046</span></span><br><span class="line"><span class="number">602</span>c3c576c1b6d13aa0d2508490220d479eaf8c52c9cfe116029c67437fac61b</span><br></pre></td></tr></table></figure>
+<p>由于自定义的镜像还没有提交到远程库，所以这里只能使用镜像 ID 启动。</p>
+<p>如果使用镜像名启动，会从远程库中进行搜索，由于我们还没有提交，会因为搜索不到报错。</p>
+<blockquote>
+<p>访问测试</p>
+</blockquote>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.9kg7ed6b7w.webp" alt="image.png" /></p>
+<p>这里我们并没有改变容器中 <strong>webapps</strong> 下的内容，但依然可以直接访问，说明我们自定义的镜像是生效了的。</p>
+<h1 id="docker数据卷-挂载"><a class="markdownIt-Anchor" href="#docker数据卷-挂载"></a> Docker数据卷 挂载</h1>
+<h2 id="由来"><a class="markdownIt-Anchor" href="#由来"></a> 由来</h2>
+<p>Docker 是将应用和环境打包成一个镜像。</p>
+<p>这样，数据就不应该保存在容器中，否则容器删除，数据就会丢失，有着非常大的风险。</p>
+<p>为此，容器和主机之间需要有一个数据共享技术，使得在 Docker 容器中产生的数据能够同步到本地。</p>
+<p>这就是<strong>数据卷</strong>技术。其本质上是一个<strong>目录挂载</strong>，将容器内的目录挂载到主机上。</p>
+<h2 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h2>
+<h3 id="命令方式"><a class="markdownIt-Anchor" href="#命令方式"></a> 命令方式</h3>
+<blockquote>
+<p>语法</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">-v</span> 主机目录:容器目录</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看主机 /home 目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># ls /homeadmin  f2  f3  sail  test.java</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以交互模式启动 centos 镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -it -v /home/ceshi:/home centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>新开一个窗口查看容器详情。</p>
+</blockquote>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7i0eqb7w9y.webp" alt="image.png" /></p>
+<p><strong>Mounts</strong> 下的 <strong>Source</strong> 即为设置的主机目录、<strong>Destination</strong> 即为设置的容器目录，他们已经绑定在了一起。</p>
+<blockquote>
+<p>在主机中查看 /home。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  ceshi  f2  f3  sail  test.java</span><br></pre></td></tr></table></figure>
+<p>主机上的 <code>/home</code> 下已经有了 <code>ceshi</code> 目录。说明容器一经启动，就会在主机生成对应的挂载目录。</p>
+<blockquote>
+<p>在容器中的 /home 下新建一个文件。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看主机的 ceshi 目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># cd ceshi</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br></pre></td></tr></table></figure>
+<p>此时主机中的 <code>ceshi</code> 目录下也有了这个文件。</p>
+<blockquote>
+<p>关闭容器。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># exit</span></span><br><span class="line"><span class="keyword">exit</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>修改主机中 /home/ceshi/test.java 文件的内容。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># vim test.java</span></span><br><span class="line"><span class="comment"># 此处编辑文件过程省略</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">ceshi</span>]<span class="comment"># cat test.java</span></span><br><span class="line">hello sail</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>重启容器。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker start ec95646b1a4c</span></span><br><span class="line">ec95646b1a4c</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker ps</span></span><br><span class="line">CONTAINER ID   IMAGE          COMMAND             CREATED          STATUS         PORTS                    NAMES</span><br><span class="line">ec95646b1a4c   centos         <span class="string">&quot;/bin/bash&quot;</span>         <span class="number">19</span> minutes ago   Up <span class="number">5</span> seconds                            charming_cartwright</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看 /home 下的文件。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker exec -it ec95646b1a4c /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">test.java</span><br><span class="line">[<span class="type">root</span>@<span class="type">ec95646b1a4c</span> <span class="type">home</span>]<span class="comment"># cat test.java</span></span><br><span class="line">hello sail</span><br></pre></td></tr></table></figure>
+<p>此时容器中的文件也更改了。</p>
+<blockquote>
+<p>由此可见，数据卷技术实现的是双向同步。</p>
+</blockquote>
+<h3 id="权限设置"><a class="markdownIt-Anchor" href="#权限设置"></a> 权限设置</h3>
+<p>在使用命令方式设置卷时，还可以指定权限，以此保证数据安全。</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li><code>ro</code>(readonly)：只读。</li>
+<li><code>rw</code>(readwrite)：可读可写。</li>
+</ul>
+<blockquote>
+<p>以数据卷只读权限启动镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:ro centos /bin/bash</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>新建文件测试。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="number">02</span><span class="type">ef70c94920</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">touch: cannot touch <span class="string">&#x27;test.java&#x27;</span>: <span class="built_in">Read-only</span> file system</span><br></pre></td></tr></table></figure>
+<p>容器内部该目录是没有写入权限的。</p>
+<blockquote>
+<p>以数据卷可读可写的权限启动镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:rw centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">apache<span class="literal">-tomcat-9</span>.<span class="number">0.55</span>.tar.gz  jdk<span class="literal">-8u301-linux-x64</span>.rpm  test.java</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>新建文件测试。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home/sail:/home:rw centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> /]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># touch test.java</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">48678</span><span class="type">e08f868</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">apache<span class="literal">-tomcat-9</span>.<span class="number">0.55</span>.tar.gz  jdk<span class="literal">-8u301-linux-x64</span>.rpm  test.java</span><br></pre></td></tr></table></figure>
+<p>容器内部该目录写入是没有问题的。</p>
+<blockquote>
+<p>前面我们没有指定权限也可以写入，由此可见，数据卷默认是具有读写权限的。</p>
+</blockquote>
+<h2 id="具名挂载"><a class="markdownIt-Anchor" href="#具名挂载"></a> 具名挂载</h2>
+<blockquote>
+<p>启动镜像时只定义主机卷名称，不指定挂载目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v my-centos:/home centos /bin/bash</span></span><br><span class="line">[<span class="type">root</span>@<span class="number">3</span><span class="type">cf74e9e6973</span> /]<span class="comment">#</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看目前挂载的卷。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 使用 Ctrl + P + Q 不退出容器的情况下回到主机目录。</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume ls</span></span><br><span class="line">DRIVER    VOLUME NAME</span><br><span class="line">local     my<span class="literal">-centos</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看卷的详情。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume inspect my-centos</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;CreatedAt&quot;</span>: <span class="string">&quot;2021-12-20T16:55:35+08:00&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Driver&quot;</span>: <span class="string">&quot;local&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Labels&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Mountpoint&quot;</span>: <span class="string">&quot;/var/lib/docker/volumes/my-centos/_data&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Name&quot;</span>: <span class="string">&quot;my-centos&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Options&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Scope&quot;</span>: <span class="string">&quot;local&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>卷挂载在 <code>/var/lib/docker/volumes/卷名/_data</code> 目录下。</p>
+<p>在没有指定主机挂载目录的情况下，会默认挂载到该目录。</p>
+<blockquote>
+<p>由于指定了卷名，所以这种方式称为具名挂载。</p>
+</blockquote>
+<h2 id="匿名挂载"><a class="markdownIt-Anchor" href="#匿名挂载"></a> 匿名挂载</h2>
+<blockquote>
+<p>启动镜像时只指定容器目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker run -it -v /home centos /bin/bash</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看目前挂载的卷。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume ls</span></span><br><span class="line">DRIVER    VOLUME NAME</span><br><span class="line">local     <span class="number">159830</span>cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>查看卷的详情。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># docker volume inspect 159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940</span></span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="string">&quot;CreatedAt&quot;</span>: <span class="string">&quot;2021-12-20T17:05:23+08:00&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Driver&quot;</span>: <span class="string">&quot;local&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Labels&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Mountpoint&quot;</span>: <span class="string">&quot;/var/lib/docker/volumes/159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940/_data&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Name&quot;</span>: <span class="string">&quot;159830cf55550c9a39e845c1d96aa04cc762005bc0c64d15d5066834b47df940&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Options&quot;</span>: <span class="type">null</span>,</span><br><span class="line">        <span class="string">&quot;Scope&quot;</span>: <span class="string">&quot;local&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>卷也是挂载在 <code>/var/lib/docker/volumes/xxx/_data</code> 目录下。</p>
+<p>在没有指定主机挂载目录的情况下，会默认挂载到该目录。</p>
+<blockquote>
+<p>由于没有指定卷名，所以这种方式称为匿名挂载。</p>
+</blockquote>
+<p>只有指定主机目录的情况下会挂载到指定目录，否则都会挂载到默认目录。</p>
+<h2 id="实战"><a class="markdownIt-Anchor" href="#实战"></a> 实战</h2>
+<h3 id="mysql数据同步"><a class="markdownIt-Anchor" href="#mysql数据同步"></a> mysql数据同步</h3>
+<p>数据库中的数据极为重要，必须同步到主机，否则将会有非常大的数据丢失风险。</p>
+<p>这里以 mysql 镜像为例演示数据同步的过程。</p>
+<blockquote>
+<p>启动 mysql 镜像。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 --name mysql01 mysql:5.7</span></span><br><span class="line">Unable to find image <span class="string">&#x27;mysql:5.7&#x27;</span> locally</span><br><span class="line"><span class="number">5.7</span>: Pulling from library/mysql</span><br><span class="line">ffbb094f4f9e: Pull complete </span><br><span class="line"><span class="number">6</span>c1cb25f7525: Pull complete </span><br><span class="line">Digest: sha256:d1cc87a3bd5dc07defc837bc9084f748a130606ff41923f46dec1986e0dc828d</span><br><span class="line">Status: Downloaded newer image <span class="keyword">for</span> mysql:<span class="number">5.7</span></span><br><span class="line">a016e564d977550e475474556cfd033fb1c731002381bc9f9544c63fccb7f60c</span><br></pre></td></tr></table></figure>
+<p>其中 <code>-e</code> 为环境配置。安装启动 mysql 需要配置密码。</p>
+<blockquote>
+<p>使用docker inspect查看挂载情况。</p>
+</blockquote>
+<p><img src="https://fantasy-ke.github.io/picx-images-hosting/docker/image.7ax6uvlxds.webp" alt="image.png" /></p>
+<p>已经生成了两个目录的挂载。</p>
+<blockquote>
+<p>查看主机同步的目录。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">sail</span> ~]<span class="comment"># cd /home</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># ls</span></span><br><span class="line">admin  ceshi  f2  f3  mysql  sail  test.java</span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">home</span>]<span class="comment"># cd mysql</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">sail</span> <span class="type">mysql</span>]<span class="comment"># ls</span></span><br><span class="line">conf  <span class="keyword">data</span></span><br></pre></td></tr></table></figure>
+<p>主机已经同步了容器挂载的目录。</p>
+<blockquote>
+<p>使用数据库管理工具连接测试（这里使用 IDEA 自带的数据库工具）。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DevOps</category>
+      </categories>
+      <tags>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>杭州行</title>
+    <url>/posts/40291/</url>
+    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
+  <script id="hbeData" type="hbeData" data-hmacdigest="de35c85b94715cbb0b14a953473a35bfa6160f4c7e480134bb74c1d5357af12d">7de94216c6a70d2d626cc013a0a1b96b52e149d7ba48b43618b1156bdaca2b154051bb893a9a3bf63ddfadced966c608162c05c1bedea95301d1a250290b8f6bd41f932085e44407e0ccb60b0cfebc53d8f724533465d60e64ed200b79207a0ac2f469a9c947622b0eaa74f4e79029d860d3b04ba4d6983e9df63c0046a0310af6812e8e64c904014bf1338161e9e0770f8362f4601c36fe29f2c111d1f38339b898aaf7841ea8c50dcd3d2a665923ae48454d4c688bbc545ab84301f8d8aa8bdc4a57e45b8ced674de751ebd1b31ff5b5045b1b807c9c424ebe3d03b97063a382898af09fefcd1a38bbe2e047bb1052</script>
+  <div class="hbe hbe-content">
+    <div class="hbe hbe-input hbe-input-wave">
+      <input class="hbe hbe-input-field hbe-input-field-wave" type="password" id="hbePass">
+      <label class="hbe hbe-input-label hbe-input-label-wave" for="hbePass">
+        <span class="hbe hbe-input-label-content hbe-input-label-content-wave">您好, 这里需要密码. 博主网站的姓名</span>
+      </label>
+      <svg class="hbe hbe-graphic hbe-graphic-wave" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
+        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
+      </svg>
+    </div>
+  </div>
+</div>
+<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
+      <categories>
+        <category>生活</category>
+      </categories>
+      <tags>
+        <tag>life</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>.NET 实现JWT登录认证</title>
+    <url>/posts/54715/</url>
+    <content><![CDATA[<h1 id="net-实现jwt登录认证"><a class="markdownIt-Anchor" href="#net-实现jwt登录认证"></a> .NET 实现JWT登录认证</h1>
+<p><a href="http://xn--ASP-lp6e.NET">在ASP.NET</a> Core应用程序中，使用JWT进行身份验证和授权已成为一种流行的方式。JWT是一种安全的方式，用于在客户端和服务器之间传输用户信息。</p>
+<h2 id="添加nuget包"><a class="markdownIt-Anchor" href="#添加nuget包"></a> 添加NuGet包</h2>
+<p>首先，我们需要添加一些NuGet包来支持JWT身份验证。<a href="http://xn--ASP-lp6ei84bl35a.NET">在您的ASP.NET</a> Core项目中，打开<code>Startup.cs</code>文件，并在<code>ConfigureServices</code>方法中添加以下代码：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Authentication.JwtBearer;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Configuration;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;</span><br><span class="line"><span class="keyword">using</span> Microsoft.IdentityModel.Tokens;</span><br></pre></td></tr></table></figure>
+<h2 id="注册"><a class="markdownIt-Anchor" href="#注册"></a> 注册</h2>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> jwt服务</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;services&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">ServicesJwtToken</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> config = configuration.GetSection(<span class="string">&quot;App:JWtSetting&quot;</span>).Get&lt;JwtSettings&gt;(); <span class="comment">// 从appsettings.json读取JwtConfig配置</span></span><br><span class="line">        <span class="comment">// 添加JWT身份验证服务</span></span><br><span class="line">        services.AddAuthentication(options =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            options.RequireAuthenticatedSignIn = <span class="literal">true</span>;</span><br><span class="line">            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;</span><br><span class="line">            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;</span><br><span class="line">        &#125;).AddCookie(options =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//cokkie名称</span></span><br><span class="line">            options.Cookie.Name = <span class="string">&quot;Z.BearerCokkie&quot;</span>;</span><br><span class="line">            <span class="comment">//cokkie过期时间</span></span><br><span class="line">            options.ExpireTimeSpan = TimeSpan.FromMinutes(config!.CokkieExpirationMinutes);</span><br><span class="line">            <span class="comment">//cokkie启用滑动过期时间</span></span><br><span class="line">            options.SlidingExpiration = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">            options.LogoutPath = <span class="string">&quot;/Home/Index&quot;</span>;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">        .AddJwtBearer(options =&gt;</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            options.TokenValidationParameters = <span class="keyword">new</span> TokenValidationParameters()</span><br><span class="line">            &#123;</span><br><span class="line">                ValidateIssuer = <span class="literal">true</span>, <span class="comment">//是否验证Issuer</span></span><br><span class="line">                ValidIssuer = config!.Issuer, <span class="comment">//发行人Issuer</span></span><br><span class="line">                ValidateAudience = <span class="literal">true</span>, <span class="comment">//是否验证Audience</span></span><br><span class="line">                ValidAudience = config.Audience,<span class="comment">//</span></span><br><span class="line">                ValidateIssuerSigningKey = <span class="literal">true</span>, <span class="comment">//是否验证SecurityKey</span></span><br><span class="line">                IssuerSigningKey = <span class="keyword">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.SecretKey)), <span class="comment">//SecurityKey</span></span><br><span class="line">                ValidateLifetime = <span class="literal">true</span>, <span class="comment">//是否验证失效时间</span></span><br><span class="line">                ClockSkew = TimeSpan.FromSeconds(<span class="number">30</span>), <span class="comment">//过期时间容错值，解决服务器端时间不同步问题（秒）</span></span><br><span class="line">                RequireExpirationTime = <span class="literal">true</span>,</span><br><span class="line">                SaveSigninToken = <span class="literal">true</span>,</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            options.Events = <span class="keyword">new</span> JwtBearerEvents</span><br><span class="line">            &#123;</span><br><span class="line">                OnMessageReceived = <span class="keyword">async</span> context =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">var</span> token = context.Request.Cookies[<span class="string">&quot;access_token&quot;</span>]; <span class="comment">// 从Cookie中获取token值</span></span><br><span class="line">                    <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(token))</span><br><span class="line">                    &#123;</span><br><span class="line">                        context.Token = token; <span class="comment">// 将token值设置到JwtBearer上下文中的Token属性</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            options.Events = <span class="keyword">new</span> JwtBearerEvents</span><br><span class="line">            &#123;</span><br><span class="line">                OnMessageReceived = context =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">var</span> accessToken = context.Request.Cookies[<span class="string">&quot;x-access-token&quot;</span>];</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(accessToken))</span><br><span class="line">                    &#123;</span><br><span class="line">                        context.Token = accessToken;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">return</span> Task.CompletedTask;</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这里我们使用<code>AddAuthentication</code>方法添加了JWT身份验证服务，并设置了默认的认证方案为<code>JwtBearerDefaults.AuthenticationScheme</code>，这是JWT身份验证的默认方案。</p>
+<p>在<code>AddJwtBearer</code>方法中，我们通过<code>GetSection</code>方法从appsettings.json文件中读取了一个名为<code>JWtSetting</code>的配置，其中包含了JWT的一些信息，例如签发者（Issuer）、接收者（Audience）、秘钥（SecretKey）等。这些信息将用于验证和生成JWT令牌。</p>
+<p>在<code>Configure</code>方法中添加JWT认证中间件：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">IApplicationBuilder app, IWebHostEnvironment env</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 其他中间件配置...</span></span><br><span class="line"></span><br><span class="line">    app.UseAuthentication();</span><br><span class="line">    app.UseAuthorization();</span><br><span class="line">   <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="配置appsettingsjson"><a class="markdownIt-Anchor" href="#配置appsettingsjson"></a> 配置appsettings.json</h2>
+<p>接下来，我们需要在appsettings.json文件中配置JWT的相关信息。<a href="http://xn--ASP-lp6ei84bl35a.NET">在您的ASP.NET</a> Core项目中，找到appsettings.json文件，并添加以下配置：</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;JWtSetting&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Issuer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Z.NetWiki&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Audience&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Z.NetWiki&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;SecretKey&quot;</span><span class="punctuation">:</span> <span class="string">&quot;zhoulucky210@163.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;AccessTokenExpirationMinutes&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;RefreshTokenExpirationMinutes&quot;</span><span class="punctuation">:</span> <span class="number">1440</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;CokkieExpirationMinutes&quot;</span><span class="punctuation">:</span> <span class="number">30</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>您可以根据自己的需求修改配置项的值。这里的<code>AccessTokenExpirationMinutes</code>和<code>RefreshTokenExpirationMinutes</code>分别表示访问令牌和刷新令牌的过期时间，单位为分钟。</p>
+<h2 id="创建-jwt-设置类"><a class="markdownIt-Anchor" href="#创建-jwt-设置类"></a> 创建 JWT 设置类</h2>
+<p>接下来，我们需要创建一个 C# 类来表示 JWT 的配置项，并使用 <code>IOptions</code> 接口将其注入到需要的地方。以下是一个示例的 JwtSettings 类：</p>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">JwtSettings</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 发行者</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Issuer &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 受众</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Audience &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> secretKey值</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> SecretKey &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 访问令牌过期时间</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> AccessTokenExpirationMinutes &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> cokkie过期时间</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> CokkieExpirationMinutes &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 刷新令牌过期时间</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> RefreshTokenExpirationMinutes &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>这个类定义了与 appsettings.json 文件中的配置项相对应的属性。</p>
+<h2 id="用户模型"><a class="markdownIt-Anchor" href="#用户模型"></a> 用户模型</h2>
+<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UserTokenModel</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span> UserId &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span> UserName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span>[]? RoleIds &#123; <span class="keyword">get</span>; <span class="keyword">set</span>;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span>[]? RoleNames &#123; <span class="keyword">get</span>; <span class="keyword">set</span>;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> Claim[] Claims &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="实现jwt登录认证"><a class="markdownIt-Anchor" href="#实现jwt登录认证"></a> 实现JWT登录认证</h2>
+<p>现在，我们可以开始实现JWT登录认证的逻辑。我们将创建一个<code>JwtService</code>类，用于生成和验证JWT令牌。<a href="http://xn--ASP-lp6ei84bl35a.NET">在您的ASP.NET</a> Core项目中，创建一个名为<code>JwtService.cs</code>的类文件，然后添加以下代码：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Configuration;</span><br><span class="line"><span class="keyword">using</span> Microsoft.IdentityModel.Tokens;</span><br><span class="line"><span class="keyword">using</span> System.IdentityModel.Tokens.Jwt;</span><br><span class="line"><span class="keyword">using</span> System.Security.Claims;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> Z.Ddd.Domain.UserSession;</span><br><span class="line"><span class="keyword">using</span> Z.Module.DependencyInjection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Z.Ddd.Domain.Authorization</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">JwtTokenProvider</span> : <span class="title">IJwtTokenProvider</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> JwtSettings _jwtConfig;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">JwtTokenProvider</span>(<span class="params">IConfiguration configuration</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _jwtConfig = configuration.GetSection(<span class="string">&quot;App:JWtSetting&quot;</span>).Get&lt;JwtSettings&gt;() ?? <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">&quot;请先检查appsetting中JWT配置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">GenerateAccessToken</span>(<span class="params">UserTokenModel user</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 设置Token的Claims</span></span><br><span class="line">        List&lt;Claim&gt; claims = <span class="keyword">new</span> List&lt;Claim&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.UserName, user.UserName), <span class="comment">//HttpContext.User.Identity.Name</span></span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.UserId, user.UserId.ToString()),</span><br><span class="line">            <span class="keyword">new</span> Claim (JwtRegisteredClaimNames.Exp,<span class="string">$&quot;<span class="subst">&#123;<span class="keyword">new</span> DateTimeOffset(DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes)).ToUnixTimeSeconds()&#125;</span>&quot;</span>),</span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.Expiration, DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes).ToString()),</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (user.RoleIds != <span class="literal">null</span> &amp;&amp; user.RoleIds.Any())</span><br><span class="line">        &#123;</span><br><span class="line">            claims.AddRange(user.RoleIds.Select(p =&gt; <span class="keyword">new</span> Claim(ZClaimTypes.RoleIds, p.ToString())));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (user.RoleNames != <span class="literal">null</span> &amp;&amp; user.RoleNames.Any())</span><br><span class="line">        &#123;</span><br><span class="line">            claims.AddRange(user.RoleNames.Select(p =&gt; <span class="keyword">new</span> Claim(ZClaimTypes.Role, p)));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        user.Claims = claims.ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token的密钥</span></span><br><span class="line">        SymmetricSecurityKey key = <span class="keyword">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecretKey));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token的签名证书</span></span><br><span class="line">        SigningCredentials creds = <span class="keyword">new</span> SigningCredentials(key, SecurityAlgorithms.Aes128CbcHmacSha256);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置Token的过期时间</span></span><br><span class="line">        DateTime expires = DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建Token</span></span><br><span class="line">        JwtSecurityToken token = <span class="keyword">new</span> JwtSecurityToken(</span><br><span class="line">            _jwtConfig.Issuer,</span><br><span class="line">            _jwtConfig.Audience,</span><br><span class="line">            claims,</span><br><span class="line">            expires: expires,</span><br><span class="line">            signingCredentials: creds</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token字符串</span></span><br><span class="line">        <span class="built_in">string</span> tokenString = <span class="keyword">new</span> JwtSecurityTokenHandler().WriteToken(token);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> tokenString;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">ValidateAccessToken</span>(<span class="params"><span class="built_in">string</span> token</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> tokenHandler = <span class="keyword">new</span> JwtSecurityTokenHandler();</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            tokenHandler.ValidateToken(token, <span class="keyword">new</span> TokenValidationParameters</span><br><span class="line">            &#123;</span><br><span class="line">                ValidateIssuer = <span class="literal">true</span>,</span><br><span class="line">                ValidateAudience = <span class="literal">true</span>,</span><br><span class="line">                ValidateLifetime = <span class="literal">true</span>,</span><br><span class="line">                ValidateIssuerSigningKey = <span class="literal">true</span>,</span><br><span class="line">                ValidIssuer = _jwtConfig.Issuer,</span><br><span class="line">                ValidAudience = _jwtConfig.Audience,</span><br><span class="line">                IssuerSigningKey = <span class="keyword">new</span> SymmetricSecurityKey(Convert.FromBase64String(_jwtConfig.SecretKey))</span><br><span class="line">            &#125;, <span class="keyword">out</span> <span class="keyword">var</span> validatedToken);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception x)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IJwtTokenProvider</span> : <span class="title">ITransientDependency</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">GenerateAccessToken</span>(<span class="params">UserTokenModel user</span>)</span>;</span><br><span class="line">    <span class="function"><span class="built_in">bool</span> <span class="title">ValidateAccessToken</span>(<span class="params"><span class="built_in">string</span> token</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>这里我们创建了一个<code>JwtTokenProvider</code>类，实现了<code>IJwtTokenProvider </code>接口。该服务类通过依赖注入方式注入了<code>IConfiguration</code>，从而可以在构造函数中读取<code>JWtSetting</code>配置。</p>
+<ul>
+<li>
+<p><code>JwtTokenProvider</code>类中包含了生成访问令牌和验证令牌的方法，以及验证访问令牌和从访问令牌中获取用户主体的方法。其中，</p>
+<ul>
+<li>
+<p><code>GenerateAccessToken</code>方法使用<code>JwtSecurityTokenHandler</code>来生成访问令牌，并设置了过期时间、签名等参数。</p>
+</li>
+<li>
+<p><code>ValidateAccessToken</code>方法验证访问令牌和从访问令牌中获取用户主体，验证是否过期。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="用户信息加密"><a class="markdownIt-Anchor" href="#用户信息加密"></a> 用户信息加密</h2>
+<p>在JWT中，用户信息是以Claims的形式进行传递的，但默认情况下，这些信息是以明文的形式存储在令牌中的。为了保护用户信息的安全性，我们可以选择对用户信息进行加密。下面是一个简单的示例，演示如何在生成访问令牌时对用户信息进行加密。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">GenerateAccessToken</span>(<span class="params">UserTokenModel user</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 设置Token的Claims</span></span><br><span class="line">        List&lt;Claim&gt; claims = <span class="keyword">new</span> List&lt;Claim&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.UserName, user.UserName), <span class="comment">//HttpContext.User.Identity.Name</span></span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.UserId, user.UserId.ToString()),</span><br><span class="line">            <span class="keyword">new</span> Claim (JwtRegisteredClaimNames.Exp,<span class="string">$&quot;<span class="subst">&#123;<span class="keyword">new</span> DateTimeOffset(DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes)).ToUnixTimeSeconds()&#125;</span>&quot;</span>),</span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.Expiration, DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes).ToString()),</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (user.RoleIds != <span class="literal">null</span> &amp;&amp; user.RoleIds.Any())</span><br><span class="line">        &#123;</span><br><span class="line">            claims.AddRange(user.RoleIds.Select(p =&gt; <span class="keyword">new</span> Claim(ZClaimTypes.RoleIds, p.ToString())));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (user.RoleNames != <span class="literal">null</span> &amp;&amp; user.RoleNames.Any())</span><br><span class="line">        &#123;</span><br><span class="line">            claims.AddRange(user.RoleNames.Select(p =&gt; <span class="keyword">new</span> Claim(ZClaimTypes.Role, p)));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        user.Claims = claims.ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token的密钥</span></span><br><span class="line">        SymmetricSecurityKey key = <span class="keyword">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecretKey));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token的签名证书</span></span><br><span class="line">        SigningCredentials creds = <span class="keyword">new</span> SigningCredentials(key, SecurityAlgorithms.Aes128CbcHmacSha256);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置Token的过期时间</span></span><br><span class="line">        DateTime expires = DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建Token</span></span><br><span class="line">        JwtSecurityToken token = <span class="keyword">new</span> JwtSecurityToken(</span><br><span class="line">            _jwtConfig.Issuer,</span><br><span class="line">            _jwtConfig.Audience,</span><br><span class="line">            claims,</span><br><span class="line">            expires: expires,</span><br><span class="line">            signingCredentials: creds</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token字符串</span></span><br><span class="line">        <span class="built_in">string</span> tokenString = <span class="keyword">new</span> JwtSecurityTokenHandler().WriteToken(token);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> tokenString;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的示例中，我们使用了<code>SigningCredentials</code>类来设置加密的参数，包括加密密钥、加密算法等。这样生成的访问令牌在传递用户信息时会进行加密，增加了用户信息的安全性。</p>
+<h2 id="用户登录验证"><a class="markdownIt-Anchor" href="#用户登录验证"></a> 用户登录验证</h2>
+<p>在用户登录时，我们需要对用户提供的用户名和密码进行验证，并生成访问令牌和刷新令牌。下面是一个简单的示例，<a href="http://xn--ASP-o59dt17afqdn03c37q.NET">演示如何在ASP.NET</a> Core中实现用户登录验证，并生成JWT令牌。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">HttpGet</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="built_in">string</span>&gt; <span class="title">Login</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    UserTokenModel tokenModel = <span class="keyword">new</span> UserTokenModel();</span><br><span class="line">    tokenModel.UserName = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">    tokenModel.UserId = Guid.NewGuid().ToString(<span class="string">&quot;N&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> token = _jwtTokenProvider.GenerateAccessToken(tokenModel);</span><br><span class="line"></span><br><span class="line">    Response.Cookies.Append(<span class="string">&quot;x-access-token&quot;</span>, token);</span><br><span class="line">    <span class="keyword">var</span> claimsIdentity = <span class="keyword">new</span> ClaimsIdentity(tokenModel.Claims, <span class="string">&quot;Login&quot;</span>);</span><br><span class="line"></span><br><span class="line">    AuthenticationProperties properties = <span class="keyword">new</span> AuthenticationProperties();</span><br><span class="line">    properties.AllowRefresh = <span class="literal">false</span>;</span><br><span class="line">    properties.IsPersistent = <span class="literal">true</span>;</span><br><span class="line">    properties.IssuedUtc = DateTimeOffset.UtcNow;</span><br><span class="line">    properties.ExpiresUtc = DateTimeOffset.Now.AddMinutes(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">await</span> HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, <span class="keyword">new</span> ClaimsPrincipal(claimsIdentity), properties);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> token;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的示例中，我们通过调用<code>_jwtTokenProvider.GenerateAccessToken</code>方法来生成访问令牌，并将访问令牌保存到Cookies中请求使用。</p>
+<h2 id="用户登录简单验证"><a class="markdownIt-Anchor" href="#用户登录简单验证"></a> 用户登录简单验证</h2>
+<p>在每次请求时，我们需要对访问令牌进行验证，以确保用户的身份和权限。下面是一个简单的示例，<a href="http://xn--ASP-o59dt17afqdn03c37q.NET">演示如何在ASP.NET</a> Core中实现对访问令牌的简单验证。</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">HttpGet(<span class="string">&quot;profile&quot;</span>)</span>]</span><br><span class="line">[<span class="meta">Authorize</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> IActionResult <span class="title">GetUserProfile</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 获取当前用户的用户名</span></span><br><span class="line">    <span class="keyword">var</span> username = ....;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据用户名从数据库或其他持久化存储中获取用户信息</span></span><br><span class="line">    <span class="keyword">var</span> userModel = ......;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (userModel == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> NotFound(<span class="keyword">new</span> &#123; message = <span class="string">&quot;userModel not found&quot;</span> &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回用户信息给客户端</span></span><br><span class="line">    <span class="keyword">return</span> Ok(<span class="keyword">new</span></span><br><span class="line">    &#123;</span><br><span class="line">        username = userModel.Username,</span><br><span class="line">        email = userModel.Email</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在上面的示例中，我们通过添加<code>[Authorize]</code>属性来标记需要验证访问令牌的API端点。当客户端发送请求时，<a href="http://ASP.NET">ASP.NET</a> Core会自动验证访问令牌的有效性，并将用户信息存储在<code>UserTokenModel </code>对象中，以便我们在方法内部访问。</p>
+<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
+<p>本篇博文通过一个简单的案例，介绍了如何使用 C# .NET 实现 JWT 登录验证，并处理用户信息的加密、刷新 Token、各种验证规则等功能。</p>
+]]></content>
+      <categories>
+        <category>杂七杂八的砖</category>
+      </categories>
+      <tags>
+        <tag>JWT</tag>
+        <tag>.NET Core</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>.NET Core中RabbitMQ初识</title>
     <url>/posts/25184/</url>
     <content><![CDATA[<h2 id="前提"><a class="markdownIt-Anchor" href="#前提"></a> 前提</h2>
@@ -2538,73 +2627,9 @@ docker-engine
         <category>杂七杂八的砖</category>
       </categories>
       <tags>
+        <tag>.NET Core</tag>
         <tag>消息队列</tag>
         <tag>RabbitMQ</tag>
-        <tag>.NET Core</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>.NET 实现JWT登录认证</title>
-    <url>/posts/54715/</url>
-    <content><![CDATA[<h1 id="net-实现jwt登录认证"><a class="markdownIt-Anchor" href="#net-实现jwt登录认证"></a> .NET 实现JWT登录认证</h1>
-<p><a href="http://xn--ASP-lp6e.NET">在ASP.NET</a> Core应用程序中，使用JWT进行身份验证和授权已成为一种流行的方式。JWT是一种安全的方式，用于在客户端和服务器之间传输用户信息。</p>
-<h2 id="添加nuget包"><a class="markdownIt-Anchor" href="#添加nuget包"></a> 添加NuGet包</h2>
-<p>首先，我们需要添加一些NuGet包来支持JWT身份验证。<a href="http://xn--ASP-lp6ei84bl35a.NET">在您的ASP.NET</a> Core项目中，打开<code>Startup.cs</code>文件，并在<code>ConfigureServices</code>方法中添加以下代码：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Authentication.JwtBearer;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Configuration;</span><br><span class="line"><span class="keyword">using</span> Microsoft.Extensions.DependencyInjection;</span><br><span class="line"><span class="keyword">using</span> Microsoft.IdentityModel.Tokens;</span><br></pre></td></tr></table></figure>
-<h2 id="注册"><a class="markdownIt-Anchor" href="#注册"></a> 注册</h2>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> jwt服务</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;services&quot;&gt;</span><span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">virtual</span> <span class="keyword">void</span> <span class="title">ServicesJwtToken</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> config = configuration.GetSection(<span class="string">&quot;App:JWtSetting&quot;</span>).Get&lt;JwtSettings&gt;(); <span class="comment">// 从appsettings.json读取JwtConfig配置</span></span><br><span class="line">        <span class="comment">// 添加JWT身份验证服务</span></span><br><span class="line">        services.AddAuthentication(options =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            options.RequireAuthenticatedSignIn = <span class="literal">true</span>;</span><br><span class="line">            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;</span><br><span class="line">            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;</span><br><span class="line">        &#125;).AddCookie(options =&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//cokkie名称</span></span><br><span class="line">            options.Cookie.Name = <span class="string">&quot;Z.BearerCokkie&quot;</span>;</span><br><span class="line">            <span class="comment">//cokkie过期时间</span></span><br><span class="line">            options.ExpireTimeSpan = TimeSpan.FromMinutes(config!.CokkieExpirationMinutes);</span><br><span class="line">            <span class="comment">//cokkie启用滑动过期时间</span></span><br><span class="line">            options.SlidingExpiration = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">            options.LogoutPath = <span class="string">&quot;/Home/Index&quot;</span>;</span><br><span class="line"></span><br><span class="line">        &#125;)</span><br><span class="line">        .AddJwtBearer(options =&gt;</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            options.TokenValidationParameters = <span class="keyword">new</span> TokenValidationParameters()</span><br><span class="line">            &#123;</span><br><span class="line">                ValidateIssuer = <span class="literal">true</span>, <span class="comment">//是否验证Issuer</span></span><br><span class="line">                ValidIssuer = config!.Issuer, <span class="comment">//发行人Issuer</span></span><br><span class="line">                ValidateAudience = <span class="literal">true</span>, <span class="comment">//是否验证Audience</span></span><br><span class="line">                ValidAudience = config.Audience,<span class="comment">//</span></span><br><span class="line">                ValidateIssuerSigningKey = <span class="literal">true</span>, <span class="comment">//是否验证SecurityKey</span></span><br><span class="line">                IssuerSigningKey = <span class="keyword">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(config.SecretKey)), <span class="comment">//SecurityKey</span></span><br><span class="line">                ValidateLifetime = <span class="literal">true</span>, <span class="comment">//是否验证失效时间</span></span><br><span class="line">                ClockSkew = TimeSpan.FromSeconds(<span class="number">30</span>), <span class="comment">//过期时间容错值，解决服务器端时间不同步问题（秒）</span></span><br><span class="line">                RequireExpirationTime = <span class="literal">true</span>,</span><br><span class="line">                SaveSigninToken = <span class="literal">true</span>,</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            options.Events = <span class="keyword">new</span> JwtBearerEvents</span><br><span class="line">            &#123;</span><br><span class="line">                OnMessageReceived = <span class="keyword">async</span> context =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">var</span> token = context.Request.Cookies[<span class="string">&quot;access_token&quot;</span>]; <span class="comment">// 从Cookie中获取token值</span></span><br><span class="line">                    <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(token))</span><br><span class="line">                    &#123;</span><br><span class="line">                        context.Token = token; <span class="comment">// 将token值设置到JwtBearer上下文中的Token属性</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;;</span><br><span class="line"></span><br><span class="line">            options.Events = <span class="keyword">new</span> JwtBearerEvents</span><br><span class="line">            &#123;</span><br><span class="line">                OnMessageReceived = context =&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">var</span> accessToken = context.Request.Cookies[<span class="string">&quot;x-access-token&quot;</span>];</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">if</span> (!<span class="built_in">string</span>.IsNullOrEmpty(accessToken))</span><br><span class="line">                    &#123;</span><br><span class="line">                        context.Token = accessToken;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">return</span> Task.CompletedTask;</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>这里我们使用<code>AddAuthentication</code>方法添加了JWT身份验证服务，并设置了默认的认证方案为<code>JwtBearerDefaults.AuthenticationScheme</code>，这是JWT身份验证的默认方案。</p>
-<p>在<code>AddJwtBearer</code>方法中，我们通过<code>GetSection</code>方法从appsettings.json文件中读取了一个名为<code>JWtSetting</code>的配置，其中包含了JWT的一些信息，例如签发者（Issuer）、接收者（Audience）、秘钥（SecretKey）等。这些信息将用于验证和生成JWT令牌。</p>
-<p>在<code>Configure</code>方法中添加JWT认证中间件：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Configure</span>(<span class="params">IApplicationBuilder app, IWebHostEnvironment env</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 其他中间件配置...</span></span><br><span class="line"></span><br><span class="line">    app.UseAuthentication();</span><br><span class="line">    app.UseAuthorization();</span><br><span class="line">   <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="配置appsettingsjson"><a class="markdownIt-Anchor" href="#配置appsettingsjson"></a> 配置appsettings.json</h2>
-<p>接下来，我们需要在appsettings.json文件中配置JWT的相关信息。<a href="http://xn--ASP-lp6ei84bl35a.NET">在您的ASP.NET</a> Core项目中，找到appsettings.json文件，并添加以下配置：</p>
-<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="comment">// ...</span></span><br><span class="line">  <span class="attr">&quot;JWtSetting&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;Issuer&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Z.NetWiki&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;Audience&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Z.NetWiki&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;SecretKey&quot;</span><span class="punctuation">:</span> <span class="string">&quot;zhoulucky210@163.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;AccessTokenExpirationMinutes&quot;</span><span class="punctuation">:</span> <span class="number">60</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;RefreshTokenExpirationMinutes&quot;</span><span class="punctuation">:</span> <span class="number">1440</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;CokkieExpirationMinutes&quot;</span><span class="punctuation">:</span> <span class="number">30</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-<p>您可以根据自己的需求修改配置项的值。这里的<code>AccessTokenExpirationMinutes</code>和<code>RefreshTokenExpirationMinutes</code>分别表示访问令牌和刷新令牌的过期时间，单位为分钟。</p>
-<h2 id="创建-jwt-设置类"><a class="markdownIt-Anchor" href="#创建-jwt-设置类"></a> 创建 JWT 设置类</h2>
-<p>接下来，我们需要创建一个 C# 类来表示 JWT 的配置项，并使用 <code>IOptions</code> 接口将其注入到需要的地方。以下是一个示例的 JwtSettings 类：</p>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">JwtSettings</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 发行者</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Issuer &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 受众</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> Audience &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> secretKey值</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">string</span> SecretKey &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 访问令牌过期时间</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> AccessTokenExpirationMinutes &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> cokkie过期时间</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> CokkieExpirationMinutes &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> 刷新令牌过期时间</span></span><br><span class="line">        <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">int</span> RefreshTokenExpirationMinutes &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>这个类定义了与 appsettings.json 文件中的配置项相对应的属性。</p>
-<h2 id="用户模型"><a class="markdownIt-Anchor" href="#用户模型"></a> 用户模型</h2>
-<figure class="highlight c#"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">UserTokenModel</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span> UserId &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span> UserName &#123; <span class="keyword">get</span>; <span class="keyword">set</span>;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span>[]? RoleIds &#123; <span class="keyword">get</span>; <span class="keyword">set</span>;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> <span class="built_in">string</span>[]? RoleNames &#123; <span class="keyword">get</span>; <span class="keyword">set</span>;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> Claim[] Claims &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h2 id="实现jwt登录认证"><a class="markdownIt-Anchor" href="#实现jwt登录认证"></a> 实现JWT登录认证</h2>
-<p>现在，我们可以开始实现JWT登录认证的逻辑。我们将创建一个<code>JwtService</code>类，用于生成和验证JWT令牌。<a href="http://xn--ASP-lp6ei84bl35a.NET">在您的ASP.NET</a> Core项目中，创建一个名为<code>JwtService.cs</code>的类文件，然后添加以下代码：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.Extensions.Configuration;</span><br><span class="line"><span class="keyword">using</span> Microsoft.IdentityModel.Tokens;</span><br><span class="line"><span class="keyword">using</span> System.IdentityModel.Tokens.Jwt;</span><br><span class="line"><span class="keyword">using</span> System.Security.Claims;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> Z.Ddd.Domain.UserSession;</span><br><span class="line"><span class="keyword">using</span> Z.Module.DependencyInjection;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Z.Ddd.Domain.Authorization</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">JwtTokenProvider</span> : <span class="title">IJwtTokenProvider</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> JwtSettings _jwtConfig;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">JwtTokenProvider</span>(<span class="params">IConfiguration configuration</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        _jwtConfig = configuration.GetSection(<span class="string">&quot;App:JWtSetting&quot;</span>).Get&lt;JwtSettings&gt;() ?? <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentException(<span class="string">&quot;请先检查appsetting中JWT配置&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">GenerateAccessToken</span>(<span class="params">UserTokenModel user</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 设置Token的Claims</span></span><br><span class="line">        List&lt;Claim&gt; claims = <span class="keyword">new</span> List&lt;Claim&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.UserName, user.UserName), <span class="comment">//HttpContext.User.Identity.Name</span></span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.UserId, user.UserId.ToString()),</span><br><span class="line">            <span class="keyword">new</span> Claim (JwtRegisteredClaimNames.Exp,<span class="string">$&quot;<span class="subst">&#123;<span class="keyword">new</span> DateTimeOffset(DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes)).ToUnixTimeSeconds()&#125;</span>&quot;</span>),</span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.Expiration, DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes).ToString()),</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (user.RoleIds != <span class="literal">null</span> &amp;&amp; user.RoleIds.Any())</span><br><span class="line">        &#123;</span><br><span class="line">            claims.AddRange(user.RoleIds.Select(p =&gt; <span class="keyword">new</span> Claim(ZClaimTypes.RoleIds, p.ToString())));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (user.RoleNames != <span class="literal">null</span> &amp;&amp; user.RoleNames.Any())</span><br><span class="line">        &#123;</span><br><span class="line">            claims.AddRange(user.RoleNames.Select(p =&gt; <span class="keyword">new</span> Claim(ZClaimTypes.Role, p)));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        user.Claims = claims.ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token的密钥</span></span><br><span class="line">        SymmetricSecurityKey key = <span class="keyword">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecretKey));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token的签名证书</span></span><br><span class="line">        SigningCredentials creds = <span class="keyword">new</span> SigningCredentials(key, SecurityAlgorithms.Aes128CbcHmacSha256);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置Token的过期时间</span></span><br><span class="line">        DateTime expires = DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建Token</span></span><br><span class="line">        JwtSecurityToken token = <span class="keyword">new</span> JwtSecurityToken(</span><br><span class="line">            _jwtConfig.Issuer,</span><br><span class="line">            _jwtConfig.Audience,</span><br><span class="line">            claims,</span><br><span class="line">            expires: expires,</span><br><span class="line">            signingCredentials: creds</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token字符串</span></span><br><span class="line">        <span class="built_in">string</span> tokenString = <span class="keyword">new</span> JwtSecurityTokenHandler().WriteToken(token);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> tokenString;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">ValidateAccessToken</span>(<span class="params"><span class="built_in">string</span> token</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">var</span> tokenHandler = <span class="keyword">new</span> JwtSecurityTokenHandler();</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            tokenHandler.ValidateToken(token, <span class="keyword">new</span> TokenValidationParameters</span><br><span class="line">            &#123;</span><br><span class="line">                ValidateIssuer = <span class="literal">true</span>,</span><br><span class="line">                ValidateAudience = <span class="literal">true</span>,</span><br><span class="line">                ValidateLifetime = <span class="literal">true</span>,</span><br><span class="line">                ValidateIssuerSigningKey = <span class="literal">true</span>,</span><br><span class="line">                ValidIssuer = _jwtConfig.Issuer,</span><br><span class="line">                ValidAudience = _jwtConfig.Audience,</span><br><span class="line">                IssuerSigningKey = <span class="keyword">new</span> SymmetricSecurityKey(Convert.FromBase64String(_jwtConfig.SecretKey))</span><br><span class="line">            &#125;, <span class="keyword">out</span> <span class="keyword">var</span> validatedToken);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception x)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title">IJwtTokenProvider</span> : <span class="title">ITransientDependency</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="built_in">string</span> <span class="title">GenerateAccessToken</span>(<span class="params">UserTokenModel user</span>)</span>;</span><br><span class="line">    <span class="function"><span class="built_in">bool</span> <span class="title">ValidateAccessToken</span>(<span class="params"><span class="built_in">string</span> token</span>)</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<p>这里我们创建了一个<code>JwtTokenProvider</code>类，实现了<code>IJwtTokenProvider </code>接口。该服务类通过依赖注入方式注入了<code>IConfiguration</code>，从而可以在构造函数中读取<code>JWtSetting</code>配置。</p>
-<ul>
-<li>
-<p><code>JwtTokenProvider</code>类中包含了生成访问令牌和验证令牌的方法，以及验证访问令牌和从访问令牌中获取用户主体的方法。其中，</p>
-<ul>
-<li>
-<p><code>GenerateAccessToken</code>方法使用<code>JwtSecurityTokenHandler</code>来生成访问令牌，并设置了过期时间、签名等参数。</p>
-</li>
-<li>
-<p><code>ValidateAccessToken</code>方法验证访问令牌和从访问令牌中获取用户主体，验证是否过期。</p>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="用户信息加密"><a class="markdownIt-Anchor" href="#用户信息加密"></a> 用户信息加密</h2>
-<p>在JWT中，用户信息是以Claims的形式进行传递的，但默认情况下，这些信息是以明文的形式存储在令牌中的。为了保护用户信息的安全性，我们可以选择对用户信息进行加密。下面是一个简单的示例，演示如何在生成访问令牌时对用户信息进行加密。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">GenerateAccessToken</span>(<span class="params">UserTokenModel user</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 设置Token的Claims</span></span><br><span class="line">        List&lt;Claim&gt; claims = <span class="keyword">new</span> List&lt;Claim&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.UserName, user.UserName), <span class="comment">//HttpContext.User.Identity.Name</span></span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.UserId, user.UserId.ToString()),</span><br><span class="line">            <span class="keyword">new</span> Claim (JwtRegisteredClaimNames.Exp,<span class="string">$&quot;<span class="subst">&#123;<span class="keyword">new</span> DateTimeOffset(DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes)).ToUnixTimeSeconds()&#125;</span>&quot;</span>),</span><br><span class="line">            <span class="keyword">new</span> Claim(ZClaimTypes.Expiration, DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes).ToString()),</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (user.RoleIds != <span class="literal">null</span> &amp;&amp; user.RoleIds.Any())</span><br><span class="line">        &#123;</span><br><span class="line">            claims.AddRange(user.RoleIds.Select(p =&gt; <span class="keyword">new</span> Claim(ZClaimTypes.RoleIds, p.ToString())));</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (user.RoleNames != <span class="literal">null</span> &amp;&amp; user.RoleNames.Any())</span><br><span class="line">        &#123;</span><br><span class="line">            claims.AddRange(user.RoleNames.Select(p =&gt; <span class="keyword">new</span> Claim(ZClaimTypes.Role, p)));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        user.Claims = claims.ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token的密钥</span></span><br><span class="line">        SymmetricSecurityKey key = <span class="keyword">new</span> SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecretKey));</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token的签名证书</span></span><br><span class="line">        SigningCredentials creds = <span class="keyword">new</span> SigningCredentials(key, SecurityAlgorithms.Aes128CbcHmacSha256);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 设置Token的过期时间</span></span><br><span class="line">        DateTime expires = DateTime.Now.AddMinutes(_jwtConfig.AccessTokenExpirationMinutes);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 创建Token</span></span><br><span class="line">        JwtSecurityToken token = <span class="keyword">new</span> JwtSecurityToken(</span><br><span class="line">            _jwtConfig.Issuer,</span><br><span class="line">            _jwtConfig.Audience,</span><br><span class="line">            claims,</span><br><span class="line">            expires: expires,</span><br><span class="line">            signingCredentials: creds</span><br><span class="line">        );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 生成Token字符串</span></span><br><span class="line">        <span class="built_in">string</span> tokenString = <span class="keyword">new</span> JwtSecurityTokenHandler().WriteToken(token);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> tokenString;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的示例中，我们使用了<code>SigningCredentials</code>类来设置加密的参数，包括加密密钥、加密算法等。这样生成的访问令牌在传递用户信息时会进行加密，增加了用户信息的安全性。</p>
-<h2 id="用户登录验证"><a class="markdownIt-Anchor" href="#用户登录验证"></a> 用户登录验证</h2>
-<p>在用户登录时，我们需要对用户提供的用户名和密码进行验证，并生成访问令牌和刷新令牌。下面是一个简单的示例，<a href="http://xn--ASP-o59dt17afqdn03c37q.NET">演示如何在ASP.NET</a> Core中实现用户登录验证，并生成JWT令牌。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">HttpGet</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;<span class="built_in">string</span>&gt; <span class="title">Login</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    UserTokenModel tokenModel = <span class="keyword">new</span> UserTokenModel();</span><br><span class="line">    tokenModel.UserName = <span class="string">&quot;test&quot;</span>;</span><br><span class="line">    tokenModel.UserId = Guid.NewGuid().ToString(<span class="string">&quot;N&quot;</span>);</span><br><span class="line">    <span class="keyword">var</span> token = _jwtTokenProvider.GenerateAccessToken(tokenModel);</span><br><span class="line"></span><br><span class="line">    Response.Cookies.Append(<span class="string">&quot;x-access-token&quot;</span>, token);</span><br><span class="line">    <span class="keyword">var</span> claimsIdentity = <span class="keyword">new</span> ClaimsIdentity(tokenModel.Claims, <span class="string">&quot;Login&quot;</span>);</span><br><span class="line"></span><br><span class="line">    AuthenticationProperties properties = <span class="keyword">new</span> AuthenticationProperties();</span><br><span class="line">    properties.AllowRefresh = <span class="literal">false</span>;</span><br><span class="line">    properties.IsPersistent = <span class="literal">true</span>;</span><br><span class="line">    properties.IssuedUtc = DateTimeOffset.UtcNow;</span><br><span class="line">    properties.ExpiresUtc = DateTimeOffset.Now.AddMinutes(<span class="number">1</span>);</span><br><span class="line">    <span class="keyword">await</span> HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, <span class="keyword">new</span> ClaimsPrincipal(claimsIdentity), properties);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> token;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的示例中，我们通过调用<code>_jwtTokenProvider.GenerateAccessToken</code>方法来生成访问令牌，并将访问令牌保存到Cookies中请求使用。</p>
-<h2 id="用户登录简单验证"><a class="markdownIt-Anchor" href="#用户登录简单验证"></a> 用户登录简单验证</h2>
-<p>在每次请求时，我们需要对访问令牌进行验证，以确保用户的身份和权限。下面是一个简单的示例，<a href="http://xn--ASP-o59dt17afqdn03c37q.NET">演示如何在ASP.NET</a> Core中实现对访问令牌的简单验证。</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line">[<span class="meta">HttpGet(<span class="string">&quot;profile&quot;</span>)</span>]</span><br><span class="line">[<span class="meta">Authorize</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> IActionResult <span class="title">GetUserProfile</span>()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">// 获取当前用户的用户名</span></span><br><span class="line">    <span class="keyword">var</span> username = ....;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据用户名从数据库或其他持久化存储中获取用户信息</span></span><br><span class="line">    <span class="keyword">var</span> userModel = ......;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (userModel == <span class="literal">null</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">return</span> NotFound(<span class="keyword">new</span> &#123; message = <span class="string">&quot;userModel not found&quot;</span> &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 返回用户信息给客户端</span></span><br><span class="line">    <span class="keyword">return</span> Ok(<span class="keyword">new</span></span><br><span class="line">    &#123;</span><br><span class="line">        username = userModel.Username,</span><br><span class="line">        email = userModel.Email</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在上面的示例中，我们通过添加<code>[Authorize]</code>属性来标记需要验证访问令牌的API端点。当客户端发送请求时，<a href="http://ASP.NET">ASP.NET</a> Core会自动验证访问令牌的有效性，并将用户信息存储在<code>UserTokenModel </code>对象中，以便我们在方法内部访问。</p>
-<h2 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h2>
-<p>本篇博文通过一个简单的案例，介绍了如何使用 C# .NET 实现 JWT 登录验证，并处理用户信息的加密、刷新 Token、各种验证规则等功能。</p>
-]]></content>
-      <categories>
-        <category>杂七杂八的砖</category>
-      </categories>
-      <tags>
-        <tag>.NET Core</tag>
-        <tag>JWT</tag>
       </tags>
   </entry>
   <entry>
@@ -3188,6 +3213,62 @@ SubController.cs中新增Group参数
       </tags>
   </entry>
   <entry>
+    <title>在.NET Core中使用异步多线程消费</title>
+    <url>/posts/1077/</url>
+    <content><![CDATA[<h2 id="一-引言"><a class="markdownIt-Anchor" href="#一-引言"></a> 一、引言</h2>
+<p>处理大量数据是一个常见的需求，传统的同步处理方式往往效率低下，尤其是在数据量非常大的情况下。本篇将介绍一种高效的多线程异步处理大数据量的方法，通过边处理边消费的方式，极大地提高了处理效率，并且减少了内存开销。这种解决方案只是实现这一需求的一种实践，并不排除还有其他方式可以实现。如果您有任何问题或建议，欢迎在评论区留言讨论。</p>
+<h2 id="二-假设场景"><a class="markdownIt-Anchor" href="#二-假设场景"></a> 二、假设场景</h2>
+<p>假设我们有一个需要处理大量图片文件的应用程序。每个图片文件都需要进行压缩、调整等复杂的计算和数据处理。由于图片文件数量庞大，如果按同步方式处理，不仅速度慢，而且会占用大量内存。为了解决这个问题，我们采用了多线程异步处理的方式。</p>
+<h2 id="三-解决方案"><a class="markdownIt-Anchor" href="#三-解决方案"></a> 三、解决方案</h2>
+<p>我们可以使用 .NET 的 <strong>异步编程模型</strong> 和 <a href="https://learn.microsoft.com/zh-cn/dotnet/core/extensions/channels">Channel</a> 来实现生产者-消费者模式。生产者负责读取图片文件并将其写入到<code>Channel</code>中，消费者从<code>Channel</code>中读取图片文件并进行处理。通过这种方式，我们可以边读取边处理，极大地提高了处理效率。</p>
+<p><strong>以下是解决问题的思路和方案：</strong></p>
+<ol>
+<li>定义生产者和消费者：
+<ul>
+<li>生产者负责读取图片文件，并将其写入到<code>Channel</code>中</li>
+<li>消费者从<code>Channel</code>中读取图片文件，并对其进行处理（如压缩、调整大小等）</li>
+</ul>
+</li>
+<li>使用<code>Channel</code>实现生产者-消费者模式：
+<ul>
+<li><code>Channel</code>是 .NET 提供的一种用于实现生产者-消费者模式的高效数据结构</li>
+<li>生产者将数据写入<code>Channel</code>，消费者从<code>Channel</code>中读取数据</li>
+</ul>
+</li>
+<li>并行处理：
+<ul>
+<li>使用<code>Task.Run</code>启动多个生产者和消费者任务，以实现并行处理</li>
+<li>通过设置最大并行度来控制同时运行的任务数量</li>
+</ul>
+</li>
+<li>异步编程：
+<ul>
+<li>使用<code>async</code>和<code>await</code>关键字实现异步编程，以避免阻塞线程。</li>
+<li>异步编程可以提高应用程序的响应速度和吞吐量</li>
+</ul>
+</li>
+</ol>
+<p><strong>涉及技术点介绍：</strong></p>
+<ul>
+<li><code>Channel</code>：用于在生产者和消费者之间传递数据，支持高效的并发操作</li>
+<li><code>Task</code>：用于启动并行任务，实现多线程处理</li>
+<li><code>async/await</code>：用于实现异步编程，避免阻塞线程，提高应用程序的响应速度</li>
+</ul>
+<h2 id="四-示例代码"><a class="markdownIt-Anchor" href="#四-示例代码"></a> 四、示例代码</h2>
+<p>以下是一个简单的示例代码，演示如何使用<code>Channel</code>实现生产者-消费者模式来处理图片文件：</p>
+<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Threading.Channels;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> cts = <span class="keyword">new</span> CancellationTokenSource();</span><br><span class="line"><span class="comment">// 假设有一组图片文件</span></span><br><span class="line"><span class="keyword">var</span> imageFiles = Enumerable.Range(<span class="number">0</span>, <span class="number">1000</span>).Select(x =&gt; <span class="string">$&quot;image_<span class="subst">&#123;x&#125;</span>.jpg&quot;</span>).ToList();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> processor = <span class="keyword">new</span> ImageProcessor(<span class="number">10</span>, cts.Token);</span><br><span class="line"><span class="keyword">await</span> processor.ProcessAsync(imageFiles);</span><br><span class="line"></span><br><span class="line">Console.ReadKey();</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 图片处理器</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;maxDegreeOfParallelism&quot;&gt;</span>最大并行度<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;cancellationToken&quot;&gt;</span>CancellationToken<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ImageProcessor</span>(<span class="params"><span class="built_in">int</span> maxDegreeOfParallelism, CancellationToken cancellationToken</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">ProcessAsync</span>(<span class="params">List&lt;<span class="built_in">string</span>&gt; imageFiles</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 创建一个无界的 Channel</span></span><br><span class="line">        <span class="keyword">var</span> channel = Channel.CreateUnbounded&lt;<span class="built_in">string</span>&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动多个生产者任务</span></span><br><span class="line">        <span class="keyword">var</span> producerTasks = Enumerable.Range(<span class="number">0</span>, maxDegreeOfParallelism)</span><br><span class="line">            .Select(i =&gt; Task.Run(() =&gt; Producer(imageFiles, i, channel.Writer), cancellationToken))</span><br><span class="line">            .ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动多个消费者任务</span></span><br><span class="line">        <span class="keyword">var</span> consumerTasks = Enumerable.Range(<span class="number">0</span>, maxDegreeOfParallelism)</span><br><span class="line">            .Select(_ =&gt; Task.Run(() =&gt; Consumer(channel.Reader), cancellationToken))</span><br><span class="line">            .ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 等待所有生产者任务完成</span></span><br><span class="line">        <span class="keyword">await</span> Task.WhenAll(producerTasks);</span><br><span class="line">        <span class="comment">// 完成 Channel 的写入</span></span><br><span class="line">        channel.Writer.Complete();</span><br><span class="line">        <span class="comment">// 等待所有消费者任务完成</span></span><br><span class="line">        <span class="keyword">await</span> Task.WhenAll(consumerTasks);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">async</span> Task <span class="title">Producer</span>(<span class="params">List&lt;<span class="built_in">string</span>&gt; imageFiles, <span class="built_in">int</span> producerIndex, ChannelWriter&lt;<span class="built_in">string</span>&gt; writer</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 计算每个生产者需要处理的文件数量</span></span><br><span class="line">            <span class="built_in">int</span> filesPerProducer = imageFiles.Count / maxDegreeOfParallelism;</span><br><span class="line">            <span class="built_in">int</span> start = producerIndex * filesPerProducer;</span><br><span class="line">            <span class="built_in">int</span> end = producerIndex == maxDegreeOfParallelism - <span class="number">1</span></span><br><span class="line">                ? imageFiles.Count</span><br><span class="line">                : start + filesPerProducer;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = start; i &lt; end; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 模拟读取图片文件</span></span><br><span class="line">                <span class="keyword">await</span> Task.Delay(<span class="number">100</span>, cancellationToken);</span><br><span class="line">                <span class="comment">// 将图片文件路径写入 Channel</span></span><br><span class="line">                <span class="keyword">await</span> writer.WriteAsync(imageFiles[i], cancellationToken);</span><br><span class="line">                Console.WriteLine(<span class="string">$&quot;Producer image file: <span class="subst">&#123;imageFiles[i]&#125;</span>&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;Producer error: <span class="subst">&#123;ex.Message&#125;</span>&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">async</span> Task <span class="title">Consumer</span>(<span class="params">ChannelReader&lt;<span class="built_in">string</span>&gt; reader</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 从 Channel 中读取数据并处理</span></span><br><span class="line">            <span class="keyword">await</span> <span class="keyword">foreach</span> (<span class="keyword">var</span> imageFile <span class="keyword">in</span> reader.ReadAllAsync(cancellationToken))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 模拟处理图片文件（如压缩、调整大小等）</span></span><br><span class="line">                <span class="keyword">await</span> Task.Delay(<span class="number">100</span>, cancellationToken);</span><br><span class="line">                Console.WriteLine(<span class="string">$&quot;Processed image file: <span class="subst">&#123;imageFile&#125;</span>&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;Consumer error: <span class="subst">&#123;ex.Message&#125;</span>&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在<a href="https://www.cnblogs.com/Tangtang1997/p/18623843">博客园</a> 看到的文章，搬砖过来，如有侵权，请联系站主删除</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>杂七杂八的砖</category>
+      </categories>
+      <tags>
+        <tag>C#</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>C#8.0 可空引用类型</title>
     <url>/posts/6923/</url>
     <content><![CDATA[<h2 id="介绍"><a class="markdownIt-Anchor" href="#介绍"></a> 介绍</h2>
@@ -3262,87 +3343,6 @@ SubController.cs中新增Group参数
       </categories>
       <tags>
         <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>在.NET Core中使用异步多线程消费</title>
-    <url>/posts/1077/</url>
-    <content><![CDATA[<h2 id="一-引言"><a class="markdownIt-Anchor" href="#一-引言"></a> 一、引言</h2>
-<p>处理大量数据是一个常见的需求，传统的同步处理方式往往效率低下，尤其是在数据量非常大的情况下。本篇将介绍一种高效的多线程异步处理大数据量的方法，通过边处理边消费的方式，极大地提高了处理效率，并且减少了内存开销。这种解决方案只是实现这一需求的一种实践，并不排除还有其他方式可以实现。如果您有任何问题或建议，欢迎在评论区留言讨论。</p>
-<h2 id="二-假设场景"><a class="markdownIt-Anchor" href="#二-假设场景"></a> 二、假设场景</h2>
-<p>假设我们有一个需要处理大量图片文件的应用程序。每个图片文件都需要进行压缩、调整等复杂的计算和数据处理。由于图片文件数量庞大，如果按同步方式处理，不仅速度慢，而且会占用大量内存。为了解决这个问题，我们采用了多线程异步处理的方式。</p>
-<h2 id="三-解决方案"><a class="markdownIt-Anchor" href="#三-解决方案"></a> 三、解决方案</h2>
-<p>我们可以使用 .NET 的 <strong>异步编程模型</strong> 和 <a href="https://learn.microsoft.com/zh-cn/dotnet/core/extensions/channels">Channel</a> 来实现生产者-消费者模式。生产者负责读取图片文件并将其写入到<code>Channel</code>中，消费者从<code>Channel</code>中读取图片文件并进行处理。通过这种方式，我们可以边读取边处理，极大地提高了处理效率。</p>
-<p><strong>以下是解决问题的思路和方案：</strong></p>
-<ol>
-<li>定义生产者和消费者：
-<ul>
-<li>生产者负责读取图片文件，并将其写入到<code>Channel</code>中</li>
-<li>消费者从<code>Channel</code>中读取图片文件，并对其进行处理（如压缩、调整大小等）</li>
-</ul>
-</li>
-<li>使用<code>Channel</code>实现生产者-消费者模式：
-<ul>
-<li><code>Channel</code>是 .NET 提供的一种用于实现生产者-消费者模式的高效数据结构</li>
-<li>生产者将数据写入<code>Channel</code>，消费者从<code>Channel</code>中读取数据</li>
-</ul>
-</li>
-<li>并行处理：
-<ul>
-<li>使用<code>Task.Run</code>启动多个生产者和消费者任务，以实现并行处理</li>
-<li>通过设置最大并行度来控制同时运行的任务数量</li>
-</ul>
-</li>
-<li>异步编程：
-<ul>
-<li>使用<code>async</code>和<code>await</code>关键字实现异步编程，以避免阻塞线程。</li>
-<li>异步编程可以提高应用程序的响应速度和吞吐量</li>
-</ul>
-</li>
-</ol>
-<p><strong>涉及技术点介绍：</strong></p>
-<ul>
-<li><code>Channel</code>：用于在生产者和消费者之间传递数据，支持高效的并发操作</li>
-<li><code>Task</code>：用于启动并行任务，实现多线程处理</li>
-<li><code>async/await</code>：用于实现异步编程，避免阻塞线程，提高应用程序的响应速度</li>
-</ul>
-<h2 id="四-示例代码"><a class="markdownIt-Anchor" href="#四-示例代码"></a> 四、示例代码</h2>
-<p>以下是一个简单的示例代码，演示如何使用<code>Channel</code>实现生产者-消费者模式来处理图片文件：</p>
-<figure class="highlight csharp"><table><tr><td class="code"><pre><span class="line"><span class="keyword">using</span> System.Threading.Channels;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> cts = <span class="keyword">new</span> CancellationTokenSource();</span><br><span class="line"><span class="comment">// 假设有一组图片文件</span></span><br><span class="line"><span class="keyword">var</span> imageFiles = Enumerable.Range(<span class="number">0</span>, <span class="number">1000</span>).Select(x =&gt; <span class="string">$&quot;image_<span class="subst">&#123;x&#125;</span>.jpg&quot;</span>).ToList();</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> processor = <span class="keyword">new</span> ImageProcessor(<span class="number">10</span>, cts.Token);</span><br><span class="line"><span class="keyword">await</span> processor.ProcessAsync(imageFiles);</span><br><span class="line"></span><br><span class="line">Console.ReadKey();</span><br><span class="line"></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> 图片处理器</span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;maxDegreeOfParallelism&quot;&gt;</span>最大并行度<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name=&quot;cancellationToken&quot;&gt;</span>CancellationToken<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">ImageProcessor</span>(<span class="params"><span class="built_in">int</span> maxDegreeOfParallelism, CancellationToken cancellationToken</span>)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">ProcessAsync</span>(<span class="params">List&lt;<span class="built_in">string</span>&gt; imageFiles</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// 创建一个无界的 Channel</span></span><br><span class="line">        <span class="keyword">var</span> channel = Channel.CreateUnbounded&lt;<span class="built_in">string</span>&gt;();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动多个生产者任务</span></span><br><span class="line">        <span class="keyword">var</span> producerTasks = Enumerable.Range(<span class="number">0</span>, maxDegreeOfParallelism)</span><br><span class="line">            .Select(i =&gt; Task.Run(() =&gt; Producer(imageFiles, i, channel.Writer), cancellationToken))</span><br><span class="line">            .ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 启动多个消费者任务</span></span><br><span class="line">        <span class="keyword">var</span> consumerTasks = Enumerable.Range(<span class="number">0</span>, maxDegreeOfParallelism)</span><br><span class="line">            .Select(_ =&gt; Task.Run(() =&gt; Consumer(channel.Reader), cancellationToken))</span><br><span class="line">            .ToArray();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 等待所有生产者任务完成</span></span><br><span class="line">        <span class="keyword">await</span> Task.WhenAll(producerTasks);</span><br><span class="line">        <span class="comment">// 完成 Channel 的写入</span></span><br><span class="line">        channel.Writer.Complete();</span><br><span class="line">        <span class="comment">// 等待所有消费者任务完成</span></span><br><span class="line">        <span class="keyword">await</span> Task.WhenAll(consumerTasks);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">async</span> Task <span class="title">Producer</span>(<span class="params">List&lt;<span class="built_in">string</span>&gt; imageFiles, <span class="built_in">int</span> producerIndex, ChannelWriter&lt;<span class="built_in">string</span>&gt; writer</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 计算每个生产者需要处理的文件数量</span></span><br><span class="line">            <span class="built_in">int</span> filesPerProducer = imageFiles.Count / maxDegreeOfParallelism;</span><br><span class="line">            <span class="built_in">int</span> start = producerIndex * filesPerProducer;</span><br><span class="line">            <span class="built_in">int</span> end = producerIndex == maxDegreeOfParallelism - <span class="number">1</span></span><br><span class="line">                ? imageFiles.Count</span><br><span class="line">                : start + filesPerProducer;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="built_in">int</span> i = start; i &lt; end; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 模拟读取图片文件</span></span><br><span class="line">                <span class="keyword">await</span> Task.Delay(<span class="number">100</span>, cancellationToken);</span><br><span class="line">                <span class="comment">// 将图片文件路径写入 Channel</span></span><br><span class="line">                <span class="keyword">await</span> writer.WriteAsync(imageFiles[i], cancellationToken);</span><br><span class="line">                Console.WriteLine(<span class="string">$&quot;Producer image file: <span class="subst">&#123;imageFiles[i]&#125;</span>&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;Producer error: <span class="subst">&#123;ex.Message&#125;</span>&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">async</span> Task <span class="title">Consumer</span>(<span class="params">ChannelReader&lt;<span class="built_in">string</span>&gt; reader</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// 从 Channel 中读取数据并处理</span></span><br><span class="line">            <span class="keyword">await</span> <span class="keyword">foreach</span> (<span class="keyword">var</span> imageFile <span class="keyword">in</span> reader.ReadAllAsync(cancellationToken))</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 模拟处理图片文件（如压缩、调整大小等）</span></span><br><span class="line">                <span class="keyword">await</span> Task.Delay(<span class="number">100</span>, cancellationToken);</span><br><span class="line">                Console.WriteLine(<span class="string">$&quot;Processed image file: <span class="subst">&#123;imageFile&#125;</span>&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception ex)</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine(<span class="string">$&quot;Consumer error: <span class="subst">&#123;ex.Message&#125;</span>&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>在<a href="https://www.cnblogs.com/Tangtang1997/p/18623843">博客园</a> 看到的文章，搬砖过来，如有侵权，请联系站主删除</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>杂七杂八的砖</category>
-      </categories>
-      <tags>
-        <tag>C#</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>杭州行</title>
-    <url>/posts/40291/</url>
-    <content><![CDATA[<div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="抱歉, 这个密码看着不太对, 请再试试." data-whm="抱歉, 这个文章不能被校验, 不过您还是能看看解密后的内容.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="de35c85b94715cbb0b14a953473a35bfa6160f4c7e480134bb74c1d5357af12d">7de94216c6a70d2d626cc013a0a1b96b52e149d7ba48b43618b1156bdaca2b154051bb893a9a3bf63ddfadced966c608162c05c1bedea95301d1a250290b8f6bd41f932085e44407e0ccb60b0cfebc53d8f724533465d60e64ed200b79207a0ac2f469a9c947622b0eaa74f4e79029d860d3b04ba4d6983e9df63c0046a0310af6812e8e64c904014bf1338161e9e0770f8362f4601c36fe29f2c111d1f38339b898aaf7841ea8c50dcd3d2a665923ae48454d4c688bbc545ab84301f8d8aa8bdc4a57e45b8ced674de751ebd1b31ff5b5045b1b807c9c424ebe3d03b97063a382898af09fefcd1a38bbe2e047bb1052</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-wave">
-      <input class="hbe hbe-input-field hbe-input-field-wave" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-wave" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-wave">您好, 这里需要密码. 博主网站的姓名</span>
-      </label>
-      <svg class="hbe hbe-graphic hbe-graphic-wave" width="300%" height="100%" viewBox="0 0 1200 60" preserveAspectRatio="none">
-        <path d="M0,56.5c0,0,298.666,0,399.333,0C448.336,56.5,513.994,46,597,46c77.327,0,135,10.5,200.999,10.5c95.996,0,402.001,0,402.001,0"></path>
-      </svg>
-    </div>
-  </div>
-</div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">]]></content>
-      <categories>
-        <category>生活</category>
-      </categories>
-      <tags>
-        <tag>life</tag>
       </tags>
   </entry>
   <entry>
@@ -3719,41 +3719,6 @@ SubController.cs中新增Group参数
       </categories>
       <tags>
         <tag>MongoDB</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker部署 gitlab Runner 运行</title>
-    <url>/posts/37099/</url>
-    <content><![CDATA[<h1 id="gitlabrunner"><a class="markdownIt-Anchor" href="#gitlabrunner"></a> gitlabrunner</h1>
-<h2 id="gitlab-runner性能优化"><a class="markdownIt-Anchor" href="#gitlab-runner性能优化"></a> <strong>gitlab runner性能优化</strong></h2>
-<h3 id="runner注册"><a class="markdownIt-Anchor" href="#runner注册"></a> <strong>runner注册</strong></h3>
-<h3 id="创建变量"><a class="markdownIt-Anchor" href="#创建变量"></a> <strong>创建变量</strong></h3>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">GitLabServer=<span class="string">&#x27;https://git\.gct\-china\.com/&#x27;</span> <span class="comment"># gitlab服务器地址</span></span><br><span class="line">GitLabToken=<span class="string">&#x27;xxxx&#x27;</span> <span class="comment"># gitlab 仓库地址token</span></span><br><span class="line">GitLabRunnerNamePrefix=<span class="string">&#x27;g&#x27;</span> <span class="comment"># gitlab runner 前缀</span></span><br><span class="line">GitLabRunnerTags=<span class="string">&#x27;gct-mooc-develop&#x27;</span> <span class="comment"># gitlab runner tags</span></span><br><span class="line">GitLabRunnerDesc=<span class="string">&#x27;gct-mooc-develop&#x27;</span> <span class="comment"># gitlab runner desc</span></span><br><span class="line">GitLabRunnerImg=<span class="string">&#x27;gitlab/gitlab-runner:v14.10.1&#x27;</span> <span class="comment"># gitlab runner img</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建数据卷"><a class="markdownIt-Anchor" href="#创建数据卷"></a> <strong>创建数据卷</strong></h3>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker volume create <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span></span><br></pre></td></tr></table></figure>
-<h3 id="创建runner"><a class="markdownIt-Anchor" href="#创建runner"></a> <strong>创建runner</strong></h3>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">--network</span> host <span class="literal">-d</span> <span class="literal">--restart</span> always \</span><br><span class="line"><span class="literal">-e</span> TZ=Asia/Beijing \</span><br><span class="line"><span class="literal">-v</span> /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line"><span class="literal">-v</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span>:/etc/gitlab<span class="literal">-runner</span> \</span><br><span class="line"><span class="literal">--name</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner&quot;</span> <span class="variable">$GitLabRunnerImg</span></span><br></pre></td></tr></table></figure>
-<h3 id="注册runner"><a class="markdownIt-Anchor" href="#注册runner"></a> <strong>注册runner</strong></h3>
-<blockquote>
-<p><a href="https://docs.gitlab.com/runner/examples/gitlab.html">https://docs.gitlab.com/runner/examples/gitlab.html</a></p>
-</blockquote>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">--rm</span> \</span><br><span class="line"><span class="literal">-v</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span>:/etc/gitlab<span class="literal">-runner</span> \</span><br><span class="line"><span class="literal">-v</span> /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line"><span class="literal">--name</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-register&quot;</span> <span class="variable">$GitLabRunnerImg</span> register \</span><br><span class="line"><span class="literal">--url</span> <span class="string">&quot;<span class="variable">$GitLabServer</span>&quot;</span> \</span><br><span class="line"><span class="literal">--registration-token</span> <span class="string">&quot;<span class="variable">$GitLabToken</span>&quot;</span> \</span><br><span class="line"><span class="literal">--description</span> <span class="string">&quot;<span class="variable">$GitLabRunnerDesc</span>&quot;</span> \</span><br><span class="line"><span class="literal">--tag-list</span> <span class="string">&quot;<span class="variable">$GitLabRunnerTags</span>&quot;</span> \</span><br><span class="line"><span class="literal">--non-interactive</span> \</span><br><span class="line"><span class="literal">--executor</span> <span class="string">&quot;docker&quot;</span> \</span><br><span class="line"><span class="literal">--docker-image</span> docker:<span class="number">19.03</span>.<span class="number">12</span> \</span><br><span class="line"><span class="literal">--docker-privileged</span>=<span class="string">&quot;true&quot;</span> \</span><br><span class="line"><span class="literal">--docker-volumes</span> <span class="string">&quot;/certs/client&quot;</span> \</span><br><span class="line"><span class="literal">--run-untagged</span>=<span class="string">&quot;true&quot;</span> \</span><br><span class="line"><span class="literal">--locked</span>=<span class="string">&quot;false&quot;</span> \</span><br><span class="line"><span class="literal">--access-level</span>=<span class="string">&quot;not_protected&quot;</span> \</span><br><span class="line"><span class="literal">--docker-volumes</span> /var/run/docker.sock:/var/run/docker.sock</span><br></pre></td></tr></table></figure>
-<h3 id="删除runner"><a class="markdownIt-Anchor" href="#删除runner"></a> <strong>删除runner</strong></h3>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker stop <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner&quot;</span></span><br><span class="line">docker <span class="built_in">rm</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner&quot;</span></span><br><span class="line">docker volume <span class="built_in">rm</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span></span><br></pre></td></tr></table></figure>
-<h2 id="runner清理"><a class="markdownIt-Anchor" href="#runner清理"></a> <strong>runner清理</strong></h2>
-<h3 id="删除玄虚镜像"><a class="markdownIt-Anchor" href="#删除玄虚镜像"></a> <strong>删除玄虚镜像</strong></h3>
-<p>玄虚镜像是未标记且未被任何容器使用的镜像。 <code>-a</code> 未使用的镜像</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker image prune -a</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>运行此命令时要小心。如果你构建的图像没有标签，它将被删除。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>DevOps</category>
-      </categories>
-      <tags>
-        <tag>gitlab</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -4197,6 +4162,41 @@ TopicExchange.Producer</p>
       <tags>
         <tag>消息队列</tag>
         <tag>RabbitMQ</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker部署 gitlab Runner 运行</title>
+    <url>/posts/37099/</url>
+    <content><![CDATA[<h1 id="gitlabrunner"><a class="markdownIt-Anchor" href="#gitlabrunner"></a> gitlabrunner</h1>
+<h2 id="gitlab-runner性能优化"><a class="markdownIt-Anchor" href="#gitlab-runner性能优化"></a> <strong>gitlab runner性能优化</strong></h2>
+<h3 id="runner注册"><a class="markdownIt-Anchor" href="#runner注册"></a> <strong>runner注册</strong></h3>
+<h3 id="创建变量"><a class="markdownIt-Anchor" href="#创建变量"></a> <strong>创建变量</strong></h3>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">GitLabServer=<span class="string">&#x27;https://git\.gct\-china\.com/&#x27;</span> <span class="comment"># gitlab服务器地址</span></span><br><span class="line">GitLabToken=<span class="string">&#x27;xxxx&#x27;</span> <span class="comment"># gitlab 仓库地址token</span></span><br><span class="line">GitLabRunnerNamePrefix=<span class="string">&#x27;g&#x27;</span> <span class="comment"># gitlab runner 前缀</span></span><br><span class="line">GitLabRunnerTags=<span class="string">&#x27;gct-mooc-develop&#x27;</span> <span class="comment"># gitlab runner tags</span></span><br><span class="line">GitLabRunnerDesc=<span class="string">&#x27;gct-mooc-develop&#x27;</span> <span class="comment"># gitlab runner desc</span></span><br><span class="line">GitLabRunnerImg=<span class="string">&#x27;gitlab/gitlab-runner:v14.10.1&#x27;</span> <span class="comment"># gitlab runner img</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建数据卷"><a class="markdownIt-Anchor" href="#创建数据卷"></a> <strong>创建数据卷</strong></h3>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker volume create <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span></span><br></pre></td></tr></table></figure>
+<h3 id="创建runner"><a class="markdownIt-Anchor" href="#创建runner"></a> <strong>创建runner</strong></h3>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">--network</span> host <span class="literal">-d</span> <span class="literal">--restart</span> always \</span><br><span class="line"><span class="literal">-e</span> TZ=Asia/Beijing \</span><br><span class="line"><span class="literal">-v</span> /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line"><span class="literal">-v</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span>:/etc/gitlab<span class="literal">-runner</span> \</span><br><span class="line"><span class="literal">--name</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner&quot;</span> <span class="variable">$GitLabRunnerImg</span></span><br></pre></td></tr></table></figure>
+<h3 id="注册runner"><a class="markdownIt-Anchor" href="#注册runner"></a> <strong>注册runner</strong></h3>
+<blockquote>
+<p><a href="https://docs.gitlab.com/runner/examples/gitlab.html">https://docs.gitlab.com/runner/examples/gitlab.html</a></p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker run <span class="literal">--rm</span> \</span><br><span class="line"><span class="literal">-v</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span>:/etc/gitlab<span class="literal">-runner</span> \</span><br><span class="line"><span class="literal">-v</span> /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line"><span class="literal">--name</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-register&quot;</span> <span class="variable">$GitLabRunnerImg</span> register \</span><br><span class="line"><span class="literal">--url</span> <span class="string">&quot;<span class="variable">$GitLabServer</span>&quot;</span> \</span><br><span class="line"><span class="literal">--registration-token</span> <span class="string">&quot;<span class="variable">$GitLabToken</span>&quot;</span> \</span><br><span class="line"><span class="literal">--description</span> <span class="string">&quot;<span class="variable">$GitLabRunnerDesc</span>&quot;</span> \</span><br><span class="line"><span class="literal">--tag-list</span> <span class="string">&quot;<span class="variable">$GitLabRunnerTags</span>&quot;</span> \</span><br><span class="line"><span class="literal">--non-interactive</span> \</span><br><span class="line"><span class="literal">--executor</span> <span class="string">&quot;docker&quot;</span> \</span><br><span class="line"><span class="literal">--docker-image</span> docker:<span class="number">19.03</span>.<span class="number">12</span> \</span><br><span class="line"><span class="literal">--docker-privileged</span>=<span class="string">&quot;true&quot;</span> \</span><br><span class="line"><span class="literal">--docker-volumes</span> <span class="string">&quot;/certs/client&quot;</span> \</span><br><span class="line"><span class="literal">--run-untagged</span>=<span class="string">&quot;true&quot;</span> \</span><br><span class="line"><span class="literal">--locked</span>=<span class="string">&quot;false&quot;</span> \</span><br><span class="line"><span class="literal">--access-level</span>=<span class="string">&quot;not_protected&quot;</span> \</span><br><span class="line"><span class="literal">--docker-volumes</span> /var/run/docker.sock:/var/run/docker.sock</span><br></pre></td></tr></table></figure>
+<h3 id="删除runner"><a class="markdownIt-Anchor" href="#删除runner"></a> <strong>删除runner</strong></h3>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">docker stop <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner&quot;</span></span><br><span class="line">docker <span class="built_in">rm</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner&quot;</span></span><br><span class="line">docker volume <span class="built_in">rm</span> <span class="string">&quot;<span class="variable">$GitLabRunnerNamePrefix</span>-gitlab-runner-conf&quot;</span></span><br></pre></td></tr></table></figure>
+<h2 id="runner清理"><a class="markdownIt-Anchor" href="#runner清理"></a> <strong>runner清理</strong></h2>
+<h3 id="删除玄虚镜像"><a class="markdownIt-Anchor" href="#删除玄虚镜像"></a> <strong>删除玄虚镜像</strong></h3>
+<p>玄虚镜像是未标记且未被任何容器使用的镜像。 <code>-a</code> 未使用的镜像</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">docker image prune -a</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>运行此命令时要小心。如果你构建的图像没有标签，它将被删除。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>DevOps</category>
+      </categories>
+      <tags>
+        <tag>gitlab</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
