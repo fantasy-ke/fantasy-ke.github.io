@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/62988/</loc>
+    <loc>https://blog.fantasyke.cn/posts/60038/</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -12,15 +12,6 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/posts/55001/</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/photos/index.html</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -48,33 +39,6 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/tags/index.html</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/photos/DevOps/index.html</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/photos/docker/index.html</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/photos/rabbitMQ/index.html</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -119,7 +83,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/images/picX/rabbitMQ/rabbitMQ_info.json</loc>
+    <loc>https://blog.fantasyke.cn/photos/index.html</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -128,7 +92,25 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/images/picX/redis/redis_info.json</loc>
+    <loc>https://blog.fantasyke.cn/photos/DevOps/index.html</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/photos/docker/index.html</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/photos/rabbitMQ/index.html</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -164,6 +146,24 @@
   </url>
   
   <url>
+    <loc>https://blog.fantasyke.cn/images/picX/rabbitMQ/rabbitMQ_info.json</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/images/picX/redis/redis_info.json</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.fantasyke.cn/games/riddle/esc4-e.html</loc>
     
     <lastmod>2025-02-14</lastmod>
@@ -182,24 +182,6 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/62546/</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/posts/40954/</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.fantasyke.cn/flink_count.json</loc>
     
     <lastmod>2025-02-14</lastmod>
@@ -210,42 +192,6 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/friend.json</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/about/index.html</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/categories/index.html</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/charts/index.html</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/comments/index.html</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -281,7 +227,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/63821/</loc>
+    <loc>https://blog.fantasyke.cn/posts/62546/</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -290,43 +236,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/61401/</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/posts/37099/</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/posts/54402/</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/posts/33842/</loc>
-    
-    <lastmod>2025-02-14</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/posts/59211/</loc>
+    <loc>https://blog.fantasyke.cn/posts/40954/</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -371,7 +281,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/54715/</loc>
+    <loc>https://blog.fantasyke.cn/about/index.html</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -380,7 +290,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/17094/</loc>
+    <loc>https://blog.fantasyke.cn/categories/index.html</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -389,7 +299,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/34332/</loc>
+    <loc>https://blog.fantasyke.cn/charts/index.html</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -398,7 +308,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/48383/</loc>
+    <loc>https://blog.fantasyke.cn/comments/index.html</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -479,7 +389,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/53249/</loc>
+    <loc>https://blog.fantasyke.cn/posts/63821/</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -488,7 +398,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/14184/</loc>
+    <loc>https://blog.fantasyke.cn/posts/37099/</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -497,7 +407,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/23547/</loc>
+    <loc>https://blog.fantasyke.cn/posts/54402/</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -506,7 +416,25 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/posts/31784/</loc>
+    <loc>https://blog.fantasyke.cn/posts/33842/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/59211/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/61401/</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -570,6 +498,78 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/posts/25184/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/54715/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/17094/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/34332/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/48383/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/53249/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/14184/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/31784/</loc>
+    
+    <lastmod>2025-02-14</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/posts/23547/</loc>
     
     <lastmod>2025-02-14</lastmod>
     
@@ -648,13 +648,6 @@
     <priority>1.0</priority>
   </url>
 
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/tags/DevOps/</loc>
-    <lastmod>2025-02-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
   
   <url>
     <loc>https://blog.fantasyke.cn/tags/%E9%9D%A2%E8%AF%95%E9%A2%98/</loc>
@@ -867,13 +860,6 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/MongoDB/</loc>
-    <lastmod>2025-02-14</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.fantasyke.cn/tags/gitlab/</loc>
     <lastmod>2025-02-14</lastmod>
     <changefreq>weekly</changefreq>
@@ -896,6 +882,13 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/tags/NOSQL/</loc>
+    <lastmod>2025-02-14</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/tags/MongoDB/</loc>
     <lastmod>2025-02-14</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
