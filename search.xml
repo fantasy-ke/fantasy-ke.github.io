@@ -355,9 +355,9 @@
       
         <tags>
             
-            <tag> .NET Core </tag>
-            
             <tag> JWT </tag>
+            
+            <tag> .NET Core </tag>
             
         </tags>
       
@@ -382,11 +382,11 @@
       
         <tags>
             
+            <tag> .NET Core </tag>
+            
             <tag> 消息队列 </tag>
             
             <tag> RabbitMQ </tag>
-            
-            <tag> .NET Core </tag>
             
         </tags>
       
@@ -634,6 +634,31 @@
     
     
     <entry>
+      <title>Oracle支持批量操作方案</title>
+      <link href="/posts/63821/"/>
+      <url>/posts/63821/</url>
+      
+        <content type="html"><![CDATA[<h1 id="Oracle支持批量操作方案"><a href="#Oracle支持批量操作方案" class="headerlink" title="Oracle支持批量操作方案"></a>Oracle支持批量操作方案</h1><h3 id="方案管理"><a href="#方案管理" class="headerlink" title="方案管理"></a>方案管理</h3><h3 id="变更记录"><a href="#变更记录" class="headerlink" title="变更记录"></a>变更记录</h3><table><thead><tr><th>日期(Date)</th><th>作者(Author)</th><th>旧版本(Old Version)</th><th>新版本(New Version)</th><th>备注(Remarks)</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><h3 id="审阅记录"><a href="#审阅记录" class="headerlink" title="审阅记录"></a>审阅记录</h3><table><thead><tr><th>日期(Date)</th><th>姓名(Name)</th><th>职务(Position)</th><th>版本(Version)</th><th>签字(Signature)</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><h3 id="一、方案简介"><a href="#一、方案简介" class="headerlink" title="一、方案简介"></a>一、方案简介</h3><ul><li><strong>方案背景</strong><ul><li>目前项目版本为.NET5 ，没有适配的对应Oracle环境的批量插入的扩展，为了实现在项目中对oracle环境的批量操作的功能</li></ul></li></ul><h3 id="二、方案目标"><a href="#二、方案目标" class="headerlink" title="二、方案目标"></a>二、方案目标</h3><ul><li><strong>具体目标</strong><ul><li>实现在.NET5项目环境下对Oracle数据库进行批量插入修改删除操作</li></ul></li><li><strong>意义</strong><ul><li>提高项目在大数据进行功能操作时的性能</li></ul></li></ul><h3 id="三、准备工作"><a href="#三、准备工作" class="headerlink" title="三、准备工作"></a>三、准备工作</h3><ul><li>**时间：**2月7日 09:00</li><li><strong>参与人：</strong><ul><li>审核者与方案制定<ul><li>@** @**</li></ul></li><li>方案实施者<ul><li>@**</li></ul></li><li>方案验收者<ul><li>@** @**</li></ul></li></ul></li><li><strong>资料支持</strong><ul><li><strong>EFCore.BulkExtensions包</strong>支持.NET6版本源码<ul><li><a href="https://github.com/borisdj/EFCore.BulkExtensions"><strong>EFCore.BulkExtensions源码</strong></a></li></ul></li><li><strong>FreeSql中oracle批量插入的实现</strong><ul><li><a href="https://github.com/dotnetcore/FreeSql">源码地址</a></li><li><a href="https://www.cnblogs.com/FreeSql/p/11531300.html">文档地址</a></li></ul></li><li><strong>oracle的OracleBulkCopy使用</strong><ul><li><a href="https://www.bbsmax.com/A/RnJWK41EJq/">https://www.bbsmax.com/A/RnJWK41EJq/</a></li><li><a href="https://blog.csdn.net/baidu_27474941/article/details/71712295">https://blog.csdn.net/baidu_27474941/article/details/71712295</a></li></ul></li><li><strong>ORACLE的SQL语句</strong><ul><li>oracleSql中<code>merge</code>语法借助资料<ul><li><a href="https://blog.csdn.net/zorro_jin/article/details/81053693">资料链接</a></li></ul></li><li>oracleSql中临时表创建借助资料<ul><li><a href="https://www.cnblogs.com/jijm123/p/15499670.html">资料链接</a></li><li>创建临时表<ul><li><code>-复制现有表创建临时表CREATE GLOBAL TEMPORARY TABLE newTableName ON COMMIT PRESERVE ROWS AS SELECT* FROM existingTableName WHERE 1 = 2;</code></li></ul></li><li>有异常处理删除临时表<ul><li><code>BEGIN  EXECUTE IMMEDIATE &#39;TRUNCATE TABLE tableName&#39;;  EXECUTE IMMEDIATE &#39;DROP TABLE tableName PURGE&#39;;  EXCEPTION WHEN OTHERS THEN NULL;END;</code></li></ul></li></ul></li></ul></li></ul></li></ul><h3 id="四、计划安排"><a href="#四、计划安排" class="headerlink" title="四、计划安排"></a>四、计划安排</h3><ul><li>人天安排<ul><li>Oracle批量操作方案</li><li>**<code>EFCore.BulkExtensions</code>**开源库.Net6版本适配Oracle的操作</li><li>.NET6完成批量实现迁移到.NET5版本**<code>EFCore.BulkExtensions</code>**开源库及.NET5环境的适配<ul><li>Oracle、Mysql、PostgreSql</li></ul></li><li>发布批量操作的私有包</li><li>.NET5版本批量操作发出Nuget包，项目中使用发布的私有包进行测试<ul><li>Oracle、Mysql、PostgreSql</li></ul></li></ul></li></ul><h3 id="五、方案实施"><a href="#五、方案实施" class="headerlink" title="五、方案实施"></a>五、方案实施</h3><ul><li><strong>具体细节</strong><ul><li>分析**<code>EFCore.BulkExtensions</code>**开源库.Net6版本的<code>SqlServer</code>批量实现方式</li><li>通过.NET6版本SqlServer的实现完成对<code>Oracle</code>的批量实现方式</li><li>对在.NET6完成<code>ORACLE</code> 进行批量增删改实现</li><li>.NET6批量实现迁移到.NET5版本**<code>EFCore.BulkExtensions</code>**开源库的分支，做.NET5环境的适配<ul><li>Oracle、Mysql、PostgreSql 数据库的支持</li></ul></li><li>对迁移到.NET5版本的Oracle批量操作私有Nuget包。名称**<code>GCT.EFCore.BulkExtensions</code>**</li><li>在项目中使用发布的包进行测试</li></ul></li></ul><h3 id="六、风险评估"><a href="#六、风险评估" class="headerlink" title="六、风险评估"></a>六、风险评估</h3><ul><li><strong>可能会出现的难点</strong><ul><li>oracle的OracleBulkCopy使用方法</li><li>ORACLE的SQL语句不熟悉</li><li>.NET6环境迁移到.NET5环境会存在方法等多种不适配的问题<ul><li>Oracle</li><li>Postgresql</li><li>Mysql</li></ul></li></ul></li><li><strong>风险评估</strong></li></ul><h3 id="七、注意事项"><a href="#七、注意事项" class="headerlink" title="七、注意事项"></a>七、注意事项</h3><ul><li>.Net6**<code>EFCore.BulkExtensions</code>**开源库拥有PostgreSql和MySql的适配，需要迁移做.NET5的适配</li></ul><h3 id="八、验收标准"><a href="#八、验收标准" class="headerlink" title="八、验收标准"></a>八、验收标准</h3><ul><li>验收对象<ul><li>medpro产品组</li></ul></li><li>验收前提条件<ul><li>已发布私有包完成</li></ul></li><li>验收方法<ul><li>检验medpro产品使用到批量操作的事务操作</li></ul></li><li>验收标准<ul><li>事务操作成功</li></ul></li></ul><h3 id="九、补充方案（备用方案）"><a href="#九、补充方案（备用方案）" class="headerlink" title="九、补充方案（备用方案）"></a>九、补充方案（备用方案）</h3><ul><li>项目后续如果需要适配其他国内的数据库，基于**<code>EFCore.BulkExtensions</code>** 包耦合性深，进行扩展其他数据库会出现一些其他异常，是否考虑搭建公司内部私有数据库批量操作库？</li><li>通过现有开发完成的.NET5的oracle提交PR给官方开源库，后续使用开源包</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> 开发方案 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 开发方案 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>docker部署 gitlab Runner 运行</title>
       <link href="/posts/37099/"/>
       <url>/posts/37099/</url>
@@ -653,31 +678,6 @@
             <tag> gitlab </tag>
             
             <tag> docker </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>Oracle支持批量操作方案</title>
-      <link href="/posts/63821/"/>
-      <url>/posts/63821/</url>
-      
-        <content type="html"><![CDATA[<h1 id="Oracle支持批量操作方案"><a href="#Oracle支持批量操作方案" class="headerlink" title="Oracle支持批量操作方案"></a>Oracle支持批量操作方案</h1><h3 id="方案管理"><a href="#方案管理" class="headerlink" title="方案管理"></a>方案管理</h3><h3 id="变更记录"><a href="#变更记录" class="headerlink" title="变更记录"></a>变更记录</h3><table><thead><tr><th>日期(Date)</th><th>作者(Author)</th><th>旧版本(Old Version)</th><th>新版本(New Version)</th><th>备注(Remarks)</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><h3 id="审阅记录"><a href="#审阅记录" class="headerlink" title="审阅记录"></a>审阅记录</h3><table><thead><tr><th>日期(Date)</th><th>姓名(Name)</th><th>职务(Position)</th><th>版本(Version)</th><th>签字(Signature)</th></tr></thead><tbody><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr><tr><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><h3 id="一、方案简介"><a href="#一、方案简介" class="headerlink" title="一、方案简介"></a>一、方案简介</h3><ul><li><strong>方案背景</strong><ul><li>目前项目版本为.NET5 ，没有适配的对应Oracle环境的批量插入的扩展，为了实现在项目中对oracle环境的批量操作的功能</li></ul></li></ul><h3 id="二、方案目标"><a href="#二、方案目标" class="headerlink" title="二、方案目标"></a>二、方案目标</h3><ul><li><strong>具体目标</strong><ul><li>实现在.NET5项目环境下对Oracle数据库进行批量插入修改删除操作</li></ul></li><li><strong>意义</strong><ul><li>提高项目在大数据进行功能操作时的性能</li></ul></li></ul><h3 id="三、准备工作"><a href="#三、准备工作" class="headerlink" title="三、准备工作"></a>三、准备工作</h3><ul><li>**时间：**2月7日 09:00</li><li><strong>参与人：</strong><ul><li>审核者与方案制定<ul><li>@** @**</li></ul></li><li>方案实施者<ul><li>@**</li></ul></li><li>方案验收者<ul><li>@** @**</li></ul></li></ul></li><li><strong>资料支持</strong><ul><li><strong>EFCore.BulkExtensions包</strong>支持.NET6版本源码<ul><li><a href="https://github.com/borisdj/EFCore.BulkExtensions"><strong>EFCore.BulkExtensions源码</strong></a></li></ul></li><li><strong>FreeSql中oracle批量插入的实现</strong><ul><li><a href="https://github.com/dotnetcore/FreeSql">源码地址</a></li><li><a href="https://www.cnblogs.com/FreeSql/p/11531300.html">文档地址</a></li></ul></li><li><strong>oracle的OracleBulkCopy使用</strong><ul><li><a href="https://www.bbsmax.com/A/RnJWK41EJq/">https://www.bbsmax.com/A/RnJWK41EJq/</a></li><li><a href="https://blog.csdn.net/baidu_27474941/article/details/71712295">https://blog.csdn.net/baidu_27474941/article/details/71712295</a></li></ul></li><li><strong>ORACLE的SQL语句</strong><ul><li>oracleSql中<code>merge</code>语法借助资料<ul><li><a href="https://blog.csdn.net/zorro_jin/article/details/81053693">资料链接</a></li></ul></li><li>oracleSql中临时表创建借助资料<ul><li><a href="https://www.cnblogs.com/jijm123/p/15499670.html">资料链接</a></li><li>创建临时表<ul><li><code>-复制现有表创建临时表CREATE GLOBAL TEMPORARY TABLE newTableName ON COMMIT PRESERVE ROWS AS SELECT* FROM existingTableName WHERE 1 = 2;</code></li></ul></li><li>有异常处理删除临时表<ul><li><code>BEGIN  EXECUTE IMMEDIATE &#39;TRUNCATE TABLE tableName&#39;;  EXECUTE IMMEDIATE &#39;DROP TABLE tableName PURGE&#39;;  EXCEPTION WHEN OTHERS THEN NULL;END;</code></li></ul></li></ul></li></ul></li></ul></li></ul><h3 id="四、计划安排"><a href="#四、计划安排" class="headerlink" title="四、计划安排"></a>四、计划安排</h3><ul><li>人天安排<ul><li>Oracle批量操作方案</li><li>**<code>EFCore.BulkExtensions</code>**开源库.Net6版本适配Oracle的操作</li><li>.NET6完成批量实现迁移到.NET5版本**<code>EFCore.BulkExtensions</code>**开源库及.NET5环境的适配<ul><li>Oracle、Mysql、PostgreSql</li></ul></li><li>发布批量操作的私有包</li><li>.NET5版本批量操作发出Nuget包，项目中使用发布的私有包进行测试<ul><li>Oracle、Mysql、PostgreSql</li></ul></li></ul></li></ul><h3 id="五、方案实施"><a href="#五、方案实施" class="headerlink" title="五、方案实施"></a>五、方案实施</h3><ul><li><strong>具体细节</strong><ul><li>分析**<code>EFCore.BulkExtensions</code>**开源库.Net6版本的<code>SqlServer</code>批量实现方式</li><li>通过.NET6版本SqlServer的实现完成对<code>Oracle</code>的批量实现方式</li><li>对在.NET6完成<code>ORACLE</code> 进行批量增删改实现</li><li>.NET6批量实现迁移到.NET5版本**<code>EFCore.BulkExtensions</code>**开源库的分支，做.NET5环境的适配<ul><li>Oracle、Mysql、PostgreSql 数据库的支持</li></ul></li><li>对迁移到.NET5版本的Oracle批量操作私有Nuget包。名称**<code>GCT.EFCore.BulkExtensions</code>**</li><li>在项目中使用发布的包进行测试</li></ul></li></ul><h3 id="六、风险评估"><a href="#六、风险评估" class="headerlink" title="六、风险评估"></a>六、风险评估</h3><ul><li><strong>可能会出现的难点</strong><ul><li>oracle的OracleBulkCopy使用方法</li><li>ORACLE的SQL语句不熟悉</li><li>.NET6环境迁移到.NET5环境会存在方法等多种不适配的问题<ul><li>Oracle</li><li>Postgresql</li><li>Mysql</li></ul></li></ul></li><li><strong>风险评估</strong></li></ul><h3 id="七、注意事项"><a href="#七、注意事项" class="headerlink" title="七、注意事项"></a>七、注意事项</h3><ul><li>.Net6**<code>EFCore.BulkExtensions</code>**开源库拥有PostgreSql和MySql的适配，需要迁移做.NET5的适配</li></ul><h3 id="八、验收标准"><a href="#八、验收标准" class="headerlink" title="八、验收标准"></a>八、验收标准</h3><ul><li>验收对象<ul><li>medpro产品组</li></ul></li><li>验收前提条件<ul><li>已发布私有包完成</li></ul></li><li>验收方法<ul><li>检验medpro产品使用到批量操作的事务操作</li></ul></li><li>验收标准<ul><li>事务操作成功</li></ul></li></ul><h3 id="九、补充方案（备用方案）"><a href="#九、补充方案（备用方案）" class="headerlink" title="九、补充方案（备用方案）"></a>九、补充方案（备用方案）</h3><ul><li>项目后续如果需要适配其他国内的数据库，基于**<code>EFCore.BulkExtensions</code>** 包耦合性深，进行扩展其他数据库会出现一些其他异常，是否考虑搭建公司内部私有数据库批量操作库？</li><li>通过现有开发完成的.NET5的oracle提交PR给官方开源库，后续使用开源包</li></ul>]]></content>
-      
-      
-      <categories>
-          
-          <category> 开发方案 </category>
-          
-      </categories>
-      
-      
-        <tags>
-            
-            <tag> 开发方案 </tag>
             
         </tags>
       
