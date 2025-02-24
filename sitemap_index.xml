@@ -11,15 +11,6 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/messages/index.html</loc>
-    
-    <lastmod>2025-02-24</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.fantasyke.cn/policy/index.html</loc>
     
     <lastmod>2025-02-24</lastmod>
@@ -30,6 +21,15 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/json/music.json</loc>
+    
+    <lastmod>2025-02-24</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/messages/index.html</loc>
     
     <lastmod>2025-02-24</lastmod>
     
@@ -566,7 +566,14 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/JWT/</loc>
+    <loc>https://blog.fantasyke.cn/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</loc>
+    <lastmod>2025-02-24</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/tags/RabbitMQ/</loc>
     <lastmod>2025-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -580,14 +587,7 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97/</loc>
-    <lastmod>2025-02-24</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/tags/RabbitMQ/</loc>
+    <loc>https://blog.fantasyke.cn/tags/JWT/</loc>
     <lastmod>2025-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -813,14 +813,14 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/categories/%E5%8D%9A%E5%AE%A2%E6%8A%98%E8%85%BE%E6%89%8B%E5%86%8C/</loc>
+    <loc>https://blog.fantasyke.cn/categories/Elog-Notion/</loc>
     <lastmod>2025-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/categories/Elog-Notion/</loc>
+    <loc>https://blog.fantasyke.cn/categories/%E5%8D%9A%E5%AE%A2%E6%8A%98%E8%85%BE%E6%89%8B%E5%86%8C/</loc>
     <lastmod>2025-02-24</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
