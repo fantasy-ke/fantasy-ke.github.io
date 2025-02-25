@@ -355,9 +355,9 @@
       
         <tags>
             
-            <tag> .NET Core </tag>
-            
             <tag> JWT </tag>
+            
+            <tag> .NET Core </tag>
             
         </tags>
       
@@ -382,11 +382,11 @@
       
         <tags>
             
+            <tag> .NET Core </tag>
+            
             <tag> 消息队列 </tag>
             
             <tag> RabbitMQ </tag>
-            
-            <tag> .NET Core </tag>
             
         </tags>
       
