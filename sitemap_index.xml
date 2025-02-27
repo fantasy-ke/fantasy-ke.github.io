@@ -11,6 +11,24 @@
   </url>
   
   <url>
+    <loc>https://blog.fantasyke.cn/policy/index.html</loc>
+    
+    <lastmod>2025-02-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/charts/index.html</loc>
+    
+    <lastmod>2025-02-27</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.fantasyke.cn/comments/index.html</loc>
     
     <lastmod>2025-02-27</lastmod>
@@ -30,24 +48,6 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/messages/index.html</loc>
-    
-    <lastmod>2025-02-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/policy/index.html</loc>
-    
-    <lastmod>2025-02-27</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/charts/index.html</loc>
     
     <lastmod>2025-02-27</lastmod>
     
