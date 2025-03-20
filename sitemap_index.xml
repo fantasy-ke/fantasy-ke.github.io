@@ -11,24 +11,6 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/messages/index.html</loc>
-    
-    <lastmod>2025-03-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/policy/index.html</loc>
-    
-    <lastmod>2025-03-20</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.fantasyke.cn/charts/index.html</loc>
     
     <lastmod>2025-03-20</lastmod>
@@ -48,6 +30,24 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/json/music.json</loc>
+    
+    <lastmod>2025-03-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/messages/index.html</loc>
+    
+    <lastmod>2025-03-20</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/policy/index.html</loc>
     
     <lastmod>2025-03-20</lastmod>
     
@@ -891,14 +891,14 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/%E4%BA%8B%E5%8A%A1/</loc>
+    <loc>https://blog.fantasyke.cn/tags/hexo/</loc>
     <lastmod>2025-03-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/hexo/</loc>
+    <loc>https://blog.fantasyke.cn/tags/%E4%BA%8B%E5%8A%A1/</loc>
     <lastmod>2025-03-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -975,27 +975,6 @@
   </url>
   
   <url>
-    <loc>https://blog.fantasyke.cn/tags/CQRS/</loc>
-    <lastmod>2025-03-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/tags/MediatR/</loc>
-    <lastmod>2025-03-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.fantasyke.cn/tags/DDD/</loc>
-    <lastmod>2025-03-20</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.fantasyke.cn/tags/EntityFramework-Core/</loc>
     <lastmod>2025-03-20</lastmod>
     <changefreq>weekly</changefreq>
@@ -1018,6 +997,27 @@
   
   <url>
     <loc>https://blog.fantasyke.cn/tags/%E5%A4%9A%E7%BA%BF%E7%A8%8B/</loc>
+    <lastmod>2025-03-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/tags/CQRS/</loc>
+    <lastmod>2025-03-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/tags/MediatR/</loc>
+    <lastmod>2025-03-20</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.fantasyke.cn/tags/DDD/</loc>
     <lastmod>2025-03-20</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
